@@ -3,7 +3,7 @@
   const config = window.LEARNCODE_AI_TUTOR;
   const panel = document.getElementById('ai-tutor-panel');
   const stage = document.querySelector('[data-visualizer="loop"]');
-  if (!panel || !stage || !config || !config.apiUrl || !config.turnstileSiteKey) return;
+  if (!panel || !stage || !config || config.enabled !== true || !config.apiUrl || !config.turnstileSiteKey) return;
   let endpoint;
   try {
     endpoint = new URL(config.apiUrl);
