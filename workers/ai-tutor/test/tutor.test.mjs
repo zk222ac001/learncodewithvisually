@@ -30,7 +30,7 @@ test('reject cross-origin requests even if backend is enabled',async()=>{
 test('reject invalid data and enforce quotas before inference',async()=>{
   const env={AI_ENABLED:'true',AI:{run:async()=>({response:'should not run'})},TURNSTILE_SECRET:'server-secret',RATE_LIMITER:{limit:async()=>({success:false})}};
   assert.equal((await handleRequest(make('POST',{...question,step:8}),env)).status,400);
-  assert.equal((await handleRequest(make(),env)).status,429);
+  assert.equal((await handleRequest(make('POST',question,{'CF-Connecting-IP':'192.0.2.1'}),env)).status,429);
 });
 test('verify challenge before inference and return only model text',async()=>{
   let called=0;
