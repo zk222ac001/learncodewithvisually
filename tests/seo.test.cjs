@@ -70,7 +70,7 @@ test('four focused C tutorials contain independent descriptions and interactive 
     assert.ok(html.includes('aria-live="polite"'));
     assert.ok(html.includes('application/ld+json'));
     assert.ok(html.includes('href="/index.html?lang=en&amp;code=c#'));
-    assert.ok(html.includes('Try it yourself') || html.includes('Practice'));
+    assert.ok(html.includes('<ol>') && html.includes('<details>'), 'Missing exercises or answer explanations: '+guides[i]);
     assert.ok(read('index.html').includes('href="/'+guides[i]+'"'));
     assert.ok(read('learn-c-programming.html').includes('href="/'+guides[i]+'"'));
   }
