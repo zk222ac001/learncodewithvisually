@@ -142,6 +142,8 @@ Language differences are intentional: integer division, Python floor division an
 
 ## Validation
 
+Assignment solutions are checked as complete native programs, not just nonempty strings. All 84 assignments have C, C++, Python, Java, JavaScript and C# implementations in `assignment-solutions.js`; `npm test` compiles or executes all 504 programs on available local toolchains and compares output with `tests/fixtures/assignment-outputs.json`. Random rolls use a range check. The input exercise receives real STDIN, and file examples run in isolated temporary directories. Java/C# corpus tests compile in batches to keep this check practical; individual programs still run independently. `tests/native-program.cjs` accepts STDIN and links C's math library. Browser checks verify solution controls, selected-language source, navigation, RTL, and the existing lessons. These are development checks, not automatic grading of students' code.
+
 The 120 C, C++, Python, Java and JavaScript examples were compiled or executed locally, with expected output checked. C# examples were reviewed but could not be executed because this environment did not have a C# runtime. UI checks cover 240 translated module views, 720 formatting demonstrations, language-specific downloads, preserved state, RTL, input boundaries and the legacy reference URL. Downloaded arithmetic programs were compared with the simulator for negative division, modulo and signed zero.
 
 ## Module 1 revision

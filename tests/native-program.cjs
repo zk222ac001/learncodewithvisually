@@ -13,11 +13,11 @@ function available(language) {
   const version = spawnSync(exe, [flag], { encoding: 'utf8', timeout: 10000, env });
   return version.status === 0 && (language !== 'csharp' || /^\d+\.\d+\.\d+/m.test(version.stdout)) ? version : null;
 }
-function execute(language, code, version = available(language)) {
+function execute(language, code, version = available(language), { stdin = '' } = {}) {
   assert.ok(version, `${language} compiler/runtime unavailable`);
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'codeviz-native-'));
   function run(exe, args) {
-    const result = spawnSync(exe, args, { cwd: dir, encoding: 'utf8', env, timeout: 60000 });
+    const result = spawnSync(exe, args, { cwd: dir, encoding: 'utf8', env, input: stdin, timeout: 60000 });
     assert.equal(result.status, 0, `${exe}: ${result.error || result.stderr || result.stdout}`);
     return result.stdout.replaceAll('\r\n', '\n');
   }
@@ -26,7 +26,7 @@ function execute(language, code, version = available(language)) {
     fs.writeFileSync(path.join(dir, filename), code);
     if (language === 'c' || language === 'cpp') {
       const binary = path.join(dir, 'lesson' + (process.platform === 'win32' ? '.exe' : ''));
-      run(exe, [language === 'c' ? '-std=c11' : '-std=c++17', '-Wall', '-Wextra', '-Werror', filename, '-o', binary]);
+      run(exe, [language === 'c' ? '-std=c11' : '-std=c++17', '-Wall', '-Wextra', '-Werror', filename, '-o', binary, ...(language === 'c' ? ['-lm'] : [])]);
       return run(binary, []);
     }
     if (language === 'python' || language === 'javascript') return run(exe, [filename]);
