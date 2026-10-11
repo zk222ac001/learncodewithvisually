@@ -30,3 +30,21 @@ test('private browser preview is gated by an explicit URL parameter and test key
   assert.ok(html.includes('type="password" autocomplete="off"'));
   assert.ok(load('ai-tutor-config.js').includes('enabled: false'));
 });
+
+test('public beta privacy disclosures describe optional AI and providers', () => {
+  const privacy = load('privacy.html');
+  const terms = load('terms.html');
+  const lesson = load('c-for-loop-visualization.html');
+  assert.match(privacy,/GitHub Pages/);
+  assert.match(privacy,/Cloudflare Workers AI/);
+  assert.match(privacy,/question.*selected C lesson step/s);
+  assert.match(privacy,/not deliberately store student questions/);
+  assert.match(privacy,/retention settings/);
+  assert.match(terms,/Optional AI Tutor beta/);
+  assert.match(lesson,/privacy\.html#ai-tutor/);
+});
+test('public AI preflight excludes private tester header',()=>{
+  const source=load('workers/ai-tutor/src/index.mjs');
+  assert.match(source,/env\.AI_ENABLED === 'true' \? 'Content-Type'/);
+  assert.match(load('workers/ai-tutor/wrangler.jsonc'),/"AI_ENABLED": "false"/);
+});
