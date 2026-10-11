@@ -7,7 +7,7 @@ test('Unit Testing is entry 13 and explains core test concepts', async ({ page }
   await card.locator('a').click();
 
   await expect(page.locator('#unit-testing > .topic-no')).toHaveText('13');
-  await expect(page).toHaveTitle('Unit Testing · CodeViz');
+  await expect(page).toHaveTitle('Unit Testing | LearnCodeVisually');
   for (const id of ['#unit-testing-1', '#unit-testing-2', '#unit-testing-3', '#unit-testing-4', '#unit-testing-5']) {
     await expect(page.locator(id)).toBeVisible();
   }

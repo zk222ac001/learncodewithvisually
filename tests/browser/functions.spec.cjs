@@ -6,7 +6,7 @@ test('Functions is entry 08 and its stack supports stepping, unwinding and zero'
   await card.locator('a').click();
   await expect(page.locator('#functions > .topic-no')).toHaveText('08');
   await expect(page.locator('#sidebar a[aria-current=page]')).toContainText('08Functions');
-  await expect(page).toHaveTitle('Functions · CodeViz');
+  await expect(page).toHaveTitle('Functions | LearnCodeVisually');
   await expect(page.locator('.functions-lesson h2')).toHaveCount(10);
   await page.locator('#functions-n').selectOption('3');
   const next = page.locator('[data-functions-step=next]');

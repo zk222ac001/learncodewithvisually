@@ -7,7 +7,7 @@ test('Exception Handling is entry 12 and teaches exception flow and recovery', a
   await card.locator('a').click();
 
   await expect(page.locator('#exception-handling > .topic-no')).toHaveText('12');
-  await expect(page).toHaveTitle('Exception Handling · CodeViz');
+  await expect(page).toHaveTitle('Exception Handling | LearnCodeVisually');
   for (const id of ['#exception-handling-1', '#exception-handling-2', '#exception-handling-3', '#exception-handling-4']) {
     await expect(page.locator(id)).toBeVisible();
   }
