@@ -42,3 +42,15 @@ test('every sitemap URL resolves to an existing canonical HTML file', () => {
   }
   assert.doesNotMatch(sitemap, /c-formatting\.html/);
 });
+
+test('global learning site defaults to English while keeping translated course options', () => {
+  const homepage = read('index.html');
+  const course = read('course.js');
+  const formatting = read('formatting.html');
+  assert.match(homepage, /<html lang="en">/);
+  assert.match(homepage, /Skip to content/);
+  assert.match(course, /let language='en';/);
+  assert.match(course, /get\('ds-language'\)/);
+  assert.match(course, /const urlLang=/);
+  assert.match(formatting, /<html lang="en">/);
+});
