@@ -73,3 +73,14 @@
 .learning-page .topic-nav a{padding:8px 12px;border:1px solid #cad7e9;border-radius:9px;background:#f2f6fd}
 .learning-page details>summary{cursor:pointer;font-weight:700;color:#215ad7}
 @media(max-width:650px){.learning-page .demo-stage{padding:12px}.learning-page .array-cell{min-width:53px;padding:8px}.learning-page .array-cell strong{font-size:18px}.learning-page .trace-values{gap:5px}.learning-page .memory-box{min-width:130px}.learning-page .pointer-diagram{gap:6px}.learning-page .pointer-diagram .memory-arrow{font-size:22px}}
+
+/* AI Tutor: hidden until a real, secured Cloudflare endpoint is configured. */
+.ai-tutor-panel[hidden]{display:none!important}
+.ai-tutor-panel{border-color:#b6c9e8}
+.ai-tutor-panel form{display:grid;gap:10px;margin-top:18px}
+.ai-tutor-panel textarea{display:block;width:100%;min-height:85px;resize:vertical;padding:12px;font:inherit;border:1px solid #aebdcc;border-radius:9px}
+.ai-tutor-panel button{cursor:pointer;padding:9px 14px;border:1px solid #9eb1c9;border-radius:9px;background:white;color:#152b40;font-weight:700}
+.ai-tutor-panel button:disabled{opacity:.5;cursor:wait}
+.ai-tutor-panel :is(textarea,button):focus-visible{outline:3px solid #df7619;outline-offset:3px}
+.ai-tutor-answer{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7;border-radius:10px;background:#eff5ff;margin-top:12px;padding:14px;min-height:24px}
+.ai-tutor-answer:empty{display:none}
