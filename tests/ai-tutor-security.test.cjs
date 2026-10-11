@@ -48,3 +48,13 @@ test('public AI preflight excludes private tester header',()=>{
   assert.match(source,/env\.AI_ENABLED === 'true' \? 'Content-Type'/);
   assert.match(load('workers/ai-tutor/wrangler.jsonc'),/"AI_ENABLED": "false"/);
 });
+
+test('personal operator identity and contact appear across legal information pages',()=>{
+ for(const file of ['about.html','contact.html','privacy.html','terms.html']){
+  const content=load(file);
+  assert.match(content,/Zuhair Haroon Khan/);
+  assert.match(content,/mailto:zk222ac@gmail.com/);
+ }
+ assert.match(load('privacy.html'),/individual based in Denmark/);
+ assert.match(load('workers/ai-tutor/wrangler.jsonc'),/"AI_ENABLED": "false"/);
+});
