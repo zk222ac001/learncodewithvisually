@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { handleRequest, validateInput, buildPrompt } from '../src/index.mjs';
 const origin='https://learncodevisually.com';
+const mockBudget={getByName:()=>({reserve:async()=>({granted:true})})};
 const question={lessonId:'c-for-loop',step:2,action:'explain',question:'',turnstileToken:'human-token'};
 function make(method='POST',body=question,headers={}) {
   return new Request('https://ai.example.workers.dev/api/tutor',{
@@ -28,13 +29,13 @@ test('reject cross-origin requests even if backend is enabled',async()=>{
   assert.equal(res.headers.get('access-control-allow-origin'),null);
 });
 test('reject invalid data and enforce quotas before inference',async()=>{
-  const env={AI_ENABLED:'true',AI:{run:async()=>({response:'should not run'})},TURNSTILE_SECRET:'server-secret',RATE_LIMITER:{limit:async()=>({success:false})}};
+  const env={AI_ENABLED:'true',AI_BUDGET:mockBudget,DAILY_AI_REQUEST_LIMIT:'25',AI:{run:async()=>({response:'should not run'})},TURNSTILE_SECRET:'server-secret',RATE_LIMITER:{limit:async()=>({success:false})}};
   assert.equal((await handleRequest(make('POST',{...question,step:8}),env)).status,400);
   assert.equal((await handleRequest(make('POST',question,{'CF-Connecting-IP':'192.0.2.1'}),env)).status,429);
 });
 test('verify challenge before inference and return only model text',async()=>{
   let called=0;
-  const env={AI_ENABLED:'true',ALLOWED_ORIGIN:origin,AI:{run:async(_model,settings)=>{called++;assert.equal(settings.messages.length,2);return {response:'At step 2, the loop prints 2.'}}},TURNSTILE_SECRET:'server-secret',RATE_LIMITER:{limit:async()=>({success:true})}};
+  const env={AI_ENABLED:'true',ALLOWED_ORIGIN:origin,AI_BUDGET:mockBudget,DAILY_AI_REQUEST_LIMIT:'25',AI:{run:async(_model,settings)=>{called++;assert.equal(settings.messages.length,2);return {response:'At step 2, the loop prints 2.'}}},TURNSTILE_SECRET:'server-secret',RATE_LIMITER:{limit:async()=>({success:true})}};
   const fakeFetch=async(_url,opts)=>{
     assert.match(String(opts.body),/secret=server-secret/);
     return new Response(JSON.stringify({success:true,hostname:'learncodevisually.com',action:'ai-tutor'}),{status:200});
@@ -45,7 +46,7 @@ test('verify challenge before inference and return only model text',async()=>{
   assert.equal(called,1);
 });
 test('reject challenge for a different domain',async()=>{
-  const env={AI_ENABLED:'true',AI:{run:async()=>{throw Error('must not run')}},TURNSTILE_SECRET:'server-secret',RATE_LIMITER:{limit:async()=>({success:true})}};
+  const env={AI_ENABLED:'true',AI_BUDGET:mockBudget,DAILY_AI_REQUEST_LIMIT:'25',AI:{run:async()=>{throw Error('must not run')}},TURNSTILE_SECRET:'server-secret',RATE_LIMITER:{limit:async()=>({success:true})}};
   const fetchFake=async()=>new Response(JSON.stringify({success:true,hostname:'evil.example',action:'ai-tutor'}));
   const res=await handleRequest(make('POST',question,{'CF-Connecting-IP':'192.0.2.1'}),env,fetchFake);
   assert.equal(res.status,403);
@@ -53,13 +54,13 @@ test('reject challenge for a different domain',async()=>{
 
 test('private preview is off by default even when a tester header is provided', async () => {
   const token='a'.repeat(64);
-  const env={AI_ENABLED:'false',AI_TEST_TOKEN:token,AI:{run:async()=>{throw Error('inference blocked')}},TURNSTILE_SECRET:'secret',RATE_LIMITER:{limit:async()=>({success:true})}};
+  const env={AI_ENABLED:'false',AI_TEST_TOKEN:token,AI_BUDGET:mockBudget,DAILY_AI_REQUEST_LIMIT:'25',AI:{run:async()=>{throw Error('inference blocked')}},TURNSTILE_SECRET:'secret',RATE_LIMITER:{limit:async()=>({success:true})}};
   const res=await handleRequest(make('POST',question,{'X-AI-Test-Token':token}),env);
   assert.equal(res.status,503);
 });
 test('private preview rejects wrong or missing test keys before verifying Turnstile', async () => {
   let calls=0;
-  const env={AI_ENABLED:'false',AI_TEST_MODE:'true',AI_TEST_TOKEN:'a'.repeat(64),AI:{run:async()=>{calls++;throw Error('not reached')}},TURNSTILE_SECRET:'secret',RATE_LIMITER:{limit:async()=>({success:true})}};
+  const env={AI_ENABLED:'false',AI_TEST_MODE:'true',AI_TEST_TOKEN:'a'.repeat(64),AI_BUDGET:mockBudget,DAILY_AI_REQUEST_LIMIT:'25',AI:{run:async()=>{calls++;throw Error('not reached')}},TURNSTILE_SECRET:'secret',RATE_LIMITER:{limit:async()=>({success:true})}};
   assert.equal((await handleRequest(make(),env)).status,403);
   assert.equal((await handleRequest(make('POST',question,{'X-AI-Test-Token':'b'.repeat(64)}),env)).status,403);
   assert.equal((await handleRequest(make('POST',question,{'X-AI-Test-Token':'tiny'}),env)).status,403);
@@ -68,7 +69,7 @@ test('private preview rejects wrong or missing test keys before verifying Turnst
 test('private preview checks Turnstile and returns real model response for authorized tester', async () => {
   let calls=0;
   const token='b'.repeat(64);
-  const env={AI_ENABLED:'false',AI_TEST_MODE:'true',AI_TEST_TOKEN:token,AI:{run:async()=>{calls++;return {choices:[{message:{content:'The condition 4 <= 3 is false, so the loop ends.'}}]}}},TURNSTILE_SECRET:'private-server-secret',RATE_LIMITER:{limit:async()=>({success:true})}};
+  const env={AI_ENABLED:'false',AI_TEST_MODE:'true',AI_TEST_TOKEN:token,AI_BUDGET:mockBudget,DAILY_AI_REQUEST_LIMIT:'25',AI:{run:async()=>{calls++;return {choices:[{message:{content:'The condition 4 <= 3 is false, so the loop ends.'}}]}}},TURNSTILE_SECRET:'private-server-secret',RATE_LIMITER:{limit:async()=>({success:true})}};
   const fetchFake=async()=>new Response(JSON.stringify({success:true,hostname:'learncodevisually.com',action:'ai-tutor'}));
   const r=await handleRequest(make('POST',question,{'X-AI-Test-Token':token,'CF-Connecting-IP':'192.0.2.1'}),env,fetchFake);
   assert.equal(r.status,200);
@@ -82,4 +83,19 @@ test('private preview CORS allows tester header only for approved origin', async
   assert.match(good.headers.get('Access-Control-Allow-Headers'),/X-AI-Test-Token/);
   const bad=await handleRequest(make('OPTIONS',question,{Origin:'https://evil.example'}),env);
   assert.equal(bad.status,403);
+});
+
+test('reject exhausted global daily budget without running the AI model',async()=>{
+ let calls=0;
+ const env={AI_ENABLED:'true',AI_BUDGET:{getByName:()=>({reserve:async()=>({granted:false})})},DAILY_AI_REQUEST_LIMIT:'25',AI:{run:async()=>{calls++;return {response:'wrong'}}},TURNSTILE_SECRET:'server-secret',RATE_LIMITER:{limit:async()=>({success:true})}};
+ const verify=async()=>new Response(JSON.stringify({success:true,hostname:'learncodevisually.com',action:'ai-tutor'}));
+ const res=await handleRequest(make('POST',question,{'CF-Connecting-IP':'192.0.2.1'}),env,verify);
+ assert.equal(res.status,429);assert.equal(calls,0);
+});
+test('fail closed if daily usage counter unavailable',async()=>{
+ let calls=0;
+ const env={AI_ENABLED:'true',AI_BUDGET:{getByName:()=>({reserve:async()=>{throw Error('storage failure')}})},DAILY_AI_REQUEST_LIMIT:'25',AI:{run:async()=>{calls++;return {response:'wrong'}}},TURNSTILE_SECRET:'server-secret',RATE_LIMITER:{limit:async()=>({success:true})}};
+ const verify=async()=>new Response(JSON.stringify({success:true,hostname:'learncodevisually.com',action:'ai-tutor'}));
+ const res=await handleRequest(make('POST',question,{'CF-Connecting-IP':'192.0.2.1'}),env,verify);
+ assert.equal(res.status,503);assert.equal(calls,0);
 });
