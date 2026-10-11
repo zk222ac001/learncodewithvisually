@@ -33,9 +33,11 @@ This directory contains an independently deployable Cloudflare Worker for the
    production endpoint are configured. Deploy:
    `npx --yes wrangler@latest deploy`.
 6. Test the health endpoint at the generated `workers.dev` URL.
-7. Set the public `apiUrl` and public `turnstileSiteKey` in the root
-   `ai-tutor-config.js`. This explicitly enables the "AI Tutor" section on
-   the existing C loop page; review the frontend change and deploy via GitHub Pages.
+7. The public `apiUrl` and public `turnstileSiteKey` are wired into the root
+   `ai-tutor-config.js`, but `enabled: false` keeps the AI Tutor interface hidden.
+   Change that flag to `true` only after the Worker is securely configured,
+   successful live Turnstile and AI-model tests are completed, and usage
+   budgets are approved. Deploy the frontend through GitHub Pages.
 8. Verify the real browser, Turnstile widget, quota responses, and mobile layout
    before allowing general student traffic. Do **not** expose an Ollama port.
 
