@@ -37,7 +37,7 @@ function execute(language, code, version = available(language), { stdin = '' } =
     return run('dotnet', [path.join(dir, 'bin', 'Debug', `net${sdk}.0`, 'Lesson.dll')]);
   } finally {
     assert.ok(path.resolve(dir).startsWith(path.resolve(os.tmpdir()) + path.sep + 'codeviz-native-'));
-    fs.rmSync(dir, { recursive: true, force: true });
+    fs.rmSync(dir, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
   }
 }
 module.exports = { available, execute };

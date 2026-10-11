@@ -60,3 +60,10 @@ test('stdin solution processes the supplied number instead of printing a fixed r
   const version = native.available('javascript');
   assert.equal(native.execute('javascript', solutions.io.javascript, version, { stdin: '7\n' }), 'Input: 7\nDouble: 14\n');
 });
+
+test('unit-test solution detects an incorrect implementation', () => {
+  const correct = solutions['unit-testing-1'].javascript;
+  const incorrect = correct.replace('n * 2', 'n * 3');
+  assert.notEqual(incorrect, correct, 'mutate the implementation, not the assertion');
+  assert.throws(() => native.execute('javascript', incorrect), /AssertionError/);
+});

@@ -20,7 +20,7 @@ function executeBatch(language, entries, version, onOutput) {
       const files = entries.map((entry, i) => {
         const filename = `Assignment${i}.java`;
         assert.match(entry.code, /public class Main\b/, entry.id);
-        const code = entry.code.replace(/public class Main\b/, `public class Assignment${i}`).replace(/\bMain(?=\s*\.)/g, `Assignment${i}`);
+        const code = entry.code.replace(/public class Main\b/, `public class Assignment${i}`).replace(/\bMain(?=\s*(?:\.|::))/g, `Assignment${i}`);
         fs.writeFileSync(path.join(directory, filename), code);
         return filename;
       });
@@ -45,7 +45,7 @@ function executeBatch(language, entries, version, onOutput) {
     }
   } finally {
     assert.ok(path.resolve(directory).startsWith(path.resolve(os.tmpdir()) + path.sep + 'codeviz-batch-'));
-    fs.rmSync(directory, { recursive: true, force: true });
+    fs.rmSync(directory, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
   }
 }
 module.exports = { executeBatch };
