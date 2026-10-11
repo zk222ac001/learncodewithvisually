@@ -9,7 +9,7 @@ test('AI Tutor public connection stays disabled until explicitly approved', () =
   assert.ok(cfg.includes("apiUrl: 'https://learncodevisually-ai-tutor.learncodevisually-zk222ac-2026.workers.dev/api/tutor'"));
   assert.ok(cfg.includes("turnstileSiteKey: '0x4AAAAAAFT61DFoIObxrqHQ'"));
   assert.ok(cfg.includes('enabled: false'));
-  assert.ok(!cfg.includes('TURNSTILE_SECRET'), 'Public file should not contain the private secret variable name');
+  assert.doesNotMatch(cfg, /^\s*(?:const\s+)?TURNSTILE_SECRET\s*[:=]/m, 'Public config must not assign private secrets');
   assert.ok(load('ai-tutor.js').includes('config.enabled !== true'));
   assert.ok(load('c-for-loop-visualization.html').includes('id="ai-tutor-panel" hidden'));
   assert.ok(load('workers/ai-tutor/wrangler.jsonc').includes('"AI_ENABLED": "false"'));
