@@ -3,7 +3,7 @@
   const config = window.LEARNCODE_AI_TUTOR;
   const panel = document.getElementById('ai-tutor-panel');
   const stage = document.querySelector('[data-visualizer="loop"]');
-  const privatePreview = new URLSearchParams(window.location.search).get('ai-preview') === '1';
+  const privatePreview = config && config.enabled !== true && new URLSearchParams(window.location.search).get('ai-preview') === '1';
   if (!panel || !stage || !config || (config.enabled !== true && !privatePreview) ||
       !config.apiUrl || !config.turnstileSiteKey) return;
   let endpoint;
@@ -18,6 +18,8 @@
   const question = document.getElementById('ai-tutor-question');
   const previewControls = document.getElementById('ai-tutor-preview-controls');
   const previewKey = document.getElementById('ai-tutor-preview-key');
+  const betaNote = document.getElementById('ai-tutor-beta-note');
+  if (config.enabled === true && betaNote) betaNote.hidden = false;
   if (privatePreview && previewControls) previewControls.hidden = false;
   const buttons = [...panel.querySelectorAll('button')];
   let widgetId = null;
@@ -67,9 +69,19 @@
         }),
       });
       const payload = await response.json();
-      if (!response.ok) throw new Error(payload.error || 'The AI Tutor is unavailable.');
+      if (!response.ok) {
+        if (response.status === 429 && payload.code === 'DAILY_LIMIT') {
+          status.textContent = 'The shared AI Tutor allowance for today has been reached. Please try again tomorrow (UTC). The interactive visual lesson remains available.';
+          return;
+        }
+        if (response.status === 429 && payload.code === 'RATE_LIMIT') {
+          status.textContent = 'Too many AI requests from your connection. Please wait at least a minute before trying again.';
+          return;
+        }
+        throw new Error(typeof payload.error === 'string' ? payload.error : 'The AI Tutor is temporarily unavailable.');
+      }
       answer.textContent = typeof payload.answer === 'string' ? payload.answer : '';
-      status.textContent = 'AI response generated. Verify its explanation with the visualizer.';
+      status.textContent = 'AI response generated. Check the explanation against the interactive visualizer.';
     } catch (error) {
       status.textContent = error.message || 'Could not contact the AI Tutor.';
     } finally {
@@ -83,7 +95,11 @@
   form.addEventListener('submit', event => {
     event.preventDefault();
     const q = question.value.trim();
-    if (q.length >= 3 && q.length <= 280) ask('ask', q);
+    if (q.length < 3 || q.length > 280) {
+      status.textContent = 'Please enter a question between 3 and 280 characters.';
+      return;
+    }
+    ask('ask', q);
   });
   window.onLearnCodeTurnstileLoad = function() {
     if (!window.turnstile) return;

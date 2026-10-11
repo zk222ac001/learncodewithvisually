@@ -171,7 +171,7 @@ export async function handleRequest(request, env, requestFetch = fetch) {
   if (!ip) return reply({ error: 'Unable to verify request.' }, 403, expected);
   try {
     const limit = await env.RATE_LIMITER.limit({ key: 'tutor:' + ip });
-    if (limit?.success !== true) return reply({ error: 'Too many requests. Please try later.' }, 429, expected);
+    if (limit?.success !== true) return reply({ error: 'Too many requests. Please try in a minute.', code: 'RATE_LIMIT' }, 429, expected);
   } catch {
     return reply({ error: 'Tutor temporarily unavailable.' }, 503, expected);
   }
@@ -186,7 +186,7 @@ export async function handleRequest(request, env, requestFetch = fetch) {
     const result = await env.AI_BUDGET.getByName('global-tutor-budget-v1')
       .reserve(new Date().toISOString().slice(0,10), dailyLimit);
     if (result?.granted !== true)
-      return reply({error: "Today's AI Tutor allowance is used. Please try tomorrow."}, 429, expected);
+      return reply({error: "Today's AI Tutor allowance is used. Please try tomorrow (UTC).", code: 'DAILY_LIMIT'}, 429, expected);
   } catch {
     return reply({error: 'AI Tutor usage protection is unavailable.'}, 503, expected);
   }
