@@ -57,3 +57,12 @@ test('visual topic pages fit mobile without viewport overflow', async ({ page })
     await expect(page.locator('[data-visualizer] [data-status]')).toBeVisible();
   }
 });
+
+test('AI tutor preview appears only with explicit preview query parameter', async ({ page }) => {
+  await page.goto('/c-for-loop-visualization.html');
+  await expect(page.locator('#ai-tutor-panel')).toBeHidden();
+  await page.goto('/c-for-loop-visualization.html?ai-preview=1');
+  await expect(page.locator('#ai-tutor-panel')).toBeVisible();
+  await expect(page.locator('#ai-tutor-preview-controls')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Explain this step' })).toBeVisible();
+});
