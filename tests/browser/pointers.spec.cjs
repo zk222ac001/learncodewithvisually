@@ -7,7 +7,7 @@ test('Pointers is entry 09 and covers all requested C topics', async ({ page }) 
   await card.locator('a').click();
 
   await expect(page.locator('#pointers > .topic-no')).toHaveText('09');
-  await expect(page).toHaveTitle('Pointers · CodeViz');
+  await expect(page).toHaveTitle('Pointers | LearnCodeVisually');
   for (const id of ['#pointers-1', '#pointers-2', '#pointers-3', '#pointers-4', '#pointers-5']) {
     await expect(page.locator(id)).toBeVisible();
   }

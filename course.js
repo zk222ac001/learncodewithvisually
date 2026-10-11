@@ -23,7 +23,7 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const rich=s=>esc(s).replace(/`([^`]+)`/g,'<code dir="ltr">$1</code>');
 const groups=[[0,8],[8,15],[15,23],[23,29]], names=['intro','data','control','module-loops'];
 const isReference=document.body.dataset.page==='reference';
-let language='da';
+let language='en';
 try{const saved=localStorage.getItem('ds-language');if(Object.hasOwn(D.locales,saved))language=saved;}catch{}
 const urlLang=new URLSearchParams(location.search).get('lang');if(Object.hasOwn(D.locales,urlLang))language=urlLang;
 let module=-1,helloStep=0,operandA=7,operandB=2,truthA=1,truthB=0,score=72,limit=5,loopStep=0,demo=0,revealed=false;

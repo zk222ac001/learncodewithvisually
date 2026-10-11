@@ -7,7 +7,7 @@ test('Object-oriented programming is entry 10 and explains each requested concep
   await card.locator('a').click();
 
   await expect(page.locator('#oop > .topic-no')).toHaveText('10');
-  await expect(page).toHaveTitle('Object-Oriented Programming · CodeViz');
+  await expect(page).toHaveTitle('Object-Oriented Programming | LearnCodeVisually');
   for (const id of ['#oop-1', '#oop-2', '#oop-3', '#oop-4', '#oop-5', '#oop-6', '#oop-7']) {
     await expect(page.locator(id)).toBeVisible();
   }

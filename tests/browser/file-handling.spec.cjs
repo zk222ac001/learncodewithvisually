@@ -7,7 +7,7 @@ test('File Handling is entry 11 and teaches writing, reading, and OOP file opera
   await card.locator('a').click();
 
   await expect(page.locator('#file-handling > .topic-no')).toHaveText('11');
-  await expect(page).toHaveTitle('File Handling · CodeViz');
+  await expect(page).toHaveTitle('File Handling | LearnCodeVisually');
   for (const id of ['#file-handling-1', '#file-handling-2', '#file-handling-3', '#file-handling-4', '#file-handling-safety']) {
     await expect(page.locator(id)).toBeVisible();
   }
