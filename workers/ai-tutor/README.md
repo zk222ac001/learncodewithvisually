@@ -75,3 +75,38 @@ Official docs:
 - https://developers.cloudflare.com/workers-ai/get-started/workers-wrangler/
 - https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/
 - https://developers.cloudflare.com/turnstile/get-started/server-side-validation/
+
+## Private end-to-end preview (only after reviewing deployment)
+
+Production stays disabled at both layers (`AI_ENABLED=false`, website `enabled:false`).
+Do not modify those flags for preview.
+
+1. Pull the tested `main` branch locally and run `npx wrangler deploy` from
+   `workers/ai-tutor`. This deploys the new private gate but leaves AI disabled.
+2. On your own computer, generate a random hexadecimal 32-byte test credential:
+   `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`.
+   Keep it private. Never commit or share screenshots of the value.
+3. Run `npx wrangler secret put AI_TEST_TOKEN`, paste that 64-character test
+   credential into the Wrangler secret prompt.
+4. Run `npx wrangler secret put AI_TEST_MODE` and enter exactly `true`.
+   Note: `wrangler secret put` deploys a new Worker version immediately.
+5. In your own browser, open
+   `https://learncodevisually.com/c-for-loop-visualization.html?ai-preview=1`
+   and enter that credential into the private-preview test field.
+6. Complete Turnstile if requested. Try Explain step, Hint, and Ask AI.
+   If the model returns inaccurate code output, record the error as a bug.
+7. When done, immediately run `npx wrangler secret delete AI_TEST_MODE`
+   and `npx wrangler secret delete AI_TEST_TOKEN`. Confirm `/health`
+   still displays `{"status":"ok","enabled":false}`.
+   The public AI Tutor panel remains hidden.
+
+Security: The temporary tester credential is 256-bit random, checked by the
+Worker before Turnstile verification and AI inference, and is sent in a
+CORS-controlled request header only when you explicitly open `?ai-preview=1`.
+The preview key remains in your browser input field for this session only;
+it is never stored in GitHub, URLs, or localStorage. Never reuse it.
+Turnstile challenges must originate from your configured public website hostname.
+The public AI endpoint remains closed while this temporary gate is active.
+
+Cloudflare Worker rate limits are approximate and not a global budget.
+A private preview isn't a launch-ready cost control. Keep usage small.

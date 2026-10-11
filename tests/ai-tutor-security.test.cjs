@@ -20,3 +20,13 @@ test('AI Tutor client renders generated answers as text only', () => {
   assert.ok(client.includes('answer.textContent'));
   assert.ok(!client.includes('innerHTML ='));
 });
+
+test('private browser preview is gated by an explicit URL parameter and test key', () => {
+  const client=load('ai-tutor.js');
+  const html=load('c-for-loop-visualization.html');
+  assert.ok(client.includes("get('ai-preview') === '1'"));
+  assert.ok(client.includes("headers['X-AI-Test-Token'] = testKey"));
+  assert.ok(html.includes('id="ai-tutor-preview-controls" hidden'));
+  assert.ok(html.includes('type="password" autocomplete="off"'));
+  assert.ok(load('ai-tutor-config.js').includes('enabled: false'));
+});

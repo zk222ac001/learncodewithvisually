@@ -3,7 +3,9 @@
   const config = window.LEARNCODE_AI_TUTOR;
   const panel = document.getElementById('ai-tutor-panel');
   const stage = document.querySelector('[data-visualizer="loop"]');
-  if (!panel || !stage || !config || config.enabled !== true || !config.apiUrl || !config.turnstileSiteKey) return;
+  const privatePreview = new URLSearchParams(window.location.search).get('ai-preview') === '1';
+  if (!panel || !stage || !config || (config.enabled !== true && !privatePreview) ||
+      !config.apiUrl || !config.turnstileSiteKey) return;
   let endpoint;
   try {
     endpoint = new URL(config.apiUrl);
@@ -14,6 +16,9 @@
   const answer = document.getElementById('ai-tutor-answer');
   const form = document.getElementById('ai-tutor-form');
   const question = document.getElementById('ai-tutor-question');
+  const previewControls = document.getElementById('ai-tutor-preview-controls');
+  const previewKey = document.getElementById('ai-tutor-preview-key');
+  if (privatePreview && previewControls) previewControls.hidden = false;
   const buttons = [...panel.querySelectorAll('button')];
   let widgetId = null;
   let busy = false;
@@ -36,13 +41,20 @@
       status.textContent = 'Please complete human verification first.';
       return;
     }
+    const testKey = privatePreview ? (previewKey?.value.trim() || '') : '';
+    if (privatePreview && !/^[a-f0-9]{64}$/i.test(testKey)) {
+      status.textContent = 'Enter your 64-character temporary test key before continuing.';
+      return;
+    }
     setBusy(true);
     answer.textContent = '';
     status.textContent = 'Preparing an explanation…';
     try {
+      const headers = { 'Content-Type': 'application/json' };
+      if (privatePreview) headers['X-AI-Test-Token'] = testKey;
       const response = await fetch(endpoint.href, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         cache: 'no-store',
         body: JSON.stringify({
           lessonId: 'c-for-loop',

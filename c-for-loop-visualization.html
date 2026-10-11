@@ -49,6 +49,12 @@ int main(void) {
 <textarea id="ai-tutor-question" maxlength="280" rows="3" placeholder="Why is 4 not printed?" required></textarea>
 <button type="submit">Ask AI Tutor</button>
 </form>
+<div id="ai-tutor-preview-controls" hidden class="ai-tutor-preview-controls">
+<strong>Private AI Tutor test</strong>
+<p>This preview is not enabled for students. Paste the temporary tester key you generated on your own computer. Never paste your Turnstile Secret Key.</p>
+<label for="ai-tutor-preview-key">Temporary 64-character tester key</label>
+<input id="ai-tutor-preview-key" type="password" autocomplete="off" spellcheck="false" inputmode="text" maxlength="64" placeholder="Temporary tester key">
+</div>
 <div id="ai-tutor-turnstile" aria-label="Human verification"></div>
 <p id="ai-tutor-status" class="small-print" role="status" aria-live="polite"></p>
 <div id="ai-tutor-answer" class="ai-tutor-answer" role="region" aria-label="AI Tutor answer" aria-live="polite"></div>

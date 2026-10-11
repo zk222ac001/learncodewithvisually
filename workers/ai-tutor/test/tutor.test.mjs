@@ -50,3 +50,36 @@ test('reject challenge for a different domain',async()=>{
   const res=await handleRequest(make('POST',question,{'CF-Connecting-IP':'192.0.2.1'}),env,fetchFake);
   assert.equal(res.status,403);
 });
+
+test('private preview is off by default even when a tester header is provided', async () => {
+  const token='a'.repeat(64);
+  const env={AI_ENABLED:'false',AI_TEST_TOKEN:token,AI:{run:async()=>{throw Error('inference blocked')}},TURNSTILE_SECRET:'secret',RATE_LIMITER:{limit:async()=>({success:true})}};
+  const res=await handleRequest(make('POST',question,{'X-AI-Test-Token':token}),env);
+  assert.equal(res.status,503);
+});
+test('private preview rejects wrong or missing test keys before verifying Turnstile', async () => {
+  let calls=0;
+  const env={AI_ENABLED:'false',AI_TEST_MODE:'true',AI_TEST_TOKEN:'a'.repeat(64),AI:{run:async()=>{calls++;throw Error('not reached')}},TURNSTILE_SECRET:'secret',RATE_LIMITER:{limit:async()=>({success:true})}};
+  assert.equal((await handleRequest(make(),env)).status,403);
+  assert.equal((await handleRequest(make('POST',question,{'X-AI-Test-Token':'b'.repeat(64)}),env)).status,403);
+  assert.equal((await handleRequest(make('POST',question,{'X-AI-Test-Token':'tiny'}),env)).status,403);
+  assert.equal(calls,0);
+});
+test('private preview checks Turnstile and returns real model response for authorized tester', async () => {
+  let calls=0;
+  const token='b'.repeat(64);
+  const env={AI_ENABLED:'false',AI_TEST_MODE:'true',AI_TEST_TOKEN:token,AI:{run:async()=>{calls++;return {choices:[{message:{content:'The condition 4 <= 3 is false, so the loop ends.'}}]}}},TURNSTILE_SECRET:'private-server-secret',RATE_LIMITER:{limit:async()=>({success:true})}};
+  const fetchFake=async()=>new Response(JSON.stringify({success:true,hostname:'learncodevisually.com',action:'ai-tutor'}));
+  const r=await handleRequest(make('POST',question,{'X-AI-Test-Token':token,'CF-Connecting-IP':'192.0.2.1'}),env,fetchFake);
+  assert.equal(r.status,200);
+  assert.equal(calls,1);
+  assert.match((await r.json()).answer,/condition 4 <= 3 is false/);
+});
+test('private preview CORS allows tester header only for approved origin', async () => {
+  const env={AI_ENABLED:'false'};
+  const good=await handleRequest(make('OPTIONS',question),env);
+  assert.equal(good.status,204);
+  assert.match(good.headers.get('Access-Control-Allow-Headers'),/X-AI-Test-Token/);
+  const bad=await handleRequest(make('OPTIONS',question,{Origin:'https://evil.example'}),env);
+  assert.equal(bad.status,403);
+});
