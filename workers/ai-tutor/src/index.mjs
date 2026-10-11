@@ -155,7 +155,7 @@ export async function handleRequest(request, env, requestFetch = fetch) {
       return reply({ error: 'Private test authorization failed.' }, 403, expected);
     }
   }
-  if (!env.AI || !env.TURNSTILE_SECRET || !env.RATE_LIMITER) {
+  if (!env.AI || !env.TURNSTILE_SECRET || !env.RATE_LIMITER || !env.AI_BUDGET) {
     return reply({ error: 'AI Tutor is not configured yet.' }, 503, expected);
   }
   if (!/^application\/json(?:\s*;|$)/i.test(request.headers.get('content-type') || '')) {
@@ -177,6 +177,19 @@ export async function handleRequest(request, env, requestFetch = fetch) {
   }
   const verified = await verifyTurnstile(input.turnstileToken, env, ip, requestFetch);
   if (!verified) return reply({ error: 'Verification failed. Please try again.' }, 403, expected);
+  // One persistent, globally shared reservation before any inference.
+  // Fail closed on quota exhaustion or storage failure.
+  const dailyLimit = Number(env.DAILY_AI_REQUEST_LIMIT);
+  if (!Number.isInteger(dailyLimit) || dailyLimit < 1 || dailyLimit > 100)
+    return reply({error: 'Usage budget not configured.'}, 503, expected);
+  try {
+    const result = await env.AI_BUDGET.getByName('global-tutor-budget-v1')
+      .reserve(new Date().toISOString().slice(0,10), dailyLimit);
+    if (result?.granted !== true)
+      return reply({error: "Today's AI Tutor allowance is used. Please try tomorrow."}, 429, expected);
+  } catch {
+    return reply({error: 'AI Tutor usage protection is unavailable.'}, 503, expected);
+  }
   try {
     const result = await env.AI.run(env.MODEL_NAME || MODEL, {
       messages: [

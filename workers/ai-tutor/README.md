@@ -110,3 +110,29 @@ The public AI endpoint remains closed while this temporary gate is active.
 
 Cloudflare Worker rate limits are approximate and not a global budget.
 A private preview isn't a launch-ready cost control. Keep usage small.
+
+## AI Tutor 2.0: shared daily budget (release candidate)
+
+The existing public switch stays `AI_ENABLED=false`; the frontend remains
+`enabled:false`. A merge or redeployment alone does **not** activate public AI.
+
+A SQLite-backed Durable Object named `AiDailyBudget` uses transactional
+state to reserve **up to 25 inference attempts per UTC day** across all users.
+After 25 reservations, the API returns 429. Durable Object failure returns 503.
+Attempts that reach the model consume a reservation even if inference fails.
+No learner prompts or IPs are stored in the shared counter.
+
+This is a **request allowance, not a spending guarantee**: model pricing and
+token usage affect costs. Keep an account-level billing budget and alerts,
+monitor Workers AI usage, and review Cloudflare's current free/paid limits.
+
+Before enabling the beta:
+1. Merge only after CI and manual review.
+2. Update local `main` and redeploy `workers/ai-tutor` with Wrangler.
+3. Confirm the Durable Object migration/binding succeeds and AI_ENABLED=false.
+4. Verify health still returns `{"status":"ok","enabled":false}`.
+5. Evaluate multiple student questions, feedback and rate-limit behavior.
+6. Decide explicit activation separately after confirming Cloudflare billing.
+7. If issues arise, disable AI immediately and investigate before re-enabling.
+
+The private smoke-test Wrangler config remains separate and unchanged.
