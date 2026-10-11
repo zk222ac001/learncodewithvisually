@@ -31,7 +31,7 @@ test('guides provide unique titles, descriptive content and functioning local ro
 test('every sitemap URL resolves to an existing canonical HTML file', () => {
   const sitemap = read('sitemap.xml');
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(x => x[1]);
-  assert.equal(urls.length, 10);
+  assert.equal(urls.length, 14);
   assert.equal(new Set(urls).size, urls.length);
   for (const value of urls) {
     const url = new URL(value);
@@ -53,4 +53,29 @@ test('global learning site defaults to English while keeping translated course o
   assert.match(course, /localStorage\.getItem\('ds-language'\)/);
   assert.match(course, /const urlLang=/);
   assert.match(formatting, /<html lang="en">/);
+});
+
+test('four focused C tutorials contain independent descriptions and interactive models', () => {
+  const guides = ['c-for-loop-visualization.html','arrays-in-c-visualization.html','pointers-in-c-visualization.html','functions-in-c-visualization.html'];
+  const kinds = ['loop', 'array', 'pointer', 'function'];
+  const titles = new Set();
+  for (let i=0; i<guides.length; i++) {
+    const html=read(guides[i]);
+    const title=html.match(/<title>([^<]+)<\/title>/)?.[1];
+    assert.ok(title && !titles.has(title), 'Missing/duplicate title: '+guides[i]);
+    titles.add(title);
+    assert.match(html, new RegExp('rel="canonical" href="https://learncodevisually.com/'+guides[i]+'"'));
+    assert.ok(html.includes('data-visualizer="'+kinds[i]+'"'));
+    assert.ok(html.includes('<script src="/visual-lessons.js" defer>'));
+    assert.ok(html.includes('aria-live="polite"'));
+    assert.ok(html.includes('application/ld+json'));
+    assert.ok(html.includes('href="/index.html?lang=en&amp;code=c#'));
+    assert.ok(html.includes('<ol>') && html.includes('<details>'), 'Missing exercises or answer explanations: '+guides[i]);
+    assert.ok(read('index.html').includes('href="/'+guides[i]+'"'));
+    assert.ok(read('learn-c-programming.html').includes('href="/'+guides[i]+'"'));
+  }
+  const script=read('visual-lessons.js');
+  assert.match(script, /replaceChildren/);
+  assert.doesNotMatch(script, /eval\s*\(/);
+  assert.doesNotMatch(script, /fetch\s*\(/);
 });

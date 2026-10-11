@@ -38,3 +38,38 @@
 .learning-page footer{border-top:1px solid #d9e0e7;padding:24px;color:#546578}
 .learning-page footer nav{margin-top:10px}
 @media(max-width:650px){.learning-page .guide-grid{grid-template-columns:1fr}.learning-page .guide-hero{padding:22px}.learning-page .panel{padding:20px}}
+
+
+/* Four focused, search-readable visual C tutorials. */
+.learning-page .panel{margin-bottom:18px}
+.learning-page .small-print{font-size:13px;color:#53647b}
+.learning-page .visual-lesson{border-color:#bfcef0}
+.learning-page .demo-stage{margin:18px 0;padding:22px;background:linear-gradient(120deg,#f0f5ff,#f6fbff);border:1px solid #d5e0f2;border-radius:13px;min-height:170px;display:flex;align-items:center;justify-content:center}
+.learning-page .demo-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.learning-page .demo-controls button,.learning-page .demo-controls select,.learning-page .demo-controls input{font:inherit;padding:8px 12px;border:1px solid #9eb1c9;border-radius:8px;background:#fff;color:#152b40}
+.learning-page .demo-controls button{font-weight:700;cursor:pointer}
+.learning-page .demo-controls button:hover:not(:disabled){background:#eaf0ff}
+.learning-page .demo-controls button:disabled{cursor:not-allowed;opacity:.5}
+.learning-page .demo-controls button:focus-visible,.learning-page .demo-controls select:focus-visible,.learning-page .demo-controls input:focus-visible{outline:3px solid #df7619;outline-offset:2px}
+.learning-page .demo-controls input{width:95px}
+.learning-page .demo-status{margin-top:14px;padding:10px 12px;border-left:3px solid #215ad7;background:#f1f5fc;font-weight:600;min-height:44px}
+.learning-page .trace-box{width:100%;text-align:center}
+.learning-page .trace-values{display:flex;justify-content:center;align-items:stretch;gap:10px;flex-wrap:wrap;margin:12px auto}
+.learning-page .trace-cell{padding:10px 16px;min-width:48px;text-align:center;border:2px dashed #b0bfd4;border-radius:8px;background:white;color:#546578}
+.learning-page .trace-cell.shown{border:2px solid #215ad7;background:#dbe7ff;color:#122f58;font-weight:800}
+.learning-page .array-cell{min-width:92px;padding:12px;border:2px solid #ced8e6;border-radius:12px;background:#fff;text-align:center}
+.learning-page .array-cell.selected{border-color:#215ad7;background:#dbe7ff;box-shadow:0 0 0 2px #cbd9fd}
+.learning-page .array-cell .cell-index{display:block;font-size:12px;color:#4e6279}
+.learning-page .array-cell strong{display:block;font-size:23px}
+.learning-page .pointer-diagram{display:flex;gap:15px;align-items:center;justify-content:center;flex-wrap:wrap}
+.learning-page .memory-box{padding:18px;background:#fff;border:2px solid #bfd0e9;border-radius:12px;min-width:170px;text-align:center}
+.learning-page .memory-box span{display:block;color:#465b73;font-size:13px}
+.learning-page .memory-box strong{display:block;font-size:19px;color:#133d76;margin-top:6px;overflow-wrap:anywhere}
+.learning-page .memory-box.active{border-color:#215ad7;background:#e6efff}
+.learning-page .memory-arrow{font-size:30px;color:#215ad7}
+.learning-page .call-stack{display:flex;align-items:center;flex-direction:column-reverse;gap:10px}
+.learning-page .call-stack .memory-box{min-width:230px}
+.learning-page .topic-nav{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.learning-page .topic-nav a{padding:8px 12px;border:1px solid #cad7e9;border-radius:9px;background:#f2f6fd}
+.learning-page details>summary{cursor:pointer;font-weight:700;color:#215ad7}
+@media(max-width:650px){.learning-page .demo-stage{padding:12px}.learning-page .array-cell{min-width:53px;padding:8px}.learning-page .array-cell strong{font-size:18px}.learning-page .trace-values{gap:5px}.learning-page .memory-box{min-width:130px}.learning-page .pointer-diagram{gap:6px}.learning-page .pointer-diagram .memory-arrow{font-size:22px}}

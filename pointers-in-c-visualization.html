@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pointers in C Visualized | LearnCodeVisually</title>
+<meta name="description" content="See how C pointers work with a visual address and value demonstration, & and * operators, safe pointer use, C code and beginner exercises.">
+<link rel="canonical" href="https://learncodevisually.com/pointers-in-c-visualization.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="LearnCodeVisually">
+<meta property="og:title" content="Pointers in C Visualized: Addresses and Dereferencing">
+<meta property="og:description" content="See how C pointers work with a visual address and value demonstration, & and * operators, safe pointer use, C code and beginner exercises.">
+<meta property="og:url" content="https://learncodevisually.com/pointers-in-c-visualization.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Pointers in C Visualized: Addresses and Dereferencing","url":"https://learncodevisually.com/pointers-in-c-visualization.html","description":"See how C pointers work with a visual address and value demonstration, & and * operators, safe pointer use, C code and beginner exercises.","educationalLevel":"Beginner","isAccessibleForFree":true,"teaches":"C pointer address-of operator and dereferencing","inLanguage":"en","provider":{"@type":"Organization","name":"LearnCodeVisually","url":"https://learncodevisually.com/"}}</script>
+<link rel="stylesheet" href="/seo-learning.css">
+<script src="/visual-lessons.js" defer></script>
+</head>
+<body class="learning-page">
+<header><a class="wordmark" href="/">LearnCodeVisually</a><nav aria-label="Website navigation"><a href="/">Interactive course</a><a href="/learn-c-programming.html">Learn C</a><a href="/learn-python-programming.html">Python</a><a href="/learn-data-structures.html">Data structures</a></nav></header>
+<main>
+<section class="guide-hero"><h1>Pointers in C Visualized: Addresses and Dereferencing</h1><p class="lead">Watch a pointer store the address of an integer, read the integer using *p and update it through the pointer. Addresses shown are illustrative.</p><a class="cta" href="/index.html?lang=en&amp;code=c#pointers">Explore the full interactive C pointer lesson →</a></section>
+<section class="panel">
+<h2>Start with working C code</h2><p>The pointer p stores the address of x. The expression *p accesses the object at that address; assigning to *p changes x.</p><pre><code>#include &lt;stdio.h&gt;
+int main(void) {
+    int x = 12;
+    int *p = &amp;x;
+    printf(&quot;%d\n&quot;, *p); /* 12 */
+    *p = 24;
+    printf(&quot;%d\n&quot;, x);  /* 24 */
+    return 0;
+}</code></pre>
+</section>
+<section class="panel visual-lesson" data-visualizer="pointer" aria-labelledby="demo-heading">
+<h2 id="demo-heading">Interactive pointer visualization</h2>
+<p>Use the controls to follow the C example above. The labels describe the current model state.</p>
+<div class="demo-stage" data-stage aria-label="Visualization of program state"><p>The explanatory material on this page is also available without JavaScript. Enable JavaScript to use the visual step controls.</p></div>
+<div class="demo-controls"><button type="button" data-action="previous">← Previous</button><button type="button" data-action="next">Next step →</button><button type="button" data-action="reset">Reset</button></div>
+<p class="demo-status" data-status role="status" aria-live="polite">Ready to explore the example.</p>
+</section>
+<section class="panel"><h2>What does a pointer hold?</h2><p>A pointer is a value that identifies an object or function in memory. In <code>int *p = &amp;x;</code>, <code>&amp;x</code> obtains the address of <code>x</code>, and <code>p</code> stores that address. The type <code>int *</code> indicates that dereferencing <code>p</code> gives access to an <code>int</code>.</p><p>Our diagram uses the made-up address <code>0x1000</code> purely to illustrate the relationship. Real addresses are selected by the runtime environment and will vary.</p></section>
+<section class="panel"><h2>The difference between &amp; and *</h2><p><code>&amp;x</code> is the address-of expression. <code>*p</code> is a dereference expression that accesses the pointed-to object when <code>p</code> is valid. In a declaration, <code>int *p</code> instead indicates the pointer type. These uses of the asterisk are related but appear in different grammatical contexts.</p><p>A pointer must refer to a valid, suitably typed object before you dereference it. Dereferencing a null, uninitialized or dangling pointer is invalid and can lead to undefined behavior. Always understand pointer lifetime and initialization.</p></section>
+<section class="panel"><h2>Practice predicting pointer behavior</h2><ol><li>After <code>int *p = &amp;x;</code>, what is stored in <code>p</code> and what is stored in <code>x</code>?</li><li>What does <code>*p</code> evaluate to before the assignment?</li><li>Why does assigning <code>*p = 24;</code> change <code>x</code>?</li></ol><details><summary>Answers</summary><p>The pointer stores the address of x; x stores the integer 12. Dereferencing p reads 12. Since p refers to x, writing through *p changes the same object to 24.</p></details><a class="cta" href="/index.html?lang=en&amp;code=c#pointers">Open the full C pointers lesson →</a></section>
+<aside class="panel"><h2>Explore more visual C programming lessons</h2><nav class="topic-nav" aria-label="Related C tutorials"><a href="/c-for-loop-visualization.html">C For Loop Visualization</a><a href="/arrays-in-c-visualization.html">Arrays in C Explained Visually</a><a href="/pointers-in-c-visualization.html">Pointers in C Visualized</a><a href="/functions-in-c-visualization.html">C Functions Explained Visually</a><a href="/learn-c-programming.html">Complete C beginner guide</a></nav><p class="small-print">The visual demonstrations are teaching models, not C compilers. Use the linked interactive course and a C compiler to explore variations.</p></aside>
+</main>
+<footer><strong>LearnCodeVisually · Free programming education</strong><nav aria-label="Website information"><a href="/">Home</a><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav></footer>
+</body></html>
