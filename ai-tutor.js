@@ -20,7 +20,7 @@
   // The visualizer's current step is read from rendered status; this is only
   // a hint to the server. Server-side trace remains authoritative.
   function currentStep() {
-    const text = stage.querySelector('[data-status]')?.textContent || '';
+    const text = document.querySelector('[data-visualizer="loop"] [data-status]')?.textContent || '';
     if (text.includes('terminates without printing 4')) return 4;
     const match = text.match(/Iteration (\d+):/);
     return match ? Math.max(0, Math.min(3, Number(match[1]))) : 0;
