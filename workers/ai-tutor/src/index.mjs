@@ -116,6 +116,17 @@ function extractAnswer(output) {
   const candidate = typeof output?.response === 'string' ? output.response : output?.choices?.[0]?.message?.content;
   return typeof candidate === 'string' ? candidate.trim().slice(0, 2000) : '';
 }
+// Compare fixed-size digests without disclosing the preview key or passing it to AI.
+async function validPreviewToken(received, configured) {
+  if (typeof configured !== 'string' || !/^[a-f0-9]{64}$/i.test(configured) ||
+      !/^[a-f0-9]{64}$/i.test(received)) return false;
+  const enc = new TextEncoder();
+  const a = new Uint8Array(await crypto.subtle.digest('SHA-256', enc.encode(received)));
+  const b = new Uint8Array(await crypto.subtle.digest('SHA-256', enc.encode(configured)));
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a[i] ^ b[i];
+  return diff === 0;
+}
 export async function handleRequest(request, env, requestFetch = fetch) {
   const url = new URL(request.url);
   const origin = request.headers.get('origin');
@@ -127,12 +138,24 @@ export async function handleRequest(request, env, requestFetch = fetch) {
   if (origin !== expected) return reply({ error: 'Origin not allowed.' }, 403);
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: {
     'Access-Control-Allow-Origin': expected, 'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Max-Age': '600',
+    'Access-Control-Allow-Headers': 'Content-Type, X-AI-Test-Token', 'Access-Control-Max-Age': '600',
     'Cache-Control': 'no-store', 'Vary': 'Origin',
   } });
   if (request.method !== 'POST') return reply({ error: 'Method not allowed.' }, 405, expected);
-  // Fail closed: a deployed Worker must be explicitly enabled and fully configured.
-  if (env.AI_ENABLED !== 'true' || !env.AI || !env.TURNSTILE_SECRET || !env.RATE_LIMITER) {
+  // A separate, temporary test mode is allowed only with a strong private secret.
+  // The public feature flag remains disabled throughout this preview.
+  const live = env.AI_ENABLED === 'true';
+  const preview = !live && env.AI_TEST_MODE === 'true';
+  if (!live && !preview) {
+    return reply({ error: 'AI Tutor is not enabled.' }, 503, expected);
+  }
+  if (preview) {
+    const received = request.headers.get('X-AI-Test-Token') || '';
+    if (!await validPreviewToken(received, env.AI_TEST_TOKEN)) {
+      return reply({ error: 'Private test authorization failed.' }, 403, expected);
+    }
+  }
+  if (!env.AI || !env.TURNSTILE_SECRET || !env.RATE_LIMITER) {
     return reply({ error: 'AI Tutor is not configured yet.' }, 503, expected);
   }
   if (!/^application\/json(?:\s*;|$)/i.test(request.headers.get('content-type') || '')) {

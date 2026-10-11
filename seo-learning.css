@@ -84,3 +84,10 @@
 .ai-tutor-panel :is(textarea,button):focus-visible{outline:3px solid #df7619;outline-offset:3px}
 .ai-tutor-answer{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7;border-radius:10px;background:#eff5ff;margin-top:12px;padding:14px;min-height:24px}
 .ai-tutor-answer:empty{display:none}
+
+/* Private AI test controls appear only with an explicit preview URL. */
+.ai-tutor-preview-controls{margin:16px 0;padding:16px;border:1px solid #a4b6d2;border-radius:12px;background:#f2f6fd}
+.ai-tutor-preview-controls[hidden]{display:none!important}
+.ai-tutor-preview-controls p{margin:5px 0 12px}
+.ai-tutor-preview-controls input{display:block;max-width:100%;width:min(100%,480px);margin-top:8px;padding:11px;border:1px solid #8196b2;border-radius:8px;font:inherit}
+.ai-tutor-preview-controls input:focus-visible{outline:3px solid #df7619;outline-offset:3px}
