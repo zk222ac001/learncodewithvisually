@@ -66,3 +66,10 @@ test('AI tutor preview appears only with explicit preview query parameter', asyn
   await expect(page.locator('#ai-tutor-preview-controls')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Explain this step' })).toBeVisible();
 });
+
+test('AI Tutor reports a clear message if Turnstile cannot load', async ({ page }) => {
+  await page.route('https://challenges.cloudflare.com/**', route => route.abort());
+  await page.goto('/c-for-loop-visualization.html?ai-preview=1');
+  await page.getByRole('button', {name:'Explain this step'}).click();
+  await expect(page.locator('#ai-tutor-status')).toContainText(/verification|Cloudflare/i);
+});

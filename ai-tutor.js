@@ -35,7 +35,11 @@
     buttons.forEach(b => { b.disabled = value; });
   }
   async function ask(action, q = '') {
-    if (busy || widgetId === null || !window.turnstile) return;
+    if (busy) return;
+    if (widgetId === null || !window.turnstile) {
+      status.textContent = 'Human verification is not ready. Please allow Cloudflare Turnstile, disable blocking extensions for this site, then refresh.';
+      return;
+    }
     const token = window.turnstile.getResponse(widgetId);
     if (!token) {
       status.textContent = 'Please complete human verification first.';
@@ -83,17 +87,26 @@
   });
   window.onLearnCodeTurnstileLoad = function() {
     if (!window.turnstile) return;
-    widgetId = window.turnstile.render('#ai-tutor-turnstile', {
-      sitekey: config.turnstileSiteKey,
-      action: 'ai-tutor',
-      theme: 'auto',
-    });
+    try {
+      widgetId = window.turnstile.render('#ai-tutor-turnstile', {
+        sitekey: config.turnstileSiteKey,
+        action: 'ai-tutor',
+        theme: 'auto',
+        'error-callback': () => { status.textContent = 'Cloudflare verification failed. Refresh this page and try again.'; },
+        'expired-callback': () => { status.textContent = 'Human verification expired. Please verify again.'; },
+      });
+      status.textContent = 'Complete Cloudflare verification below before asking AI.';
+    } catch {
+      status.textContent = 'Could not initialize Cloudflare verification. Refresh and check your browser blockers.';
+    }
   };
   // Only load the third-party challenge script if the tutor was intentionally configured.
   const script = document.createElement('script');
   script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onLearnCodeTurnstileLoad&render=explicit';
   script.async = true;
   script.defer = true;
+  script.onerror = () => { status.textContent = 'Cloudflare verification script could not load. Check extensions or network filtering, then refresh.'; };
+  status.textContent = 'Loading Cloudflare human verification…';
   panel.hidden = false;
   document.head.append(script);
 })();
