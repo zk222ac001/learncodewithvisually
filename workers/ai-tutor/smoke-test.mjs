@@ -57,9 +57,9 @@ export async function handleSmoke(request, env) {
     return html('Invalid origin.', 403);
   }
   const cookie = request.headers.get('Cookie') || '';
-  const cookieToken = /(?:^|;\\s*)lcv_smoke_csrf=([a-f0-9-]{36})(?:;|$)/.exec(cookie)?.[1];
+  const cookieToken = /(?:^|;\s*)lcv_smoke_csrf=([a-f0-9-]{36})(?:;|$)/.exec(cookie)?.[1];
   if (!cookieToken) return html('Invalid or expired local form. Return to the test page.', 403);
-  if (!/^application\\/x-www-form-urlencoded(?:\\s*;|$)/i.test(request.headers.get('Content-Type') || '')) {
+  if (!/^application\/x-www-form-urlencoded(?:\s*;|$)/i.test(request.headers.get('Content-Type') || '')) {
     return html('Invalid form type.', 415);
   }
   const length = Number(request.headers.get('Content-Length') || 0);
