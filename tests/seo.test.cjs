@@ -50,7 +50,7 @@ test('global learning site defaults to English while keeping translated course o
   assert.match(homepage, /<html lang="en">/);
   assert.match(homepage, /Skip to content/);
   assert.match(course, /let language='en';/);
-  assert.match(course, /get\('ds-language'\)/);
+  assert.match(course, /localStorage\.getItem\('ds-language'\)/);
   assert.match(course, /const urlLang=/);
   assert.match(formatting, /<html lang="en">/);
 });
