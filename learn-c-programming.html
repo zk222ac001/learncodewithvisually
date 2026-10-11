@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn C Programming Visually | LearnCodeVisually</title>
+<meta name="description" content="Free beginner-friendly C programming guide with examples of variables, for loops, arrays and pointers. Explore interactive code traces, quizzes and exercises.">
+<link rel="canonical" href="https://learncodevisually.com/learn-c-programming.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="LearnCodeVisually">
+<meta property="og:title" content="Learn C Programming Visually">
+<meta property="og:description" content="Free beginner-friendly C programming guide with examples of variables, for loops, arrays and pointers. Explore interactive code traces, quizzes and exercises.">
+<meta property="og:url" content="https://learncodevisually.com/learn-c-programming.html">
+<link rel="stylesheet" href="/seo-learning.css">
+</head>
+<body class="learning-page">
+<header><a class="wordmark" href="/">LearnCodeVisually</a><nav aria-label="Learning guides"><a href="/">Interactive course</a><a href="/learn-c-programming.html">C</a><a href="/learn-python-programming.html">Python</a><a href="/learn-data-structures.html">Data structures</a></nav></header>
+<main>
+<section class="guide-hero"><h1>Learn C Programming Visually</h1><p class="lead">Learn what each C statement does instead of memorizing syntax. Start with small programs, follow changes in memory and control flow, then explore interactive examples.</p><a class="cta" href="/">Browse the free interactive course →</a></section>
+<div class="guide-grid">
+<article class="panel"><h2>1. Start with C basics</h2><p>C programs use declarations, expressions and statements to describe a sequence of operations. A variable such as <code>int total = 0;</code> stores a typed value. <code>printf</code> displays output, and <code>scanf</code> can read input when used with an appropriate format and argument.</p><p>Begin with <a href="/index.html?lang=en&amp;code=c#intro">computer programming and Hello World</a>, then explore <a href="/index.html?lang=en&amp;code=c#data">data types, variables and memory</a>.</p></article>
+<article class="panel"><h2>2. Understand conditions and loops</h2><p>An <code>if</code> statement chooses whether to execute a block. A <code>for</code> loop repeats instructions while its condition is true. To trace a loop, write down the counter and output after every iteration.</p><p>Use the <a href="/index.html?lang=en&amp;code=c#control">conditions module</a> and the <a href="/index.html?lang=en&amp;code=c#counter">interactive C for-loop lesson</a> to step forward, backward and reset the execution trace.</p></article>
+</div>
+<section class="panel"><h2>C for-loop example: trace each iteration</h2><p>This program prints the numbers 1, 2 and 3. The counter is initialized once, checked before every iteration, and increased after each iteration's body.</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main(void) {
+    for (int i = 1; i &lt;= 3; ++i) {
+        printf("%d\n", i);
+    }
+    return 0;
+}</code></pre>
+<p>Trace it: <strong>i = 1</strong> prints 1; <strong>i = 2</strong> prints 2; <strong>i = 3</strong> prints 3; <strong>i = 4</strong> fails the condition and the loop ends. Try predicting the output if <code>i &lt;= 3</code> becomes <code>i &lt; 3</code>.</p><a class="cta" href="/index.html?lang=en&amp;code=c#counter">Open the interactive C loop →</a></section>
+<div class="guide-grid">
+<article class="panel"><h2>3. Visualize arrays</h2><p>An array groups elements of one type. In C, the first element has index 0. For example, <code>int scores[3] = {10, 20, 30};</code> gives <code>scores[1]</code> the value 20. When tracing access, check the declared length to avoid out-of-bounds operations.</p><p><a href="/index.html?lang=en&amp;code=c#arrays">Open the visual arrays lesson</a> and practice reading and changing indexed values.</p></article>
+<article class="panel"><h2>4. Explore functions and pointers</h2><p>A function groups code into a reusable operation. A pointer stores the address of another object: <code>&amp;x</code> produces the address of <code>x</code>, and <code>*p</code> can access the pointed-to value when the pointer is valid. Drawing values and addresses helps explain the difference.</p><p>Study <a href="/index.html?lang=en&amp;code=c#functions">functions</a> and the <a href="/index.html?lang=en&amp;code=c#pointers">interactive pointers lesson</a>.</p></article>
+</div>
+<section class="panel"><h2>Practice and next steps</h2><ol><li>Predict a loop's output before running it.</li><li>Change a loop bound and compare the execution trace.</li><li>Use array indexes to find or modify a value.</li><li>Test your understanding with the course quizzes and coding assignments.</li></ol><p>You can change the interface language independently of the code language. The examples are teaching simulations; for full native C execution use an appropriate compiler, or the linked online editor when offered.</p><p>Also explore our <a href="/learn-data-structures.html">visual data structures guide</a>.</p></section>
+</main>
+<footer><strong>LearnCodeVisually · Free programming education</strong><nav aria-label="Website information"><a href="/">Home</a><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav></footer>
+</body></html>

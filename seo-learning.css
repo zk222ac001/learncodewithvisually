@@ -1,0 +1,40 @@
+/* SEO learning paths on the existing interactive course. Scoped to avoid changing its labs. */
+.seo-paths{margin:32px 0;padding-top:24px;border-top:1px solid var(--line)}
+.seo-paths>p{max-width:850px;color:var(--muted)}
+.seo-paths .cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.seo-paths .card{gap:8px;padding:20px}
+.seo-paths .card h3{font-size:18px;line-height:1.4;margin:0}
+.seo-paths .card p{font-size:14px;flex:1;color:var(--muted)}
+.seo-paths .card>a{font-weight:650}
+@media(max-width:950px){.seo-paths .cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.seo-paths .cards{grid-template-columns:1fr}}
+/* Standalone, search-readable learning guides. No JavaScript required. */
+.learning-page{margin:0;background:#f6f7f9;color:#152b40;font:16px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.learning-page *{box-sizing:border-box}
+.learning-page a{color:#215ad7;text-underline-offset:3px}
+.learning-page a:focus-visible{outline:3px solid #df7619;outline-offset:4px}
+.learning-page header,.learning-page main,.learning-page footer{max-width:1020px;margin-inline:auto}
+.learning-page header{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:22px}
+.learning-page header .wordmark{font-size:21px;font-weight:800;color:#152b40;text-decoration:none;margin-right:auto}
+.learning-page nav{display:flex;gap:16px;flex-wrap:wrap}
+.learning-page main{padding:0 20px 50px}
+.learning-page .guide-hero{background:linear-gradient(130deg,#eaf0ff,#f0f7ff 70%,#e6f6ed);padding:28px;border:1px solid #d5e0ee;border-radius:18px;margin-bottom:20px}
+.learning-page h1{font-size:clamp(28px,4vw,44px);line-height:1.2;letter-spacing:-.6px;margin:0 0 12px}
+.learning-page h2{font-size:24px;line-height:1.3;margin:26px 0 10px}
+.learning-page h3{font-size:18px;margin:18px 0 6px}
+.learning-page p{margin:0 0 14px}
+.learning-page .lead{font-size:18px;color:#40566d}
+.learning-page .guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.learning-page .panel{background:white;border:1px solid #d9e0e7;border-radius:14px;padding:25px;min-width:0}
+.learning-page .panel h2:first-child{margin-top:0}
+.learning-page .panel p:last-child{margin-bottom:0}
+.learning-page pre{background:#14283c;color:#f4f7ff;padding:18px;border-radius:10px;overflow-x:auto;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace}
+.learning-page code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.learning-page :not(pre)>code{background:#edf2fb;padding:2px 5px;border-radius:4px}
+.learning-page .cta{display:inline-block;background:#215ad7;color:white;padding:12px 18px;border-radius:9px;font-weight:700;text-decoration:none;margin:8px 8px 8px 0}
+.learning-page .cta:hover{background:#1949b3}
+.learning-page ul,.learning-page ol{padding-left:25px}
+.learning-page li{margin-bottom:7px}
+.learning-page footer{border-top:1px solid #d9e0e7;padding:24px;color:#546578}
+.learning-page footer nav{margin-top:10px}
+@media(max-width:650px){.learning-page .guide-grid{grid-template-columns:1fr}.learning-page .guide-hero{padding:22px}.learning-page .panel{padding:20px}}
