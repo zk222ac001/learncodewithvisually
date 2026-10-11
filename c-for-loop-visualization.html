@@ -14,6 +14,8 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"C For Loop Visualization: Trace Each Iteration","url":"https://learncodevisually.com/c-for-loop-visualization.html","description":"Understand C for loops with an interactive step-by-step trace, loop condition checks, C source code, common off-by-one errors and practice exercises.","educationalLevel":"Beginner","isAccessibleForFree":true,"teaches":"C for loop execution and loop conditions","inLanguage":"en","provider":{"@type":"Organization","name":"LearnCodeVisually","url":"https://learncodevisually.com/"}}</script>
 <link rel="stylesheet" href="/seo-learning.css">
 <script src="/visual-lessons.js" defer></script>
+<script src="/ai-tutor-config.js" defer></script>
+<script src="/ai-tutor.js" defer></script>
 </head>
 <body class="learning-page">
 <header><a class="wordmark" href="/">LearnCodeVisually</a><nav aria-label="Website navigation"><a href="/">Interactive course</a><a href="/learn-c-programming.html">Learn C</a><a href="/learn-python-programming.html">Python</a><a href="/learn-data-structures.html">Data structures</a></nav></header>
@@ -34,6 +36,22 @@ int main(void) {
 <div class="demo-stage" data-stage aria-label="Visualization of program state"><p>The explanatory material on this page is also available without JavaScript. Enable JavaScript to use the visual step controls.</p></div>
 <div class="demo-controls"><button type="button" data-action="previous">← Previous</button><button type="button" data-action="next">Next step →</button><button type="button" data-action="reset">Reset</button></div>
 <p class="demo-status" data-status role="status" aria-live="polite">Ready to explore the example.</p>
+</section>
+<section class="panel ai-tutor-panel" id="ai-tutor-panel" hidden aria-labelledby="ai-tutor-heading">
+<h2 id="ai-tutor-heading">AI Tutor — C for loops</h2>
+<p>The tutor uses the current step of this example. Responses are AI-generated and may contain mistakes. Check them against the interactive trace.</p>
+<div class="demo-controls">
+<button type="button" data-tutor-action="explain">Explain this step</button>
+<button type="button" data-tutor-action="hint">Give me a hint</button>
+</div>
+<form id="ai-tutor-form">
+<label for="ai-tutor-question">Ask about this C loop (up to 280 characters)</label>
+<textarea id="ai-tutor-question" maxlength="280" rows="3" placeholder="Why is 4 not printed?" required></textarea>
+<button type="submit">Ask AI Tutor</button>
+</form>
+<div id="ai-tutor-turnstile" aria-label="Human verification"></div>
+<p id="ai-tutor-status" class="small-print" role="status" aria-live="polite"></p>
+<div id="ai-tutor-answer" class="ai-tutor-answer" role="region" aria-label="AI Tutor answer" aria-live="polite"></div>
 </section>
 <section class="panel"><h2>How does a C for loop work?</h2><p>The syntax is <code>for (initialization; condition; update)</code>. Initialization runs once. Before every iteration, C evaluates the condition. If it is true, the body executes and then the update runs. When the condition is false, execution continues after the loop.</p><ol><li><strong>Initialize:</strong> <code>int i = 1</code>.</li><li><strong>Check:</strong> <code>i &lt;= 3</code> before executing the body.</li><li><strong>Execute:</strong> print the current value of <code>i</code>.</li><li><strong>Update:</strong> <code>++i</code> increments the counter by one.</li></ol></section>
 <section class="panel"><h2>Common C loop mistakes</h2><p><strong>Off-by-one errors:</strong> <code>i &lt; 3</code> prints only 1 and 2; <code>i &lt;= 3</code> includes 3. <strong>Infinite loops:</strong> if the update never makes the condition false, the loop may not finish. <strong>Zero iterations:</strong> starting with <code>i = 4</code> makes the initial condition false and prints nothing.</p><p>The model above deliberately separates checking the condition from printing a value. A <code>continue</code> statement in a <code>for</code> loop still proceeds to its update expression before the next condition check.</p></section>

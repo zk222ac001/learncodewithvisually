@@ -20,6 +20,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - run: node --test workers/ai-tutor/test/*.test.mjs
   browser:
     name: Chromium interactive lesson regression
     runs-on: ubuntu-latest
