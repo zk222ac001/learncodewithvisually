@@ -138,7 +138,7 @@ export async function handleRequest(request, env, requestFetch = fetch) {
   if (origin !== expected) return reply({ error: 'Origin not allowed.' }, 403);
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: {
     'Access-Control-Allow-Origin': expected, 'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, X-AI-Test-Token', 'Access-Control-Max-Age': '600',
+    'Access-Control-Allow-Headers': env.AI_ENABLED === 'true' ? 'Content-Type' : 'Content-Type, X-AI-Test-Token', 'Access-Control-Max-Age': '600',
     'Cache-Control': 'no-store', 'Vary': 'Origin',
   } });
   if (request.method !== 'POST') return reply({ error: 'Method not allowed.' }, 405, expected);
