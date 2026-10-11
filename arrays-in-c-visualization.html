@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arrays in C Explained Visually | LearnCodeVisually</title>
+<meta name="description" content="Learn C arrays with an interactive indexed memory diagram, code examples, bounds explanations and exercises for beginners.">
+<link rel="canonical" href="https://learncodevisually.com/arrays-in-c-visualization.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="LearnCodeVisually">
+<meta property="og:title" content="Arrays in C Explained Visually: Index, Read and Update">
+<meta property="og:description" content="Learn C arrays with an interactive indexed memory diagram, code examples, bounds explanations and exercises for beginners.">
+<meta property="og:url" content="https://learncodevisually.com/arrays-in-c-visualization.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Arrays in C Explained Visually: Index, Read and Update","url":"https://learncodevisually.com/arrays-in-c-visualization.html","description":"Learn C arrays with an interactive indexed memory diagram, code examples, bounds explanations and exercises for beginners.","educationalLevel":"Beginner","isAccessibleForFree":true,"teaches":"C arrays indexing and updating elements","inLanguage":"en","provider":{"@type":"Organization","name":"LearnCodeVisually","url":"https://learncodevisually.com/"}}</script>
+<link rel="stylesheet" href="/seo-learning.css">
+<script src="/visual-lessons.js" defer></script>
+</head>
+<body class="learning-page">
+<header><a class="wordmark" href="/">LearnCodeVisually</a><nav aria-label="Website navigation"><a href="/">Interactive course</a><a href="/learn-c-programming.html">Learn C</a><a href="/learn-python-programming.html">Python</a><a href="/learn-data-structures.html">Data structures</a></nav></header>
+<main>
+<section class="guide-hero"><h1>Arrays in C Explained Visually: Index, Read and Update</h1><p class="lead">Choose an index, read its value and change it in a five-element C array. Learn why indexing starts at zero and why bounds matter.</p><a class="cta" href="/index.html?lang=en&amp;code=c#arrays">Explore the full interactive C arrays lesson →</a></section>
+<section class="panel">
+<h2>Start with working C code</h2><p>Five integers occupy indexes 0 through 4. Before the assignment, scores[1] is 20; afterward its value is 25.</p><pre><code>#include &lt;stdio.h&gt;
+int main(void) {
+    int scores[5] = {10, 20, 30, 40, 50};
+    scores[1] = 25;
+    printf(&quot;%d\n&quot;, scores[1]);  /* prints 25 */
+    return 0;
+}</code></pre>
+</section>
+<section class="panel visual-lesson" data-visualizer="array" aria-labelledby="demo-heading">
+<h2 id="demo-heading">Interactive array-indexing visualization</h2>
+<p>Use the controls to follow the C example above. The labels describe the current model state.</p>
+<div class="demo-stage" data-stage aria-label="Visualization of program state"><p>The explanatory material on this page is also available without JavaScript. Enable JavaScript to use the visual step controls.</p></div>
+<div class="demo-controls"><label for="array-index">Select index</label><select id="array-index" data-index><option value="0">0</option><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select><label for="array-value">New value</label><input id="array-value" data-value type="number" min="-99" max="99" value="25"><button type="button" data-action="set">Update selected element</button><button type="button" data-action="reset">Reset array</button></div>
+<p class="demo-status" data-status role="status" aria-live="polite">Ready to explore the example.</p>
+</section>
+<section class="panel"><h2>What is an array in C?</h2><p>An array is a fixed-length sequence of elements of the same type. For <code>int scores[5]</code>, legal indexes are <code>0</code> through <code>4</code>. <code>scores[0]</code> names the first element; <code>scores[4]</code> names the fifth.</p><p>Elements are stored contiguously. Each valid index identifies an element directly, so accessing it requires constant-time address calculation. The diagram uses logical boxes, not actual operating-system memory addresses.</p></section>
+<section class="panel"><h2>Why array bounds matter</h2><p>Unlike some languages, ordinary C array indexing does not automatically check bounds. Accessing <code>scores[5]</code> or <code>scores[-1]</code> is an out-of-bounds access and has <strong>undefined behavior</strong>. It might appear to work or it might crash, but neither result makes it safe.</p><p>When iterating over all five elements, use <code>for (int i = 0; i &lt; 5; ++i)</code>. Compare the index and value visually to understand which element each iteration reads.</p></section>
+<section class="panel"><h2>Practice with indexing</h2><ol><li>Find the element at index 3 and predict its value before changing anything.</li><li>Change the element at index 1 to 25, then read it again.</li><li>Explain why <code>scores[5]</code> is invalid, even though the array contains five elements.</li></ol><details><summary>Answers</summary><p>The initial element at index 3 is 40. After the update, index 1 contains 25. Index 5 would refer to a sixth element, but only indexes 0 through 4 are valid.</p></details><a class="cta" href="/index.html?lang=en&amp;code=c#arrays">Open the full visual arrays lesson →</a></section>
+<aside class="panel"><h2>Explore more visual C programming lessons</h2><nav class="topic-nav" aria-label="Related C tutorials"><a href="/c-for-loop-visualization.html">C For Loop Visualization</a><a href="/arrays-in-c-visualization.html">Arrays in C Explained Visually</a><a href="/pointers-in-c-visualization.html">Pointers in C Visualized</a><a href="/functions-in-c-visualization.html">C Functions Explained Visually</a><a href="/learn-c-programming.html">Complete C beginner guide</a></nav><p class="small-print">The visual demonstrations are teaching models, not C compilers. Use the linked interactive course and a C compiler to explore variations.</p></aside>
+</main>
+<footer><strong>LearnCodeVisually · Free programming education</strong><nav aria-label="Website information"><a href="/">Home</a><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav></footer>
+</body></html>

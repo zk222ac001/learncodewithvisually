@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C Functions Explained Visually | LearnCodeVisually</title>
+<meta name="description" content="Learn how C functions work with an interactive call-stack trace, parameters, return values, working C example and practice exercises.">
+<link rel="canonical" href="https://learncodevisually.com/functions-in-c-visualization.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="LearnCodeVisually">
+<meta property="og:title" content="C Functions Explained Visually: Calls, Parameters and Returns">
+<meta property="og:description" content="Learn how C functions work with an interactive call-stack trace, parameters, return values, working C example and practice exercises.">
+<meta property="og:url" content="https://learncodevisually.com/functions-in-c-visualization.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"C Functions Explained Visually: Calls, Parameters and Returns","url":"https://learncodevisually.com/functions-in-c-visualization.html","description":"Learn how C functions work with an interactive call-stack trace, parameters, return values, working C example and practice exercises.","educationalLevel":"Beginner","isAccessibleForFree":true,"teaches":"C function calls parameters and return values","inLanguage":"en","provider":{"@type":"Organization","name":"LearnCodeVisually","url":"https://learncodevisually.com/"}}</script>
+<link rel="stylesheet" href="/seo-learning.css">
+<script src="/visual-lessons.js" defer></script>
+</head>
+<body class="learning-page">
+<header><a class="wordmark" href="/">LearnCodeVisually</a><nav aria-label="Website navigation"><a href="/">Interactive course</a><a href="/learn-c-programming.html">Learn C</a><a href="/learn-python-programming.html">Python</a><a href="/learn-data-structures.html">Data structures</a></nav></header>
+<main>
+<section class="guide-hero"><h1>C Functions Explained Visually: Calls, Parameters and Returns</h1><p class="lead">Step through a function call from main to add and back again. See when parameters are created, how the return value is calculated and where execution resumes.</p><a class="cta" href="/index.html?lang=en&amp;code=c#functions">Explore the complete interactive C functions lesson →</a></section>
+<section class="panel">
+<h2>Start with working C code</h2><p>The call add(3, 4) passes 3 and 4 by value; the function returns 7, which main stores in result.</p><pre><code>#include &lt;stdio.h&gt;
+int add(int a, int b) {
+    return a + b;
+}
+int main(void) {
+    int result = add(3, 4);
+    printf(&quot;%d\n&quot;, result);
+    return 0;
+}</code></pre>
+</section>
+<section class="panel visual-lesson" data-visualizer="function" aria-labelledby="demo-heading">
+<h2 id="demo-heading">Interactive function-call visualization</h2>
+<p>Use the controls to follow the C example above. The labels describe the current model state.</p>
+<div class="demo-stage" data-stage aria-label="Visualization of program state"><p>The explanatory material on this page is also available without JavaScript. Enable JavaScript to use the visual step controls.</p></div>
+<div class="demo-controls"><button type="button" data-action="previous">← Previous</button><button type="button" data-action="next">Next step →</button><button type="button" data-action="reset">Reset</button></div>
+<p class="demo-status" data-status role="status" aria-live="polite">Ready to explore the example.</p>
+</section>
+<section class="panel"><h2>What happens during a function call?</h2><p>When <code>main</code> calls <code>add(3, 4)</code>, execution enters <code>add</code>. Its parameter variables <code>a</code> and <code>b</code> receive the values 3 and 4. The expression <code>a + b</code> evaluates to 7, then <code>return</code> sends the value to the caller.</p><p>The diagram is a conceptual call-stack trace. Exact compiler optimizations and physical stack layout may differ, but the sequence of evaluation and return value is the important concept.</p></section>
+<section class="panel"><h2>Pass by value in C</h2><p>Ordinary function parameters are initialized with copies of argument values. Changing <code>a</code> inside <code>add</code> does not change a separate variable in <code>main</code>. To modify an existing object owned by the caller, a function can receive a pointer to that object and dereference it safely.</p><p>The <code>int</code> before <code>add</code> declares its return type. The parameter types are written inside parentheses. A function declaration or definition must be visible before the function is called.</p></section>
+<section class="panel"><h2>Exercises</h2><ol><li>Predict the output of <code>printf("%d", add(5, 2));</code>.</li><li>What values do <code>a</code> and <code>b</code> receive for <code>add(9, 1)</code>?</li><li>Explain what happens to the call's parameters after <code>return</code>.</li></ol><details><summary>Answers</summary><p>The first expression prints 7. In the second call, a is 9 and b is 1. After the function returns, those parameter objects no longer remain accessible through that completed call.</p></details><a class="cta" href="/index.html?lang=en&amp;code=c#functions">Open the full interactive C functions lesson →</a></section>
+<aside class="panel"><h2>Explore more visual C programming lessons</h2><nav class="topic-nav" aria-label="Related C tutorials"><a href="/c-for-loop-visualization.html">C For Loop Visualization</a><a href="/arrays-in-c-visualization.html">Arrays in C Explained Visually</a><a href="/pointers-in-c-visualization.html">Pointers in C Visualized</a><a href="/functions-in-c-visualization.html">C Functions Explained Visually</a><a href="/learn-c-programming.html">Complete C beginner guide</a></nav><p class="small-print">The visual demonstrations are teaching models, not C compilers. Use the linked interactive course and a C compiler to explore variations.</p></aside>
+</main>
+<footer><strong>LearnCodeVisually · Free programming education</strong><nav aria-label="Website information"><a href="/">Home</a><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav></footer>
+</body></html>
