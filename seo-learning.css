@@ -91,3 +91,12 @@
 .ai-tutor-preview-controls p{margin:5px 0 12px}
 .ai-tutor-preview-controls input{display:block;max-width:100%;width:min(100%,480px);margin-top:8px;padding:11px;border:1px solid #8196b2;border-radius:8px;font:inherit}
 .ai-tutor-preview-controls input:focus-visible{outline:3px solid #df7619;outline-offset:3px}
+
+/* Limited-beta message, accessible controls, and small-screen affordances. */
+.ai-tutor-beta-note{border-left:3px solid #245fc8;background:#eef4ff;padding:12px 14px;border-radius:8px;color:#233c58}
+.ai-tutor-beta-note[hidden]{display:none!important}
+.ai-tutor-beta-note a{text-decoration:underline}
+.ai-tutor-panel :is(button,textarea){max-width:100%}
+.ai-tutor-panel button{min-height:44px}
+.ai-tutor-panel #ai-tutor-status:not(:empty){margin-top:12px;overflow-wrap:anywhere}
+@media(max-width:600px){.ai-tutor-panel .demo-controls button{flex:1 1 145px}.ai-tutor-panel textarea{min-height:105px}.ai-tutor-panel form button{width:100%}}

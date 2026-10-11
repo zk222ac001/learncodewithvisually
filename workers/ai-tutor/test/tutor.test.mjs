@@ -90,7 +90,7 @@ test('reject exhausted global daily budget without running the AI model',async()
  const env={AI_ENABLED:'true',AI_BUDGET:{getByName:()=>({reserve:async()=>({granted:false})})},DAILY_AI_REQUEST_LIMIT:'25',AI:{run:async()=>{calls++;return {response:'wrong'}}},TURNSTILE_SECRET:'server-secret',RATE_LIMITER:{limit:async()=>({success:true})}};
  const verify=async()=>new Response(JSON.stringify({success:true,hostname:'learncodevisually.com',action:'ai-tutor'}));
  const res=await handleRequest(make('POST',question,{'CF-Connecting-IP':'192.0.2.1'}),env,verify);
- assert.equal(res.status,429);assert.equal(calls,0);
+ assert.equal(res.status,429);assert.equal((await res.json()).code,'DAILY_LIMIT');assert.equal(calls,0);
 });
 test('fail closed if daily usage counter unavailable',async()=>{
  let calls=0;
@@ -98,4 +98,21 @@ test('fail closed if daily usage counter unavailable',async()=>{
  const verify=async()=>new Response(JSON.stringify({success:true,hostname:'learncodevisually.com',action:'ai-tutor'}));
  const res=await handleRequest(make('POST',question,{'CF-Connecting-IP':'192.0.2.1'}),env,verify);
  assert.equal(res.status,503);assert.equal(calls,0);
+});
+
+test('public beta accepts a Turnstile-authorized student without a tester secret',async()=>{
+ const env={AI_ENABLED:'true',AI_TEST_MODE:'true',
+   AI_BUDGET:mockBudget,DAILY_AI_REQUEST_LIMIT:'25',
+   AI:{run:async()=>({response:'At step 4, condition 4 <= 3 is false.'})},
+   TURNSTILE_SECRET:'server-secret',RATE_LIMITER:{limit:async()=>({success:true})}};
+ const fake=async()=>new Response(JSON.stringify({success:true,hostname:'learncodevisually.com',action:'ai-tutor'}));
+ const res=await handleRequest(make('POST',{...question,step:4,action:'explain'},{'CF-Connecting-IP':'192.0.2.1'}),env,fake);
+ assert.equal(res.status,200);assert.match((await res.json()).answer,/4 <= 3 is false/);
+});
+test('per-IP throttling returns a separate code from the shared daily allowance',async()=>{
+ const env={AI_ENABLED:'true',AI_BUDGET:mockBudget,DAILY_AI_REQUEST_LIMIT:'25',
+   AI:{run:async()=>{throw Error('should not call model')}},TURNSTILE_SECRET:'server-secret',
+   RATE_LIMITER:{limit:async()=>({success:false})}};
+ const res=await handleRequest(make('POST',question,{'CF-Connecting-IP':'192.0.2.1'}),env);
+ assert.equal(res.status,429);assert.equal((await res.json()).code,'RATE_LIMIT');
 });

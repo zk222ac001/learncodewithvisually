@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="/seo-learning.css">
 <script src="/visual-lessons.js" defer></script>
 <script src="/ai-tutor-config.js?v=preview2" defer></script>
-<script src="/ai-tutor.js?v=preview3" defer></script>
+<script src="/ai-tutor.js?v=beta-ready1" defer></script>
 </head>
 <body class="learning-page">
 <header><a class="wordmark" href="/">LearnCodeVisually</a><nav aria-label="Website navigation"><a href="/">Interactive course</a><a href="/learn-c-programming.html">Learn C</a><a href="/learn-python-programming.html">Python</a><a href="/learn-data-structures.html">Data structures</a></nav></header>
@@ -40,13 +40,14 @@ int main(void) {
 <section class="panel ai-tutor-panel" id="ai-tutor-panel" hidden aria-labelledby="ai-tutor-heading">
 <h2 id="ai-tutor-heading">AI Tutor — C for loops</h2>
 <p>The tutor uses the current step of this example. Responses are AI-generated and may contain mistakes. Check them against the interactive trace.</p>
+<p class="ai-tutor-beta-note" id="ai-tutor-beta-note" hidden><strong>Limited free beta:</strong> AI requests are shared across visitors and may be unavailable when today's allowance is used. You can always use the <a href="#demo-heading">interactive visualization</a> without AI. Do not enter personal details, passwords or private information; questions are processed by Cloudflare Workers AI.</p>
 <div class="demo-controls">
 <button type="button" data-tutor-action="explain">Explain this step</button>
 <button type="button" data-tutor-action="hint">Give me a hint</button>
 </div>
 <form id="ai-tutor-form">
 <label for="ai-tutor-question">Ask about this C loop (up to 280 characters)</label>
-<textarea id="ai-tutor-question" maxlength="280" rows="3" placeholder="Why is 4 not printed?" required></textarea>
+<textarea id="ai-tutor-question" maxlength="280" minlength="3" rows="3" placeholder="Why is 4 not printed?" required></textarea>
 <button type="submit">Ask AI Tutor</button>
 </form>
 <div id="ai-tutor-preview-controls" hidden class="ai-tutor-preview-controls">
