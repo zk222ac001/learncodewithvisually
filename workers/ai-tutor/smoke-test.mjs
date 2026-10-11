@@ -36,13 +36,40 @@ export async function handleSmoke(request, env) {
   const url = new URL(request.url);
   if (url.origin !== LOCAL_ORIGIN) return html('Local test only.', 403);
   if (url.pathname === '/' && request.method === 'GET') {
-    return html(page(`<p>Click once to ask Gemma 4 why the C loop prints 1, 2, 3 but not 4.</p>
-<form method="POST" action="/run-test"><button type="submit">Run one AI test</button></form>
+    // Protect the local form with a short-lived, same-site double-submit token.
+    // No reliance on Origin being populated for browser form navigations.
+    const csrf = crypto.randomUUID();
+    const response = html(page(`<p>Click once to ask Gemma 4 why the C loop prints 1, 2, 3 but not 4.</p>
+<form method="POST" action="/run-test">
+<input type="hidden" name="csrf" value="${csrf}">
+<button type="submit">Run one AI test</button></form>
 <p><small>Workers AI may use your Cloudflare inference allowance even during local testing.</small></p>`));
+    response.headers.set('Set-Cookie', `lcv_smoke_csrf=${csrf}; Path=/; HttpOnly; SameSite=Strict; Max-Age=600`);
+    return response;
   }
   if (url.pathname !== '/run-test' || request.method !== 'POST') return html('Not found.', 404);
-  // A form from another website cannot trigger this AI-inference request.
-  if (request.headers.get('Origin') !== LOCAL_ORIGIN) return html('Invalid origin.', 403);
+  // Reject explicitly cross-site requests, but tolerate a missing/null Origin:
+  // some browsers send null for navigations with Referrer-Policy: no-referrer.
+  const origin = request.headers.get('Origin');
+  const fetchSite = request.headers.get('Sec-Fetch-Site');
+  if ((origin && origin !== 'null' && origin !== LOCAL_ORIGIN) ||
+      (fetchSite && fetchSite !== 'same-origin' && fetchSite !== 'none')) {
+    return html('Invalid origin.', 403);
+  }
+  const cookie = request.headers.get('Cookie') || '';
+  const cookieToken = /(?:^|;\\s*)lcv_smoke_csrf=([a-f0-9-]{36})(?:;|$)/.exec(cookie)?.[1];
+  if (!cookieToken) return html('Invalid or expired local form. Return to the test page.', 403);
+  if (!/^application\\/x-www-form-urlencoded(?:\\s*;|$)/i.test(request.headers.get('Content-Type') || '')) {
+    return html('Invalid form type.', 415);
+  }
+  const length = Number(request.headers.get('Content-Length') || 0);
+  if (length > 1024) return html('Invalid form size.', 413);
+  let submittedToken;
+  try { submittedToken = (await request.formData()).get('csrf'); }
+  catch { return html('Invalid form.', 400); }
+  if (typeof submittedToken !== 'string' || submittedToken !== cookieToken) {
+    return html('Invalid local form. Return to the test page.', 403);
+  }
   if (!env.AI || typeof env.AI.run !== 'function') {
     return html(page('<p>AI binding unavailable. Check the local smoke config.</p>'), 503);
   }
