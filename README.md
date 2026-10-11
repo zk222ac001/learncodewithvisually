@@ -55,7 +55,7 @@ The four core modules and standalone Arrays/Functions/Pointers/Object-Oriented P
 
 ## Coding assignments
 
-Every one of the 84 course topics and detailed lesson sections has a hands-on assignment with an expected outcome. The separate Data Structures classroom adds an assignment to each of its seven chapters. Open an assignment's example in the existing OneCompiler editor, edit and run it, then compare its output or behavior with the expected outcome shown in the lesson. The selected programming language is used for course assignment starters and the expandable **Solution of code** panel; Data Structures assignments show the chapter's complete example. Input is prefilled where applicable.
+Every one of the 84 course topics and detailed lesson sections has a hands-on assignment with an expected outcome and a complete, task-specific solution in each of the six programming languages. The separate Data Structures classroom adds an assignment to each of its seven chapters, with solutions matching its selected programming language. Open the starter in the existing OneCompiler editor, edit and run it, then compare its output or behavior with the expected outcome. Reveal the solution when you need help. Input is prefilled where applicable.
 
 Assignments are self-checked: CodeViz does not automatically grade submissions or receive execution results from OneCompiler. Assignment instructions and expected outcomes are in English. The focused coverage is in `tests/assignments.test.cjs` and `tests/browser/assignments.spec.cjs`; run it with `node --test tests/assignments.test.cjs` and `npx playwright test tests/browser/assignments.spec.cjs`.
 
@@ -141,6 +141,8 @@ The code selector is remembered in `ds-code` and can be set with `?code=python` 
 Language differences are intentional: integer division, Python floor division and modulo, Boolean expressions, Python's lack of ++/-- and do-while, managed memory, and each language's input/output and formatting syntax are explained. C printf/scanf reference details remain available when C is selected. The examples use English identifiers and output; lesson explanations use the selected interface language.
 
 ## Validation
+
+Assignment solutions are checked as complete native programs, not just nonempty strings. All 84 assignments have C, C++, Python, Java, JavaScript and C# implementations in `assignment-solutions.js`; `npm test` compiles or executes all 504 programs on available local toolchains and compares output with `tests/fixtures/assignment-outputs.json`. Random rolls use a range check. The input exercise receives real STDIN, and file examples run in isolated temporary directories. Java/C# corpus tests compile in batches to keep this check practical; individual programs still run independently. `tests/native-program.cjs` accepts STDIN and links C's math library. Browser checks verify solution controls, selected-language source, navigation, RTL, and the existing lessons. These are development checks, not automatic grading of students' code.
 
 The 120 C, C++, Python, Java and JavaScript examples were compiled or executed locally, with expected output checked. C# examples were reviewed but could not be executed because this environment did not have a C# runtime. UI checks cover 240 translated module views, 720 formatting demonstrations, language-specific downloads, preserved state, RTL, input boundaries and the legacy reference URL. Downloaded arithmetic programs were compared with the simulator for negative division, modulo and signed zero.
 

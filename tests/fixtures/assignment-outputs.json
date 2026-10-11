@@ -1,0 +1,686 @@
+{
+  "computers": {
+    "c": "Input: 6\nSquare: 36\n",
+    "cpp": "Input: 6\nSquare: 36\n",
+    "python": "Input: 6\nSquare: 36\n",
+    "java": "Input: 6\nSquare: 36\n",
+    "javascript": "Input: 6\nSquare: 36\n",
+    "csharp": "Input: 6\nSquare: 36\n"
+  },
+  "libraries": {
+    "c": "Square root: 9\n",
+    "cpp": "Square root: 9\n",
+    "python": "Square root: 9\n",
+    "java": "Square root: 9\n",
+    "javascript": "Square root: 9\n",
+    "csharp": "Square root: 9\n"
+  },
+  "ai": {
+    "c": "12: cold\n20: warm\n",
+    "cpp": "12: cold\n20: warm\n",
+    "python": "12: cold\n20: warm\n",
+    "java": "12: cold\n20: warm\n",
+    "javascript": "12: cold\n20: warm\n",
+    "csharp": "12: cold\n20: warm\n"
+  },
+  "embedded": {
+    "c": "Temperature: 32\nFan: ON\n",
+    "cpp": "Temperature: 32\nFan: ON\n",
+    "python": "Temperature: 32\nFan: ON\n",
+    "java": "Temperature: 32\nFan: ON\n",
+    "javascript": "Temperature: 32\nFan: ON\n",
+    "csharp": "Temperature: 32\nFan: ON\n"
+  },
+  "bigdata": {
+    "c": "Count: 4\nTotal: 56\nAverage: 14\n",
+    "cpp": "Count: 4\nTotal: 56\nAverage: 14\n",
+    "python": "Count: 4\nTotal: 56\nAverage: 14\n",
+    "java": "Count: 4\nTotal: 56\nAverage: 14\n",
+    "javascript": "Count: 4\nTotal: 56\nAverage: 14\n",
+    "csharp": "Count: 4\nTotal: 56\nAverage: 14\n"
+  },
+  "run": {
+    "c": "CodeViz\nProgram ready\n",
+    "cpp": "CodeViz\nProgram ready\n",
+    "python": "CodeViz\nProgram ready\n",
+    "java": "CodeViz\nProgram ready\n",
+    "javascript": "CodeViz\nProgram ready\n",
+    "csharp": "CodeViz\nProgram ready\n"
+  },
+  "hello": {
+    "c": "Hello, Ada!\n",
+    "cpp": "Hello, Ada!\n",
+    "python": "Hello, Ada!\n",
+    "java": "Hello, Ada!\n",
+    "javascript": "Hello, Ada!\n",
+    "csharp": "Hello, Ada!\n"
+  },
+  "formatting": {
+    "c": "Price: 12.50\n",
+    "cpp": "Price: 12.50\n",
+    "python": "Price: 12.50\n",
+    "java": "Price: 12.50\n",
+    "javascript": "Price: 12.50\n",
+    "csharp": "Price: 12.50\n"
+  },
+  "types": {
+    "c": "Age: 20\nGrade: A\n",
+    "cpp": "Age: 20\nGrade: A\n",
+    "python": "Age: 20\nGrade: A\n",
+    "java": "Age: 20\nGrade: A\n",
+    "javascript": "Age: 20\nGrade: A\n",
+    "csharp": "Age: 20\nGrade: A\n"
+  },
+  "variables": {
+    "c": "Before: 3, 8\nAfter: 8, 3\n",
+    "cpp": "Before: 3, 8\nAfter: 8, 3\n",
+    "python": "Before: 3, 8\nAfter: 8, 3\n",
+    "java": "Before: 3, 8\nAfter: 8, 3\n",
+    "javascript": "Before: 3, 8\nAfter: 8, 3\n",
+    "csharp": "Before: 3, 8\nAfter: 8, 3\n"
+  },
+  "memory": {
+    "c": "Before: 10\nAfter: 15\n",
+    "cpp": "Before: 10\nAfter: 15\n",
+    "python": "Before: 10\nAfter: 15\n",
+    "java": "Before: 10\nAfter: 15\n",
+    "javascript": "Before: 10\nAfter: 15\n",
+    "csharp": "Before: 10\nAfter: 15\n"
+  },
+  "io": {
+    "c": "Input: 5\nDouble: 10\n",
+    "cpp": "Input: 5\nDouble: 10\n",
+    "python": "Input: 5\nDouble: 10\n",
+    "java": "Input: 5\nDouble: 10\n",
+    "javascript": "Input: 5\nDouble: 10\n",
+    "csharp": "Input: 5\nDouble: 10\n"
+  },
+  "decisions": {
+    "c": "Score: 72\nResult: pass\n",
+    "cpp": "Score: 72\nResult: pass\n",
+    "python": "Score: 72\nResult: pass\n",
+    "java": "Score: 72\nResult: pass\n",
+    "javascript": "Score: 72\nResult: pass\n",
+    "csharp": "Score: 72\nResult: pass\n"
+  },
+  "arithmetic": {
+    "c": "Area: 28\nPerimeter: 22\n",
+    "cpp": "Area: 28\nPerimeter: 22\n",
+    "python": "Area: 28\nPerimeter: 22\n",
+    "java": "Area: 28\nPerimeter: 22\n",
+    "javascript": "Area: 28\nPerimeter: 22\n",
+    "csharp": "Area: 28\nPerimeter: 22\n"
+  },
+  "precedence": {
+    "c": "Without parentheses: 11\nWith parentheses: 14\n",
+    "cpp": "Without parentheses: 11\nWith parentheses: 14\n",
+    "python": "Without parentheses: 11\nWith parentheses: 14\n",
+    "java": "Without parentheses: 11\nWith parentheses: 14\n",
+    "javascript": "Without parentheses: 11\nWith parentheses: 14\n",
+    "csharp": "Without parentheses: 11\nWith parentheses: 14\n"
+  },
+  "relational": {
+    "c": "7 equals 5: false\n7 is greater than 5: true\n",
+    "cpp": "7 equals 5: false\n7 is greater than 5: true\n",
+    "python": "7 equals 5: false\n7 is greater than 5: true\n",
+    "java": "7 equals 5: false\n7 is greater than 5: true\n",
+    "javascript": "7 equals 5: false\n7 is greater than 5: true\n",
+    "csharp": "7 equals 5: false\n7 is greater than 5: true\n"
+  },
+  "logic": {
+    "c": "2024 is a leap year: true\n",
+    "cpp": "2024 is a leap year: true\n",
+    "python": "2024 is a leap year: true\n",
+    "java": "2024 is a leap year: true\n",
+    "javascript": "2024 is a leap year: true\n",
+    "csharp": "2024 is a leap year: true\n"
+  },
+  "truth": {
+    "c": "false AND false = false\nfalse AND true = false\ntrue AND false = false\ntrue AND true = true\n",
+    "cpp": "false AND false = false\nfalse AND true = false\ntrue AND false = false\ntrue AND true = true\n",
+    "python": "false AND false = false\nfalse AND true = false\ntrue AND false = false\ntrue AND true = true\n",
+    "java": "false AND false = false\nfalse AND true = false\ntrue AND false = false\ntrue AND true = true\n",
+    "javascript": "false AND false = false\nfalse AND true = false\ntrue AND false = false\ntrue AND true = true\n",
+    "csharp": "false AND false = false\nfalse AND true = false\ntrue AND false = false\ntrue AND true = true\n"
+  },
+  "algorithm": {
+    "c": "Smallest value: 2\n",
+    "cpp": "Smallest value: 2\n",
+    "python": "Smallest value: 2\n",
+    "java": "Smallest value: 2\n",
+    "javascript": "Smallest value: 2\n",
+    "csharp": "Smallest value: 2\n"
+  },
+  "pseudocode": {
+    "c": "Total: 12\n",
+    "cpp": "Total: 12\n",
+    "python": "Total: 12\n",
+    "java": "Total: 12\n",
+    "javascript": "Total: 12\n",
+    "csharp": "Total: 12\n"
+  },
+  "flowchart": {
+    "c": "9 is odd\n",
+    "cpp": "9 is odd\n",
+    "python": "9 is odd\n",
+    "java": "9 is odd\n",
+    "javascript": "9 is odd\n",
+    "csharp": "9 is odd\n"
+  },
+  "selection": {
+    "c": "Score: 85\nGrade: B\n",
+    "cpp": "Score: 85\nGrade: B\n",
+    "python": "Score: 85\nGrade: B\n",
+    "java": "Score: 85\nGrade: B\n",
+    "javascript": "Score: 85\nGrade: B\n",
+    "csharp": "Score: 85\nGrade: B\n"
+  },
+  "switch": {
+    "c": "Choice: 2\nOperation: Save\n",
+    "cpp": "Choice: 2\nOperation: Save\n",
+    "python": "Choice: 2\nOperation: Save\n",
+    "java": "Choice: 2\nOperation: Save\n",
+    "javascript": "Choice: 2\nOperation: Save\n",
+    "csharp": "Choice: 2\nOperation: Save\n"
+  },
+  "assignment": {
+    "c": "Balance: 15\n",
+    "cpp": "Balance: 15\n",
+    "python": "Balance: 15\n",
+    "java": "Balance: 15\n",
+    "javascript": "Balance: 15\n",
+    "csharp": "Balance: 15\n"
+  },
+  "iteration": {
+    "c": "1\n2\n3\n4\n5\n",
+    "cpp": "1\n2\n3\n4\n5\n",
+    "python": "1\n2\n3\n4\n5\n",
+    "java": "1\n2\n3\n4\n5\n",
+    "javascript": "1\n2\n3\n4\n5\n",
+    "csharp": "1\n2\n3\n4\n5\n"
+  },
+  "counter": {
+    "c": "Count: 10\nSum: 55\n",
+    "cpp": "Count: 10\nSum: 55\n",
+    "python": "Count: 10\nSum: 55\n",
+    "java": "Count: 10\nSum: 55\n",
+    "javascript": "Count: 10\nSum: 55\n",
+    "csharp": "Count: 10\nSum: 55\n"
+  },
+  "sentinel": {
+    "c": "Sum before sentinel: 7\n",
+    "cpp": "Sum before sentinel: 7\n",
+    "python": "Sum before sentinel: 7\n",
+    "java": "Sum before sentinel: 7\n",
+    "javascript": "Sum before sentinel: 7\n",
+    "csharp": "Sum before sentinel: 7\n"
+  },
+  "jump": {
+    "c": "1 2 4 5 7 8 10\n",
+    "cpp": "1 2 4 5 7 8 10\n",
+    "python": "1 2 4 5 7 8 10\n",
+    "java": "1 2 4 5 7 8 10\n",
+    "javascript": "1 2 4 5 7 8 10\n",
+    "csharp": "1 2 4 5 7 8 10\n"
+  },
+  "increment": {
+    "c": "5\n6\n7\n",
+    "cpp": "5\n6\n7\n",
+    "python": "5\n6\n7\n",
+    "java": "5\n6\n7\n",
+    "javascript": "5\n6\n7\n",
+    "csharp": "5\n6\n7\n"
+  },
+  "loops": {
+    "c": "5! = 120\n",
+    "cpp": "5! = 120\n",
+    "python": "5! = 120\n",
+    "java": "5! = 120\n",
+    "javascript": "5! = 120\n",
+    "csharp": "5! = 120\n"
+  },
+  "arrays": {
+    "c": "Maximum: 10\nAverage: 6\n",
+    "cpp": "Maximum: 10\nAverage: 6\n",
+    "python": "Maximum: 10\nAverage: 6\n",
+    "java": "Maximum: 10\nAverage: 6\n",
+    "javascript": "Maximum: 10\nAverage: 6\n",
+    "csharp": "Maximum: 10\nAverage: 6\n"
+  },
+  "arrays-simulation": {
+    "c": "Index 0: 4\nIndex 1: 8\nIndex 2: 99\nIndex 3: 16\nIndex 4: 20\n",
+    "cpp": "Index 0: 4\nIndex 1: 8\nIndex 2: 99\nIndex 3: 16\nIndex 4: 20\n",
+    "python": "Index 0: 4\nIndex 1: 8\nIndex 2: 99\nIndex 3: 16\nIndex 4: 20\n",
+    "java": "Index 0: 4\nIndex 1: 8\nIndex 2: 99\nIndex 3: 16\nIndex 4: 20\n",
+    "javascript": "Index 0: 4\nIndex 1: 8\nIndex 2: 99\nIndex 3: 16\nIndex 4: 20\n",
+    "csharp": "Index 0: 4\nIndex 1: 8\nIndex 2: 99\nIndex 3: 16\nIndex 4: 20\n"
+  },
+  "arrays-tutorial": {
+    "c": "Index 0: 4\nIndex 1: 8\nIndex 2: 12\nIndex 3: 16\nIndex 4: 20\nTotal: 60\n",
+    "cpp": "Index 0: 4\nIndex 1: 8\nIndex 2: 12\nIndex 3: 16\nIndex 4: 20\nTotal: 60\n",
+    "python": "Index 0: 4\nIndex 1: 8\nIndex 2: 12\nIndex 3: 16\nIndex 4: 20\nTotal: 60\n",
+    "java": "Index 0: 4\nIndex 1: 8\nIndex 2: 12\nIndex 3: 16\nIndex 4: 20\nTotal: 60\n",
+    "javascript": "Index 0: 4\nIndex 1: 8\nIndex 2: 12\nIndex 3: 16\nIndex 4: 20\nTotal: 60\n",
+    "csharp": "Index 0: 4\nIndex 1: 8\nIndex 2: 12\nIndex 3: 16\nIndex 4: 20\nTotal: 60\n"
+  },
+  "arrays-practice": {
+    "c": "12: index 2\n7: not found\n",
+    "cpp": "12: index 2\n7: not found\n",
+    "python": "12: index 2\n7: not found\n",
+    "java": "12: index 2\n7: not found\n",
+    "javascript": "12: index 2\n7: not found\n",
+    "csharp": "12: index 2\n7: not found\n"
+  },
+  "functions": {
+    "c": "Average: 10\n",
+    "cpp": "Average: 10\n",
+    "python": "Average: 10\n",
+    "java": "Average: 10\n",
+    "javascript": "Average: 10\n",
+    "csharp": "Average: 10\n"
+  },
+  "functions-1": {
+    "c": "Hello, Ada!\n",
+    "cpp": "Hello, Ada!\n",
+    "python": "Hello, Ada!\n",
+    "java": "Hello, Ada!\n",
+    "javascript": "Hello, Ada!\n",
+    "csharp": "Hello, Ada!\n"
+  },
+  "functions-2": {
+    "c": "Sum: 7\n",
+    "cpp": "Sum: 7\n",
+    "python": "Sum: 7\n",
+    "java": "Sum: 7\n",
+    "javascript": "Sum: 7\n",
+    "csharp": "Sum: 7\n"
+  },
+  "functions-3": {
+    "c": "First starts\nSecond starts\nSecond returns\nFirst returns\n",
+    "cpp": "First starts\nSecond starts\nSecond returns\nFirst returns\n",
+    "python": "First starts\nSecond starts\nSecond returns\nFirst returns\n",
+    "java": "First starts\nSecond starts\nSecond returns\nFirst returns\n",
+    "javascript": "First starts\nSecond starts\nSecond returns\nFirst returns\n",
+    "csharp": "First starts\nSecond starts\nSecond returns\nFirst returns\n"
+  },
+  "functions-4": {
+    "c": "Score: 100\n",
+    "cpp": "Score: 100\n",
+    "python": "Score: 100\n",
+    "java": "Score: 100\n",
+    "javascript": "Score: 100\n",
+    "csharp": "Score: 100\n"
+  },
+  "functions-5": {
+    "c": {
+      "pattern": "^[1-6]\\n$"
+    },
+    "cpp": {
+      "pattern": "^[1-6]\\n$"
+    },
+    "python": {
+      "pattern": "^[1-6]\\n$"
+    },
+    "java": {
+      "pattern": "^[1-6]\\n$"
+    },
+    "javascript": {
+      "pattern": "^[1-6]\\n$"
+    },
+    "csharp": {
+      "pattern": "^[1-6]\\n$"
+    }
+  },
+  "functions-6": {
+    "c": "Local: 5\nLong-lived: 10\n",
+    "cpp": "Local: 5\nLong-lived: 10\n",
+    "python": "Local: 5\nLong-lived: 10\n",
+    "java": "Local: 5\nLong-lived: 10\n",
+    "javascript": "Local: 5\nLong-lived: 10\n",
+    "csharp": "Local: 5\nLong-lived: 10\n"
+  },
+  "functions-7": {
+    "c": "Local: 5\nOuter: 10\n",
+    "cpp": "Local: 5\nOuter: 10\n",
+    "python": "Local: 5\nOuter: 10\n",
+    "java": "Local: 5\nOuter: 10\n",
+    "javascript": "Local: 5\nOuter: 10\n",
+    "csharp": "Local: 5\nOuter: 10\n"
+  },
+  "functions-8": {
+    "c": "factorial(5) = 120\n",
+    "cpp": "factorial(5) = 120\n",
+    "python": "factorial(5) = 120\n",
+    "java": "factorial(5) = 120\n",
+    "javascript": "factorial(5) = 120\n",
+    "csharp": "factorial(5) = 120\n"
+  },
+  "pointers": {
+    "c": "Before: 3, 8\nAfter: 8, 3\n",
+    "cpp": "Before: 3, 8\nAfter: 8, 3\n",
+    "python": "Before: 3, 8\nAfter: 8, 3\n",
+    "java": "Before: 3, 8\nAfter: 8, 3\n",
+    "javascript": "Before: 3, 8\nAfter: 8, 3\n",
+    "csharp": "Before: 3, 8\nAfter: 8, 3\n"
+  },
+  "pointers-1": {
+    "c": "Original: 10\nUpdated: 25\n",
+    "cpp": "Original: 10\nUpdated: 25\n",
+    "python": "Original: 10\nUpdated: 25\n",
+    "java": "Original: 10\nUpdated: 25\n",
+    "javascript": "Original: 10\nUpdated: 25\n",
+    "csharp": "Original: 10\nUpdated: 25\n"
+  },
+  "pointers-2": {
+    "c": "Value: 10\nEmpty pointer\n",
+    "cpp": "Value: 10\nEmpty pointer\n",
+    "python": "Value: 10\nEmpty reference\n",
+    "java": "Value: 10\nEmpty reference\n",
+    "javascript": "Value: 10\nEmpty reference\n",
+    "csharp": "Value: 10\nEmpty reference\n"
+  },
+  "pointers-3": {
+    "c": "Value: 30\n",
+    "cpp": "Value: 30\n",
+    "python": "Value: 30\n",
+    "java": "Value: 30\n",
+    "javascript": "Value: 30\n",
+    "csharp": "Value: 30\n"
+  },
+  "pointers-4": {
+    "c": "10\n20\n30\n",
+    "cpp": "10\n20\n30\n",
+    "python": "10\n20\n30\n",
+    "java": "10\n20\n30\n",
+    "javascript": "10\n20\n30\n",
+    "csharp": "10\n20\n30\n"
+  },
+  "pointers-5": {
+    "c": "Sum: 60\n",
+    "cpp": "Sum: 60\n",
+    "python": "Sum: 60\n",
+    "java": "Sum: 60\n",
+    "javascript": "Sum: 60\n",
+    "csharp": "Sum: 60\n"
+  },
+  "pointers-simulation": {
+    "c": "First target: 10\nFirst: 10\nSecond: 99\n",
+    "cpp": "First target: 10\nFirst: 10\nSecond: 99\n",
+    "python": "First target: 10\nFirst: 10\nSecond: 99\n",
+    "java": "First target: 10\nFirst: 10\nSecond: 99\n",
+    "javascript": "First target: 10\nFirst: 10\nSecond: 99\n",
+    "csharp": "First target: 10\nFirst: 10\nSecond: 99\n"
+  },
+  "pointers-practice": {
+    "c": "Normal: 8, 3\nEqual: 5, 5\nNull input rejected\n",
+    "cpp": "Normal: 8, 3\nEqual: 5, 5\nNull input rejected\n",
+    "python": "Normal: 8, 3\nEqual: 5, 5\nNull input rejected\n",
+    "java": "Normal: 8, 3\nEqual: 5, 5\nNull input rejected\n",
+    "javascript": "Normal: 8, 3\nEqual: 5, 5\nNull input rejected\n",
+    "csharp": "Normal: 8, 3\nEqual: 5, 5\nNull input rejected\n"
+  },
+  "oop": {
+    "c": "Balance: 125\n",
+    "cpp": "Balance: 125\n",
+    "python": "Balance: 125\n",
+    "java": "Balance: 125\n",
+    "javascript": "Balance: 125\n",
+    "csharp": "Balance: 125\n"
+  },
+  "oop-1": {
+    "c": "Book 1: Dune\nBook 2: Solaris\n",
+    "cpp": "Book 1: Dune\nBook 2: Solaris\n",
+    "python": "Book 1: Dune\nBook 2: Solaris\n",
+    "java": "Book 1: Dune\nBook 2: Solaris\n",
+    "javascript": "Book 1: Dune\nBook 2: Solaris\n",
+    "csharp": "Book 1: Dune\nBook 2: Solaris\n"
+  },
+  "oop-2": {
+    "c": "Started\n",
+    "cpp": "Started\n",
+    "python": "Started\n",
+    "java": "Started\n",
+    "javascript": "Started\n",
+    "csharp": "Started\n"
+  },
+  "oop-3": {
+    "c": "Balance: 125\n",
+    "cpp": "Balance: 125\n",
+    "python": "Balance: 125\n",
+    "java": "Balance: 125\n",
+    "javascript": "Balance: 125\n",
+    "csharp": "Balance: 125\n"
+  },
+  "oop-4": {
+    "c": "Name: Ada\n",
+    "cpp": "Name: Ada\n",
+    "python": "Name: Ada\n",
+    "java": "Name: Ada\n",
+    "javascript": "Name: Ada\n",
+    "csharp": "Name: Ada\n"
+  },
+  "oop-5": {
+    "c": "Animal: Milo\n",
+    "cpp": "Animal: Milo\n",
+    "python": "Animal: Milo\n",
+    "java": "Animal: Milo\n",
+    "javascript": "Animal: Milo\n",
+    "csharp": "Animal: Milo\n"
+  },
+  "oop-6": {
+    "c": "Woof\nMeow\n",
+    "cpp": "Woof\nMeow\n",
+    "python": "Woof\nMeow\n",
+    "java": "Woof\nMeow\n",
+    "javascript": "Woof\nMeow\n",
+    "csharp": "Woof\nMeow\n"
+  },
+  "oop-7": {
+    "c": "Name: Ada\nBalance: 100\n",
+    "cpp": "Name: Ada\nBalance: 100\n",
+    "python": "Name: Ada\nBalance: 100\n",
+    "java": "Name: Ada\nBalance: 100\n",
+    "javascript": "Name: Ada\nBalance: 100\n",
+    "csharp": "Name: Ada\nBalance: 100\n"
+  },
+  "oop-public": {
+    "c": "Account balance: 100\n",
+    "cpp": "Account balance: 100\n",
+    "python": "Account balance: 100\n",
+    "java": "Account balance: 100\n",
+    "javascript": "Account balance: 100\n",
+    "csharp": "Account balance: 100\n"
+  },
+  "oop-private": {
+    "c": "Balance: 125\n",
+    "cpp": "Balance: 125\n",
+    "python": "Balance: 125\n",
+    "java": "Balance: 125\n",
+    "javascript": "Balance: 125\n",
+    "csharp": "Balance: 125\n"
+  },
+  "oop-protected": {
+    "c": "Score: 42\n",
+    "cpp": "Score: 42\n",
+    "python": "Score: 42\n",
+    "java": "Score: 42\n",
+    "javascript": "Score: 42\n",
+    "csharp": "Score: 42\n"
+  },
+  "oop-guidance": {
+    "c": "Balance: 125\n",
+    "cpp": "Balance: 125\n",
+    "python": "Balance: 125\n",
+    "java": "Balance: 125\n",
+    "javascript": "Balance: 125\n",
+    "csharp": "Balance: 125\n"
+  },
+  "oop-practice": {
+    "c": "First: 125\nSecond: 100\n",
+    "cpp": "First: 125\nSecond: 100\n",
+    "python": "First: 125\nSecond: 100\n",
+    "java": "First: 125\nSecond: 100\n",
+    "javascript": "First: 125\nSecond: 100\n",
+    "csharp": "First: 125\nSecond: 100\n"
+  },
+  "file-handling": {
+    "c": "CodeViz notes\n",
+    "cpp": "CodeViz notes\n",
+    "python": "CodeViz notes\n",
+    "java": "CodeViz notes\n",
+    "javascript": "CodeViz notes\n",
+    "csharp": "CodeViz notes\n"
+  },
+  "file-handling-1": {
+    "c": "File written and closed\n",
+    "cpp": "File written and closed\n",
+    "python": "File written and closed\n",
+    "java": "File written and closed\n",
+    "javascript": "File written and closed\n",
+    "csharp": "File written and closed\n"
+  },
+  "file-handling-2": {
+    "c": "First line\nSecond line\n",
+    "cpp": "First line\nSecond line\n",
+    "python": "First line\nSecond line\n",
+    "java": "First line\nSecond line\n",
+    "javascript": "First line\nSecond line\n",
+    "csharp": "First line\nSecond line\n"
+  },
+  "file-handling-3": {
+    "c": "First line\nSecond line\n",
+    "cpp": "First line\nSecond line\n",
+    "python": "First line\nSecond line\n",
+    "java": "First line\nSecond line\n",
+    "javascript": "First line\nSecond line\n",
+    "csharp": "First line\nSecond line\n"
+  },
+  "file-handling-4": {
+    "c": "Owned file contents\n",
+    "cpp": "Owned file contents\n",
+    "python": "Owned file contents\n",
+    "java": "Owned file contents\n",
+    "javascript": "Owned file contents\n",
+    "csharp": "Owned file contents\n"
+  },
+  "file-handling-safety": {
+    "c": "Missing input handled\nSafe read\n",
+    "cpp": "Missing input handled\nSafe read\n",
+    "python": "Missing input handled\nSafe read\n",
+    "java": "Missing input handled\nSafe read\n",
+    "javascript": "Missing input handled\nSafe read\n",
+    "csharp": "Missing input handled\nSafe read\n"
+  },
+  "file-handling-practice": {
+    "c": "Note verified\n",
+    "cpp": "Note verified\n",
+    "python": "Note verified\n",
+    "java": "Note verified\n",
+    "javascript": "Note verified\n",
+    "csharp": "Note verified\n"
+  },
+  "exception-handling": {
+    "c": "Invalid number handled\n",
+    "cpp": "Invalid number handled\n",
+    "python": "Invalid number handled\n",
+    "java": "Invalid number handled\n",
+    "javascript": "Invalid number handled\n",
+    "csharp": "Invalid number handled\n"
+  },
+  "exception-handling-1": {
+    "c": "Invalid conversion: runtime input error\n",
+    "cpp": "Invalid conversion: runtime input error\n",
+    "python": "Invalid conversion: runtime input error\n",
+    "java": "Invalid conversion: runtime input error\n",
+    "javascript": "Invalid conversion: runtime input error\n",
+    "csharp": "Invalid conversion: runtime input error\n"
+  },
+  "exception-handling-2": {
+    "c": "Caller handled: age must be nonnegative\n",
+    "cpp": "Caller handled: age must be nonnegative\n",
+    "python": "Caller handled: age must be nonnegative\n",
+    "java": "Caller handled: age must be nonnegative\n",
+    "javascript": "Caller handled: age must be nonnegative\n",
+    "csharp": "Caller handled: age must be nonnegative\n"
+  },
+  "exception-handling-3": {
+    "c": "Invalid input handled\nProgram continues\n",
+    "cpp": "Invalid input handled\nProgram continues\n",
+    "python": "Invalid input handled\nProgram continues\n",
+    "java": "Invalid input handled\nProgram continues\n",
+    "javascript": "Invalid input handled\nProgram continues\n",
+    "csharp": "Invalid input handled\nProgram continues\n"
+  },
+  "exception-handling-4": {
+    "c": "Success path cleanup: closed\nFailure path cleanup: closed\n",
+    "cpp": "Success path cleanup: closed\nFailure path cleanup: closed\n",
+    "python": "Success path cleanup: closed\nFailure path cleanup: closed\n",
+    "java": "Success path cleanup: closed\nFailure path cleanup: closed\n",
+    "javascript": "Success path cleanup: closed\nFailure path cleanup: closed\n",
+    "csharp": "Success path cleanup: closed\nFailure path cleanup: closed\n"
+  },
+  "exception-handling-practice": {
+    "c": "Valid input: 42\nInvalid input handled\n",
+    "cpp": "Valid input: 42\nInvalid input handled\n",
+    "python": "Valid input: 42\nInvalid input handled\n",
+    "java": "Valid input: 42\nInvalid input handled\n",
+    "javascript": "Valid input: 42\nInvalid input handled\n",
+    "csharp": "Valid input: 42\nInvalid input handled\n"
+  },
+  "unit-testing": {
+    "c": "isEven(4): pass\nisEven(5): pass\nisEven(0): pass\n",
+    "cpp": "isEven(4): pass\nisEven(5): pass\nisEven(0): pass\n",
+    "python": "isEven(4): pass\nisEven(5): pass\nisEven(0): pass\n",
+    "java": "isEven(4): pass\nisEven(5): pass\nisEven(0): pass\n",
+    "javascript": "isEven(4): pass\nisEven(5): pass\nisEven(0): pass\n",
+    "csharp": "isEven(4): pass\nisEven(5): pass\nisEven(0): pass\n"
+  },
+  "unit-testing-1": {
+    "c": "doubles six: pass\n",
+    "cpp": "doubles six: pass\n",
+    "python": "doubles six: pass\n",
+    "java": "doubles six: pass\n",
+    "javascript": "doubles six: pass\n",
+    "csharp": "doubles six: pass\n"
+  },
+  "unit-testing-2": {
+    "c": "adds three and four: pass\n",
+    "cpp": "adds three and four: pass\n",
+    "python": "adds three and four: pass\n",
+    "java": "adds three and four: pass\n",
+    "javascript": "adds three and four: pass\n",
+    "csharp": "adds three and four: pass\n"
+  },
+  "unit-testing-3": {
+    "c": "normal value: pass\nzero boundary: pass\nnegative value: pass\n",
+    "cpp": "normal value: pass\nzero boundary: pass\nnegative value: pass\n",
+    "python": "normal value: pass\nzero boundary: pass\nnegative value: pass\n",
+    "java": "normal value: pass\nzero boundary: pass\nnegative value: pass\n",
+    "javascript": "normal value: pass\nzero boundary: pass\nnegative value: pass\n",
+    "csharp": "normal value: pass\nzero boundary: pass\nnegative value: pass\n"
+  },
+  "unit-testing-4": {
+    "c": "stub response handled: pass\n",
+    "cpp": "stub response handled: pass\n",
+    "python": "stub response handled: pass\n",
+    "java": "stub response handled: pass\n",
+    "javascript": "stub response handled: pass\n",
+    "csharp": "stub response handled: pass\n"
+  },
+  "unit-testing-5": {
+    "c": "doubles six: pass\nzero stays zero: pass\nzero stays zero: pass\ndoubles six: pass\n",
+    "cpp": "doubles six: pass\nzero stays zero: pass\nzero stays zero: pass\ndoubles six: pass\n",
+    "python": "doubles six: pass\nzero stays zero: pass\nzero stays zero: pass\ndoubles six: pass\n",
+    "java": "doubles six: pass\nzero stays zero: pass\nzero stays zero: pass\ndoubles six: pass\n",
+    "javascript": "doubles six: pass\nzero stays zero: pass\nzero stays zero: pass\ndoubles six: pass\n",
+    "csharp": "doubles six: pass\nzero stays zero: pass\nzero stays zero: pass\ndoubles six: pass\n"
+  },
+  "unit-testing-practice": {
+    "c": "Detected failing expectation\nRestored expectation: pass\n",
+    "cpp": "Detected failing expectation\nRestored expectation: pass\n",
+    "python": "Detected failing expectation\nRestored expectation: pass\n",
+    "java": "Detected failing expectation\nRestored expectation: pass\n",
+    "javascript": "Detected failing expectation\nRestored expectation: pass\n",
+    "csharp": "Detected failing expectation\nRestored expectation: pass\n"
+  }
+}
