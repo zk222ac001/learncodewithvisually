@@ -19,12 +19,22 @@ test('every course lesson and detailed topic renders its coding assignment', asy
   for (const [lesson, code, count] of lessons) {
     await page.goto(`/index.html?lang=en&code=${code}&refresh=1#${lesson}`);
     await expect(page.locator('.topic-assignment')).toHaveCount(count);
-    const assignmentIds = await page.evaluate(() => {
+    const renderedAssignments = await page.evaluate(() => {
       const root = document.querySelector('main');
-      return [...document.querySelectorAll('[data-topic-assignment]')].map(panel => panel.dataset.topicAssignment)
-        .filter(id => root.contains(document.getElementById(id)));
+      return [...document.querySelectorAll('[data-topic-assignment]')]
+        .filter(panel => root.contains(document.getElementById(panel.dataset.topicAssignment)))
+        .map(panel => ({
+          id: panel.dataset.topicAssignment,
+          solution: panel.querySelector('.assignment-solution code').textContent,
+          button: Boolean(panel.querySelector('[data-assignment-solution]'))
+        }));
     });
-    expect(new Set(assignmentIds).size).toBe(count);
+    expect(new Set(renderedAssignments.map(assignment => assignment.id)).size).toBe(count);
+    for (const assignment of renderedAssignments) {
+      expect(assignment.button).toBe(true);
+      expect(assignment.solution.trim()).toBeTruthy();
+      expect(assignment.solution).toBe(await page.evaluate(({ id, code }) => window.LESSON_ASSIGNMENT_SOLUTIONS[id][code], { id: assignment.id, code }));
+    }
   }
 });
 
@@ -56,7 +66,7 @@ test('solution controls reveal complete code in the selected programming languag
     await expect(solutionButton).toHaveAttribute('aria-expanded', 'true');
     await expect(solution).toBeVisible();
     const displayedCode = await solution.locator('code').textContent();
-    const expectedCode = await page.evaluate(() => window.LANGUAGE_EXAMPLES[window.location.search.match(/code=([^&]+)/)[1]].hello.code);
+    const expectedCode = await page.evaluate(() => window.LESSON_ASSIGNMENT_SOLUTIONS.hello[window.location.search.match(/code=([^&]+)/)[1]]);
     expect(displayedCode.trimEnd()).toBe(expectedCode.trimEnd());
     await solutionButton.click();
     await expect(solution).toBeHidden();
@@ -74,6 +84,11 @@ test('data structure lessons include editable, runnable assignments', async ({ p
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/datastrukturer.html?lang=en&code=python', { waitUntil: 'domcontentloaded' });
+  const structureSolutions = await page.evaluate(() => window.DATA_STRUCTURE_ASSIGNMENT_SOLUTIONS);
+  for (const language of ['c', 'cpp', 'python', 'java', 'javascript', 'csharp']) {
+    expect(structureSolutions[language]).toHaveLength(7);
+    expect(structureSolutions[language].every(solution => solution.trim())).toBe(true);
+  }
   const assignment = page.locator('[data-structure-assignment]');
   await expect(assignment).toHaveCount(1);
   await page.evaluate(() => { window.CodeRunner.open = payload => { window.structureAssignmentPayload = payload; }; });
@@ -84,19 +99,36 @@ test('data structure lessons include editable, runnable assignments', async ({ p
     await expect(page.locator('[data-structure-assignment]')).toContainText('Expected outcome');
   }
 
+  const displayedExample = await page.locator('.lower .card:nth-child(2) code').textContent();
   await page.locator('[data-structure-assignment-run="6"]').click();
   const payload = await page.evaluate(() => window.structureAssignmentPayload);
   expect(payload.codeLanguage).toBe('python');
-  expect(payload.code).toContain('student');
+  expect(payload.code).toBe(displayedExample);
   expect(payload.label).toContain('Hash Table');
   const solutionButton = page.locator('[data-structure-assignment-solution="6"]');
   await solutionButton.click();
   await expect(page.locator('#structure-solution-6')).toBeVisible();
-  expect(await page.locator('[data-structure-solution-code]').textContent()).toBe(payload.code);
+  const hashTableSolution = await page.locator('[data-structure-solution-code]').textContent();
+  expect(hashTableSolution).toContain('"Bo"');
+  expect(hashTableSolution).toContain('"Ada"');
   expect(await page.locator('#nav button').count()).toBe(9);
   for (let index = 7; index < 9; index++) {
     await page.locator('#nav button').nth(index).click();
     await expect(page.locator('[data-structure-assignment]')).toHaveCount(0);
+  }
+  const languages = {
+    c: '#include <stdio.h>',
+    cpp: '#include <iostream>',
+    python: 'stack =',
+    java: 'ArrayDeque<Integer>',
+    javascript: "'use strict';",
+    csharp: 'Stack<int>'
+  };
+  for (const [language, marker] of Object.entries(languages)) {
+    await page.locator('#nav button').nth(2).click();
+    await page.locator('#code-language').selectOption(language);
+    await page.locator('[data-structure-assignment-solution="2"]').click();
+    await expect(page.locator('[data-structure-solution-code]')).toContainText(marker);
   }
   expect(errors).toEqual([]);
 });
