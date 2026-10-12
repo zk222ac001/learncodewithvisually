@@ -4,11 +4,13 @@ const fs = require('node:fs');
 const path = require('node:path');
 const load = (file) => fs.readFileSync(path.resolve(__dirname, '..', file), 'utf8');
 
-test('AI Tutor public connection stays disabled until explicitly approved', () => {
+test('AI Tutor public connection follows approved release state and keeps private secrets out', () => {
   const cfg = load('ai-tutor-config.js');
   assert.ok(cfg.includes("apiUrl: 'https://learncodevisually-ai-tutor.learncodevisually-zk222ac-2026.workers.dev/api/tutor'"));
   assert.ok(cfg.includes("turnstileSiteKey: '0x4AAAAAAFT61DFoIObxrqHQ'"));
-  assert.ok(cfg.includes('enabled: false'));
+  const status=JSON.parse(load('PUBLIC_AI_BETA_STATUS.json'));
+  assert.ok(['private','public'].includes(status.state));
+  assert.match(cfg,new RegExp('enabled:\\s*'+(status.state==='public'?'true':'false')));
   assert.doesNotMatch(cfg, /^\s*(?:const\s+)?TURNSTILE_SECRET\s*[:=]/m, 'Public config must not assign private secrets');
   assert.ok(load('ai-tutor.js').includes('config.enabled !== true'));
   assert.ok(load('c-for-loop-visualization.html').includes('id="ai-tutor-panel" hidden'));
@@ -28,7 +30,8 @@ test('private browser preview is gated by an explicit URL parameter and test key
   assert.ok(client.includes("headers['X-AI-Test-Token'] = testKey"));
   assert.ok(html.includes('id="ai-tutor-preview-controls" hidden'));
   assert.ok(html.includes('type="password" autocomplete="off"'));
-  assert.ok(load('ai-tutor-config.js').includes('enabled: false'));
+  const status=JSON.parse(load('PUBLIC_AI_BETA_STATUS.json'));
+  assert.match(load('ai-tutor-config.js'),new RegExp('enabled:\\s*'+(status.state==='public'?'true':'false')));
 });
 
 test('public beta privacy disclosures describe optional AI and providers', () => {
@@ -37,9 +40,9 @@ test('public beta privacy disclosures describe optional AI and providers', () =>
   const lesson = load('c-for-loop-visualization.html');
   assert.match(privacy,/GitHub Pages/);
   assert.match(privacy,/Cloudflare Workers AI/);
-  assert.match(privacy,/question.*selected C lesson step/s);
-  assert.match(privacy,/not deliberately store student questions/);
-  assert.match(privacy,/retention settings/);
+  assert.match(privacy,/question, selected programming language.*optional source code.*separate C for-loop lesson/s);
+  assert.match(privacy,/does not deliberately write questions, code, AI answers or IP addresses/);
+  assert.match(privacy,/retention, access and deletion configurations/);
   assert.match(terms,/Optional AI Tutor beta/);
   assert.match(lesson,/privacy\.html#ai-tutor/);
 });
