@@ -1,0 +1,55 @@
+name: AI Tutor public backend activation or rollback (manual)
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Public activation or emergency rollback"
+        required: true
+        type: choice
+        options:
+          - public
+          - rollback
+      confirmation:
+        description: "Type APPROVE_PUBLIC_AI_BETA or ROLLBACK_PUBLIC_AI_BETA"
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: learncodevisually-ai-tutor-production
+  cancel-in-progress: false
+jobs:
+  change-worker:
+    if: ${{ (inputs.mode == 'public' && inputs.confirmation == 'APPROVE_PUBLIC_AI_BETA') || (inputs.mode == 'rollback' && inputs.confirmation == 'ROLLBACK_PUBLIC_AI_BETA') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: ai-tutor-public
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Require passing release tests
+        run: |
+          npm test
+          node --test workers/ai-tutor/test/*.test.mjs
+      - name: Generate and validate guarded backend release
+        run: |
+          node scripts/ai-tutor-beta-release.cjs "${{ inputs.mode }}" "$RUNNER_TEMP/ai-beta"
+          cp "$RUNNER_TEMP/ai-beta/worker/wrangler.jsonc" workers/ai-tutor/wrangler.release.jsonc
+          node -e "const fs=require('fs');const c=JSON.parse(fs.readFileSync('workers/ai-tutor/wrangler.release.jsonc')); const mode=process.argv[1]; if(c.vars.AI_ENABLED!==(mode==='public'?'true':'false')||c.vars.DAILY_AI_REQUEST_LIMIT!=='25'||c.ratelimits[0].simple.limit!==5)process.exit(1)" "${{ inputs.mode }}"
+      - name: Deploy approved backend state
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: workers/ai-tutor
+          wranglerVersion: '4.149.0'
+          command: deploy --config wrangler.release.jsonc
+      - name: Verify state and backend bindings
+        env:
+          RELEASE_MODE: ${{ inputs.mode }}
+        run: |
+          node -e "const url='https://learncodevisually-ai-tutor.learncodevisually-zk222ac-2026.workers.dev/health';const expected=process.env.RELEASE_MODE==='public';const wait=n=>new Promise(r=>setTimeout(r,n));(async()=>{for(let i=0;i<12;i++){try{const resp=await fetch(url,{headers:{'Cache-Control':'no-cache'}});const h=await resp.json();if(resp.ok&&h.status==='ok'&&h.ready===true&&h.enabled===expected&&h.capabilities?.includes('general-programming')){console.log('Backend verified; enabled='+h.enabled);return;}}catch(e){}await wait(5000);}throw Error('Worker state verification failed; rollback if public release was attempted');})().catch(e=>{console.error(e.message);process.exitCode=1})"
