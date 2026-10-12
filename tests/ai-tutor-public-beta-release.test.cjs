@@ -19,7 +19,9 @@ test('public candidate preserves quota, origin and binding while rollback disabl
  assert.deepEqual(live.durable_objects,off.durable_objects);
  assert.match(siteConfig(frontend,'public'),/enabled:\s*true/);
  assert.match(siteConfig(frontend,'rollback'),/enabled:\s*false/);
- assert.match(frontend,/enabled:\s*false/);
+ const status=JSON.parse(fs.readFileSync(path.join(root,'PUBLIC_AI_BETA_STATUS.json'),'utf8'));
+ assert.ok(['private','public'].includes(status.state));
+ assert.match(frontend,new RegExp('enabled:\\s*'+(status.state==='public'?'true':'false')));
  assert.equal(JSON.parse(original).vars.AI_ENABLED,'false');
 });
 test('release generator fails closed on changed limits, origin or bindings',()=>{
