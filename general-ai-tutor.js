@@ -3,6 +3,9 @@
   const cfg=window.LEARNCODE_AI_TUTOR;
   const root=document.getElementById('general-ai-tutor');
   if(!root||!cfg)return;
+  const canonicalHome=!location.hash || location.hash==='#home';
+  // This reusable widget is mounted on the homepage without disrupting lesson routing.
+  if(!canonicalHome)root.hidden=true;
   const allowed=new Set(['c','cpp','python','java','javascript','csharp']);
   const params=new URLSearchParams(location.search);
   const preview=cfg.enabled!==true && params.get('ai-preview')==='1';
