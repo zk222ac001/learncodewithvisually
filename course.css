@@ -152,3 +152,10 @@ th{background:#f3f6fb}
 .site-legal-links nav{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 24px}
 .site-legal-links a{color:var(--muted,#546578)}
 .site-legal-links a:focus-visible{outline:2px solid var(--blue,#215ad7);outline-offset:3px}
+
+/* Public beta announcement: compact, accessible and responsive. */
+.beta-banner{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin:12px 0 20px;padding:12px 16px;background:#edf4fc;border:1px solid #bad0e8;border-radius:12px;color:#234466;font-size:.9rem;line-height:1.5;direction:ltr}
+.beta-banner strong{font-weight:800;color:#173f69;white-space:nowrap}
+.beta-banner span{flex:1 1 250px;min-width:0}
+.beta-banner a{font-weight:750;white-space:normal}
+@media(max-width:600px){.beta-banner{padding:11px 12px;font-size:.875rem;margin:10px 0 14px}}
