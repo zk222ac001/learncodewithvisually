@@ -29,12 +29,13 @@ jobs:
           npm test
           node --test workers/ai-tutor/test/*.test.mjs
       - name: Deploy only after explicit confirmation
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: workers/ai-tutor
+          wranglerVersion: '4.149.0'
           command: deploy --config wrangler.jsonc
       - name: Check deployed backend release marker
         run: |
-          node -e "const url='https://learncodevisually-ai-tutor.learncodevisually-zk222ac-2026.workers.dev/health'; const sleep=ms=>new Promise(r=>setTimeout(r,ms)); (async()=>{for(let i=0;i<12;i++){try{const response=await fetch(url,{headers:{'Cache-Control':'no-cache'}});const h=await response.json();if(response.ok&&h.status==='ok'&&h.enabled===false&&h.release==='general-programming-v1'&&h.capabilities?.includes('general-programming')){console.log('Private release verified; public AI is disabled');return;}}catch(e){}await sleep(5000);}throw new Error('Deployment verification failed; inspect Workers deployment and keep public AI disabled.');})().catch(e=>{console.error(e);process.exitCode=1})"
+          node -e "const url='https://learncodevisually-ai-tutor.learncodevisually-zk222ac-2026.workers.dev/health'; const sleep=ms=>new Promise(r=>setTimeout(r,ms)); (async()=>{for(let i=0;i<12;i++){try{const response=await fetch(url,{headers:{'Cache-Control':'no-cache'}});const h=await response.json();if(response.ok&&h.status==='ok'&&h.enabled===false&&h.release==='general-programming-v1'&&h.capabilities?.includes('general-programming')&&h.ready===true){console.log('Private release verified; required bindings present; public AI is disabled');return;}}catch(e){}await sleep(5000);}throw new Error('Deployment verification failed; inspect Workers deployment and keep public AI disabled.');})().catch(e=>{console.error(e);process.exitCode=1})"

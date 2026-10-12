@@ -52,3 +52,12 @@ test('shared daily allowance blocks the general tutor before inference',async()=
  const res=await handleRequest(request(),env,verify);
  assert.equal(res.status,429);assert.equal((await res.json()).code,'DAILY_LIMIT');assert.equal(calls,0);
 });
+
+test('health readiness detects missing production rate-limit binding without leaking secrets',async()=>{
+ const env=base();env.AI_ENABLED='false';
+ const healthy=await handleRequest(new Request('https://unit-test.workers.dev/health'),env);
+ const ok=await healthy.json();assert.equal(ok.ready,true);assert.equal(ok.enabled,false);assert.equal(JSON.stringify(ok).includes('server-secret'),false);
+ delete env.RATE_LIMITER;
+ const failed=await handleRequest(new Request('https://unit-test.workers.dev/health'),env);
+ assert.equal((await failed.json()).ready,false);
+});

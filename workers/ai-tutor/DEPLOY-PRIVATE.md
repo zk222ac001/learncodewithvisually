@@ -29,3 +29,11 @@ If anything fails, do **not** enable public AI. Review the workflow logs and Clo
 ## If GitHub deployment credentials are not configured
 
 Deploy manually from a trusted local clone using `git pull --ff-only origin main`, `cd workers/ai-tutor`, `npx wrangler login`, and `npx wrangler deploy --config wrangler.jsonc`. Confirm the Worker name and Cloudflare account before proceeding. The same health check and private-preview checks apply.
+
+## Deployment troubleshooting: missing rate limiter
+
+The earlier deployment used Wrangler 3.90.0 and logged `Unexpected fields found in top-level field: "ratelimits"`. Cloudflare requires Wrangler **4.36.0 or later** for rate limiting bindings. This can leave `RATE_LIMITER` absent even when deployment and the basic `/health` endpoint succeed.
+
+The updated manual workflow pins Wrangler v4 and requires `/health` to return `ready:true` in addition to `enabled:false`. `ready` confirms the AI, durable budget, rate limiter, and Turnstile secret bindings exist without exposing their values. The health check does **not** prove Turnstile or model inference works; private end-to-end testing remains necessary.
+
+After the fix is merged, manually rerun the workflow from `main` with the existing confirmation. Do not change `AI_ENABLED` or the website's `enabled` flag. If readiness fails, inspect Cloudflare bindings without sharing any secret values.
