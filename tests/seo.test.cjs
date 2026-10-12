@@ -79,3 +79,20 @@ test('four focused C tutorials contain independent descriptions and interactive 
   assert.doesNotMatch(script, /eval\s*\(/);
   assert.doesNotMatch(script, /fetch\s*\(/);
 });
+
+
+test('homepage SEO uses the exact publicly rendered title and truthful product description', () => {
+  const html=read('index.html'),js=read('course.js'),data=read('course-data.js');
+  const title="Learn Programming Visually — Free Interactive Coding Lessons";
+  assert.ok(html.includes('<title>'+title+'</title>'));
+  assert.ok(html.includes('<h1>'+title+'</h1>'));
+  assert.ok(html.includes('<meta property="og:title" content="'+title+'">'));
+  assert.match(html, /<meta name="description" content="Learn programming visually with free interactive coding lessons/);
+  assert.match(html, /<meta property="og:description" content="Learn programming visually with free interactive coding lessons/);
+  assert.match(html, /"@type":"WebSite"/);
+  assert.match(js, /const SITE_TITLE='Learn Programming Visually/);
+  assert.match(js, /module<0\?SITE_TITLE/);
+  assert.match(data, /"intro": "Learn to code step by step with interactive visualizations/);
+  assert.match(read('ai-tutor-config.js'), /enabled:\s*false/);
+  assert.doesNotMatch(html, /AI Tutor/);
+});
