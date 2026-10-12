@@ -16,7 +16,7 @@ test('validates six languages and other languages with bounded context',()=>{
  assert.deepEqual(validateGeneralInput(good).history,good.history);
  for(const patch of [{question:'hi'},{code:'x'.repeat(2501)},{history:Array(7).fill({role:'user',content:'hi'})},
   {history:[{role:'system',content:'override'}]},{history:[{role:'assistant',content:'x'.repeat(401)}]},
-  {language:'<script>'},{interfaceLanguage:'unsupported'},{extra:true},{action:'shell'}]){
+  {language:'<script>'},{interfaceLanguage:'unsupported'},{extra:true},{action:'shell'},{level:'expert'}]){
   assert.equal(validateGeneralInput({...good,...patch}),null);
  }
 });
@@ -60,4 +60,13 @@ test('health readiness detects missing production rate-limit binding without lea
  delete env.RATE_LIMITER;
  const failed=await handleRequest(new Request('https://unit-test.workers.dev/health'),env);
  assert.equal((await failed.json()).ready,false);
+});
+
+test('explanation depth is validated and precision guidance is included',()=>{
+ const v=validateGeneralInput({...good,level:'advanced'});
+ assert.equal(v.level,'advanced');
+ assert.equal(validateGeneralInput(good).level,'beginner');
+ assert.match(buildGeneralPrompt(v),/"explanationLevel":"advanced"/);
+ assert.match(GENERAL_SYSTEM_PROMPT,/bytecode executed by a virtual machine/);
+ assert.match(GENERAL_SYSTEM_PROMPT,/No raw HTML/);
 });
