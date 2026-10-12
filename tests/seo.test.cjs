@@ -8,7 +8,7 @@ const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 test('homepage keeps AdSense verification and loads the interactive course', () => {
   const html = read('index.html');
   assert.match(html, /name="google-adsense-account" content="ca-pub-[0-9]+"/);
-  assert.match(html, /course\.js\?v=21/);
+  assert.match(html, /course\.js\?v=22/);
   assert.match(html, /id="content"/);
   assert.match(html, /rel="canonical" href="https:\/\/learncodevisually\.com\/"/);
   assert.match(html, /application\/ld\+json/);
@@ -78,4 +78,21 @@ test('four focused C tutorials contain independent descriptions and interactive 
   assert.match(script, /replaceChildren/);
   assert.doesNotMatch(script, /eval\s*\(/);
   assert.doesNotMatch(script, /fetch\s*\(/);
+});
+
+
+test('homepage SEO uses the exact publicly rendered title and truthful product description', () => {
+  const html=read('index.html'),js=read('course.js'),data=read('course-data.js');
+  const title="Learn Programming Visually — Free Interactive Coding Lessons";
+  assert.ok(html.includes('<title>'+title+'</title>'));
+  assert.ok(html.includes('<h1>'+title+'</h1>'));
+  assert.ok(html.includes('<meta property="og:title" content="'+title+'">'));
+  assert.match(html, /<meta name="description" content="Learn programming visually with free interactive coding lessons/);
+  assert.match(html, /<meta property="og:description" content="Learn programming visually with free interactive coding lessons/);
+  assert.match(html, /"@type":"WebSite"/);
+  assert.match(js, /const SITE_TITLE='Learn Programming Visually/);
+  assert.match(js, /module<0\?SITE_TITLE/);
+  assert.match(data, /"intro": "Learn to code step by step with interactive visualizations/);
+  assert.match(read('ai-tutor-config.js'), /enabled:\s*false/);
+  assert.doesNotMatch(html, /AI Tutor/);
 });
