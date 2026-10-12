@@ -8,7 +8,7 @@ const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 test('homepage keeps AdSense verification and loads the interactive course', () => {
   const html = read('index.html');
   assert.match(html, /name="google-adsense-account" content="ca-pub-[0-9]+"/);
-  assert.match(html, /course\.js\?v=21/);
+  assert.match(html, /course\.js\?v=22/);
   assert.match(html, /id="content"/);
   assert.match(html, /rel="canonical" href="https:\/\/learncodevisually\.com\/"/);
   assert.match(html, /application\/ld\+json/);
