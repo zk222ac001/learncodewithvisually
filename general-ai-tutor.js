@@ -26,6 +26,8 @@
   const other=el('input',{id:'general-ai-other','aria-label':'Other programming language',maxlength:'40',placeholder:'e.g. Rust, Go, Kotlin'});
   other.hidden=true;
   language.addEventListener('change',()=>{other.hidden=language.value!=='other';});
+  const level=el('select',{id:'general-ai-level','aria-label':'Explanation level'});
+  for(const [v,t] of Object.entries({beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced'}))level.append(el('option',{value:v},t));
   const mode=el('select',{id:'general-ai-mode','aria-label':'Type of help'});
   for(const [v,t] of Object.entries({ask:'Ask a question',explain:'Explain a concept',hint:'Give a hint',debug:'Debug code',review:'Review code'}))mode.append(el('option',{value:v},t));
   const log=el('div',{id:'general-ai-messages','class':'general-ai-messages',role:'log','aria-live':'polite','aria-label':'Conversation'});
@@ -39,11 +41,18 @@
   const captcha=el('div',{id:'general-ai-turnstile'});
   const testBox=el('div',{id:'general-ai-preview'});
   if(preview){testBox.append(el('label',{for:'general-ai-test-key'},'Private tester key (64 characters)'));testBox.append(el('input',{id:'general-ai-test-key',type:'password',maxlength:'64',autocomplete:'off'}));}
-  row.append(language,other,mode);controls.append(submit,clear);
+  row.append(language,other,mode,level);controls.append(submit,clear);
   form.append(el('label',{for:'general-ai-question'},'Your programming question'),question,el('label',{for:'general-ai-code'},'Optional source code'),code,testBox,captcha,controls);
   root.append(heading,intro,note,row,log,form,status,el('p',{},'Review the '+ 'Privacy Policy before asking AI; no answers are verified by a compiler.'));
   root.lastElementChild.append(' ',el('a',{href:'/privacy.html#ai-tutor'},'Privacy Policy'));
-  const append=(role,text)=>{const p=el('p',{'class':'general-ai-message '+role},role==='assistant'?'AI Tutor: '+text:'You: '+text);log.append(p);log.scrollTop=log.scrollHeight;};
+  const append=(role,text,codeLanguage)=>{
+    const message=el('article',{'class':'general-ai-message '+role});
+    const title=el('p',{'class':'general-ai-speaker'},role==='assistant'?'AI Tutor':'You');
+    const content=el('div',{'class':'general-ai-answer'});
+    if(role==='assistant'&&window.LearnCodeTutorMarkdown){window.LearnCodeTutorMarkdown.render(content,text,{language:codeLanguage});}
+    else content.textContent=text;
+    message.append(title,content);log.append(message);log.scrollTop=log.scrollHeight;
+  };
   clear.addEventListener('click',()=>{state.history=[];log.replaceChildren();status.textContent='Conversation cleared from this browser session.';});
   if(!active){submit.disabled=true;question.disabled=true;code.disabled=true;mode.disabled=true;language.disabled=true;other.disabled=true;return;}
   let endpoint;
@@ -72,11 +81,11 @@
     try{
       const headers={'Content-Type':'application/json'};
       if(preview)headers['X-AI-Test-Token']=testKey;
-      const response=await fetch(endpoint.href,{method:'POST',headers,cache:'no-store',body:JSON.stringify({lessonId:'general-programming',language:chosen,interfaceLanguage:uiLang(),action:mode.value,question:q,code:source,history:prior,turnstileToken:token})});
+      const response=await fetch(endpoint.href,{method:'POST',headers,cache:'no-store',body:JSON.stringify({lessonId:'general-programming',language:chosen,interfaceLanguage:uiLang(),action:mode.value,question:q,code:source,level:level.value,history:prior,turnstileToken:token})});
       const payload=await response.json();
       if(!response.ok)throw Error(response.status===429?'Tutor usage limit reached. Try again later.':typeof payload.error==='string'?payload.error:'AI Tutor unavailable.');
       const answer=String(payload.answer||'');if(!answer)throw Error('No answer was returned.');
-      append('user',q);append('assistant',answer);
+      append('user',q);append('assistant',answer,chosen);
       state.history=[...prior,{role:'user',content:q.slice(0,400)},{role:'assistant',content:answer.slice(0,400)}].slice(-6);
       question.value='';status.textContent='AI answer received. Verify code and explanations before use.';
     }catch(e){status.textContent=e.message||'AI Tutor request failed.';}

@@ -35,3 +35,23 @@ test('general tutor is scoped to homepage rather than obstructing module navigat
   await page.locator('a[href*="#intro"]').first().click();
   await expect(page.locator('#general-ai-tutor')).toBeHidden();
 });
+
+test('safe Markdown formatting, code blocks and explanation level selector',async({page})=>{
+ await page.goto('/index.html?lang=en&code=python&ai-preview=1');
+ await expect(page.locator('#general-ai-level')).toHaveValue('beginner');
+ await page.locator('#general-ai-level').selectOption('advanced');
+ await expect(page.locator('#general-ai-level')).toHaveValue('advanced');
+ await page.evaluate(()=>{
+   const answer=['## Example','**Bold concept** with `inline`.','','1. First','2. Second','','```python','print("hi")','```','','<img src=x onerror="window.aiXss=1">'].join('\n');
+   window.LearnCodeTutorMarkdown.render(document.querySelector('#general-ai-messages'),answer);
+ });
+ const answer=page.locator('#general-ai-messages');
+ await expect(answer.locator('h4')).toHaveText('Example');
+ await expect(answer.locator('strong')).toHaveText('Bold concept');
+ await expect(answer.locator('ol li')).toHaveCount(2);
+ await expect(answer.locator('pre code')).toContainText('print("hi")');
+ await expect(answer.getByRole('button',{name:'Copy code'})).toBeVisible();
+ expect(await page.evaluate(()=>window.aiXss)).toBeUndefined();
+ await expect(answer.locator('img')).toHaveCount(0);
+ await expect(answer).toContainText('<img src=x');
+});
