@@ -16,7 +16,7 @@
   const labels={c:'C',cpp:'C++',python:'Python',java:'Java',javascript:'JavaScript',csharp:'C#',other:'Other'};
   const state={history:[],widget:null,busy:false,ready:false};
   const el=(tag,attrs={},value='')=>{const n=document.createElement(tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);if(value)n.textContent=value;return n;};
-  const heading=el('h2',{id:'general-ai-tutor-title'},'AI Programming Tutor');
+  const heading=el('h2',{id:'general-ai-tutor-title'},'CodeVizAI Programming Tutor');
   const intro=el('p',{},'Ask about programming concepts, paste a code sample, or request a hint. Supports any programming language. AI answers may be wrong and are not executed.');
   const note=el('p',{'class':'general-ai-note'},active?'AI Tutor beta: questions are sent to Cloudflare Workers AI. Do not share passwords, personal information or private student work.':'AI Tutor preview — public AI chat is not enabled. Lessons and quizzes remain free.');
   const row=el('div',{'class':'general-ai-row'});
@@ -47,7 +47,7 @@
   root.lastElementChild.append(' ',el('a',{href:'/privacy.html#ai-tutor'},'Privacy Policy'));
   const append=(role,text,codeLanguage)=>{
     const message=el('article',{'class':'general-ai-message '+role});
-    const title=el('p',{'class':'general-ai-speaker'},role==='assistant'?'AI Tutor':'You');
+    const title=el('p',{'class':'general-ai-speaker'},role==='assistant'?'CodeVizAI Tutor':'You');
     const content=el('div',{'class':'general-ai-answer'});
     if(role==='assistant'&&window.LearnCodeTutorMarkdown){window.LearnCodeTutorMarkdown.render(content,text,{language:codeLanguage});}
     else content.textContent=text;
