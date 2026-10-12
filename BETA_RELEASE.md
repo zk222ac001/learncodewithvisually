@@ -41,3 +41,7 @@ Send reports to https://learncodevisually.com/contact.html or https://github.com
 
 ## Release focus
 This beta adds a clearly visible site-wide release notice on the main learning page, updates the feedback issue link after the repository rename, and preserves all current learning functionality. No new backend services, advertising scripts, DNS or monetization changes are included.
+
+## General-purpose AI Tutor release candidate
+
+A six-language and additional-language optional tutor interface, plus the shared Cloudflare Workers AI backend handler, is being developed. The interface supports conceptual questions, hints, debugging and code review with limited in-session conversation context. The site does not run arbitrary student code. The public AI flags remain off; publishing these files alone does not enable AI inference. Before public activation, complete end-to-end provider verification, Turnstile origin checks, billing/quotas, provider processing review and privacy disclosures.

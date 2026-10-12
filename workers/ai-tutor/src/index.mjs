@@ -1,3 +1,4 @@
+import {GENERAL_LESSON_ID, validateGeneralInput, buildGeneralPrompt, GENERAL_SYSTEM_PROMPT} from './general.mjs';
 const DEFAULT_ORIGIN = 'https://learncodevisually.com';
 const MODEL = '@cf/google/gemma-4-26b-a4b-it';
 const LESSON_ID = 'c-for-loop';
@@ -161,11 +162,12 @@ export async function handleRequest(request, env, requestFetch = fetch) {
   if (!/^application\/json(?:\s*;|$)/i.test(request.headers.get('content-type') || '')) {
     return reply({ error: 'Expected application/json.' }, 415, expected);
   }
-  const raw = await boundedText(request, 3500);
+  const raw = await boundedText(request, 7200);
   if (raw === null) return reply({ error: 'Request too large.' }, 413, expected);
   let data;
   try { data = JSON.parse(raw); } catch { return reply({ error: 'Invalid JSON.' }, 400, expected); }
-  const input = validateInput(data);
+  const general = data?.lessonId === GENERAL_LESSON_ID;
+  const input = general ? validateGeneralInput(data) : validateInput(data);
   if (!input) return reply({ error: 'Invalid lesson request.' }, 400, expected);
   const ip = request.headers.get('cf-connecting-ip');
   if (!ip) return reply({ error: 'Unable to verify request.' }, 403, expected);
@@ -192,17 +194,20 @@ export async function handleRequest(request, env, requestFetch = fetch) {
   }
   try {
     const result = await env.AI.run(env.MODEL_NAME || MODEL, {
-      messages: [
+      messages: general ? [
+        { role: 'system', content: GENERAL_SYSTEM_PROMPT },
+        { role: 'user', content: buildGeneralPrompt(input) },
+      ] : [
         { role: 'system', content: 'You are a careful introductory C tutor. Follow the trusted lesson context in the user content.' },
         { role: 'user', content: buildPrompt(input.action, input.step, input.question) },
       ],
-      max_tokens: 320,
+      max_tokens: general ? 480 : 320,
       temperature: 0.2,
       chat_template_kwargs: { enable_thinking: false },
     });
     const answer = extractAnswer(result);
     if (!answer) return reply({ error: 'Tutor response unavailable.' }, 502, expected);
-    return reply({ answer, lessonId: LESSON_ID, step: input.step }, 200, expected);
+    return reply(general ? {answer, lessonId: GENERAL_LESSON_ID, language:input.language} : {answer, lessonId: LESSON_ID, step: input.step}, 200, expected);
   } catch {
     // Do not disclose model internals, request text, or third-party error payloads.
     return reply({ error: 'AI Tutor is temporarily unavailable.' }, 502, expected);
