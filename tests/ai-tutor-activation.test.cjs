@@ -2,15 +2,17 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const {siteConfig,workerConfig}=require('../scripts/ai-tutor-beta-release.cjs');
-test('production release remains off in source, with strict rate caps',()=>{
+test('production Worker baseline stays disabled and website switch matches release marker',()=>{
  const w=JSON.parse(fs.readFileSync('workers/ai-tutor/wrangler.jsonc','utf8'));
  const f=fs.readFileSync('ai-tutor-config.js','utf8');
  assert.equal(w.vars.AI_ENABLED,'false');
  assert.equal(w.vars.DAILY_AI_REQUEST_LIMIT,'25');
  assert.equal(w.ratelimits.find(x=>x.name==='RATE_LIMITER').simple.limit,5);
- assert.match(f,/enabled:\s*false/);
  const status=JSON.parse(fs.readFileSync('PUBLIC_AI_BETA_STATUS.json','utf8'));
- assert.equal(status.state,'private');
+ assert.ok(['private','public'].includes(status.state));
+ assert.equal(status.shared_ai_requests_per_utc_day,25);
+ assert.equal(status.per_ip_requests_per_60_seconds,5);
+ assert.match(f,new RegExp('enabled:\\s*'+(status.state==='public'?'true':'false')));
  const active=JSON.parse(workerConfig(JSON.stringify(w),'public'));
  assert.equal(active.vars.AI_ENABLED,'true');
  assert.equal(active.vars.DAILY_AI_REQUEST_LIMIT,'25');
