@@ -133,7 +133,7 @@ export async function handleRequest(request, env, requestFetch = fetch) {
   const origin = request.headers.get('origin');
   const expected = env.ALLOWED_ORIGIN || DEFAULT_ORIGIN;
   if (url.pathname === '/health' && request.method === 'GET') {
-    return reply({ status: 'ok', enabled: env.AI_ENABLED === 'true', capabilities: ['c-for-loop', GENERAL_LESSON_ID], release: 'general-programming-v1' });
+    return reply({ status: 'ok', enabled: env.AI_ENABLED === 'true', ready: Boolean(env.AI && env.AI_BUDGET && env.RATE_LIMITER && env.TURNSTILE_SECRET), capabilities: ['c-for-loop', GENERAL_LESSON_ID], release: 'general-programming-v1' });
   }
   if (url.pathname !== '/api/tutor') return reply({ error: 'Not found.' }, 404);
   if (origin !== expected) return reply({ error: 'Origin not allowed.' }, 403);
