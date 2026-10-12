@@ -6,7 +6,7 @@ test('general tutor supports six languages and safe disabled beta without extern
   await page.goto('/index.html?lang=en&code=python');
   const tutor=page.locator('#general-ai-tutor');
   await expect(tutor).toBeVisible();
-  await expect(tutor.getByRole('heading',{name:'AI Programming Tutor'})).toBeVisible();
+  await expect(tutor.getByRole('heading',{name:'CodeVizAI Programming Tutor'})).toBeVisible();
   await expect(page.locator('#general-ai-language')).toHaveValue('python');
   const langs=await page.locator('#general-ai-language option').evaluateAll(nodes=>nodes.map(n=>n.value));
   expect(langs).toEqual(['c','cpp','python','java','javascript','csharp','other']);
