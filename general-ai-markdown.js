@@ -6,7 +6,7 @@
   const tokenPattern = /("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\/\/[^\n]*|\/\*[\s\S]*?\*\/|#[^\n]*|\b\d+(?:\.\d+)?\b|\b[A-Za-z_][A-Za-z0-9_]*\b)/g;
   const inlinePattern = /\*\*([^*\n]+?)\*\*|\x60([^\x60\n]+)\x60/g;
   const fencePattern = /^\s*\x60{3}([a-zA-Z0-9+#._-]{0,30})\s*$/;
-  const headingPattern = /^\s*(#{1,3})\s+(.+)$/;
+  const headingPattern = /^\s*(#{1,6})\s+(.+)$/;
   const listPattern = /^\s*(?:([-*])|(\d+)[.)])\s+(.+)$/;
   const doc = () => document;
   function node(tag, className, label) {
@@ -78,7 +78,7 @@
       }
       const head=line.match(headingPattern);
       if(head){
-        const h=node('h'+Math.min(4,head[1].length+2));
+        const h=node('h'+Math.min(6,head[1].length+2));
         inline(h,head[2]);out.append(h);i++;continue;
       }
       const list=line.match(listPattern);
