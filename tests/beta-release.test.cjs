@@ -17,7 +17,11 @@ test('beta keeps important release guardrails',()=>{
  const home=read('index.html'),config=read('ai-tutor-config.js');
  assert.match(home,/name="google-adsense-account"/);
  assert.doesNotMatch(home,/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js/);
- assert.match(config,/enabled:\s*false/);
+ const marker=JSON.parse(read('PUBLIC_AI_BETA_STATUS.json'));
+ assert.ok(['private','public'].includes(marker.state));
+ assert.equal(marker.shared_ai_requests_per_utc_day,25);
+ assert.equal(marker.per_ip_requests_per_60_seconds,5);
+ assert.match(config,new RegExp('enabled:\\s*'+(marker.state==='public'?'true':'false')));
  assert.equal(read('CNAME').trim(),'learncodevisually.com');
  assert.match(read('robots.txt'),/https:\/\/learncodevisually\.com\/sitemap\.xml/);
  assert.match(read('BETA_RELEASE.md'),/Public Beta 1/);
