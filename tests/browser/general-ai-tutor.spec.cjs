@@ -55,3 +55,20 @@ test('safe Markdown formatting, code blocks and explanation level selector',asyn
  await expect(answer.locator('img')).toHaveCount(0);
  await expect(answer).toContainText('<img src=x');
 });
+
+test('Markdown headings from H1 to H6 render safely and literal HTML stays inert',async({page})=>{
+ await page.goto('/index.html?lang=en&code=python&ai-preview=1');
+ await page.evaluate(()=>{
+   const text=['# Level one','## Level two','### Level three','#### Key Characteristics','##### Level five','###### Level six','<img src=x onerror="window.markdownUnsafe=true">'].join('\n');
+   window.LearnCodeTutorMarkdown.render(document.querySelector('#general-ai-messages'),text);
+ });
+ const area=page.locator('#general-ai-messages');
+ await expect(area.locator('h3')).toHaveText('Level one');
+ await expect(area.locator('h4')).toHaveText('Level two');
+ await expect(area.locator('h5')).toHaveText('Level three');
+ await expect(area.locator('h6')).toHaveCount(3);
+ await expect(area).toContainText('Key Characteristics');
+ await expect(area).not.toContainText('#### Key Characteristics');
+ await expect(area.locator('img')).toHaveCount(0);
+ expect(await page.evaluate(()=>window.markdownUnsafe)).toBeUndefined();
+});

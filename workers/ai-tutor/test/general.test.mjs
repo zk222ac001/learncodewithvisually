@@ -70,3 +70,16 @@ test('explanation depth is validated and precision guidance is included',()=>{
  assert.match(GENERAL_SYSTEM_PROMPT,/bytecode executed by a virtual machine/);
  assert.match(GENERAL_SYSTEM_PROMPT,/No raw HTML/);
 });
+
+test('all course languages and extra languages are safely passed to the backend',()=>{
+ for(const language of ['C','C++','Python','Java','JavaScript','C#','Rust','Go','Swift']){
+  const validated=validateGeneralInput({...good,language,level:'intermediate'});
+  assert.equal(validated.language,language);
+  assert.equal(validated.level,'intermediate');
+  assert.ok(buildGeneralPrompt(validated).includes(JSON.stringify('language')+':'+JSON.stringify(language)));
+ }
+ for(const interfaceLanguage of ['en','da','es','fr','de','pt','ar','ur','hi','zh']){
+  const validated=validateGeneralInput({...good,interfaceLanguage});
+  assert.equal(validated.interfaceLanguage,interfaceLanguage);
+ }
+});
