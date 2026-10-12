@@ -1,5 +1,12 @@
 # CodeViz — Learn programming with Visualization
 
+## Public beta — 12 October 2026
+
+LearnCodeVisually is available as a **free public beta** at https://learncodevisually.com/. The GitHub Pages deployment publishes the `main` branch; automated Node and Chromium regression checks cover its interactive learning features. Feedback: [Contact](https://learncodevisually.com/contact.html) or [GitHub issues](https://github.com/zk222ac001/learncodewithvisually/issues).
+
+Included: interactive tutorials in six programming languages, ten interface languages, code visualizations, self-checked exercises and quizzes, and user-initiated OneCompiler editing. Learning progress is stored in the learner's browser. **Not included in the public beta:** AI Tutor (disabled in `ai-tutor-config.js`), active AdSense script/ad delivery, accounts, or server-side grading. See [BETA_RELEASE.md](BETA_RELEASE.md) for launch scope, limitations and checks.
+
+
 ## Interactive for-loop lesson (first milestone)
 
 Open `index.html?lang=en&code=c#counter` to use the new lesson. It includes an educational step simulation, annotated tutorial and execution table, five questions with immediate explanations, and two C challenges that open in the existing OneCompiler editor. Previous restores the earlier simulated state; Reset returns to the beginning. Apply and reset accepts bounded integer start/end/step values, counts down for negative steps, and supports zero iterations. This is a teaching model of the displayed loop, not a general C interpreter.
@@ -31,7 +38,7 @@ The last command serves the site at `http://127.0.0.1:4173`; open `/index.html?l
 
 Manual checks: navigate with Tab, select quiz answers with arrow keys, explore positive/negative/zero-iteration loops, switch both selectors, and run a challenge in the actual OneCompiler editor. No push or deployment is required for local testing; GitHub Pages continues to serve the static files from the existing deployment branch.
 
-Live course: https://zk222ac001.github.io/datastrukturer/
+Live course (custom domain): https://learncodevisually.com/
 
 CodeViz teaches general programming concepts through interactive examples in **C, C++, Python, Java, JavaScript and C#**. The programming-language selector changes code, downloads, run instructions, arithmetic semantics and the formatting reference. The interface language is a separate choice.
 
