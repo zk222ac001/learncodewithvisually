@@ -55,7 +55,7 @@ test('public AI preflight excludes private tester header',()=>{
 test('public project name and contact appear across information pages',()=>{
  for(const file of ['about.html','contact.html','privacy.html','terms.html']){
   const content=load(file);
-  assert.match(content,/LearnCodeVisuallyTeam/);
+  assert.match(content,/CodeVizAI/);
   assert.match(content,/mailto:zk222ac@gmail.com/);
  }
  assert.match(load('privacy.html'),/legal identity of the data controller/);
