@@ -1,4 +1,7 @@
 const {test,expect}=require('@playwright/test');
+// The full course regression runs concurrently and exercises thousands of views.
+// Allow these UI smoke checks time on resource-constrained CI runners.
+test.setTimeout(120000);
 test('general tutor supports six languages and safe disabled beta without external calls',async({page})=>{
   await page.goto('/index.html?lang=en&code=python');
   const tutor=page.locator('#general-ai-tutor');
