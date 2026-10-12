@@ -76,7 +76,7 @@ test('all course languages and extra languages are safely passed to the backend'
   const validated=validateGeneralInput({...good,language,level:'intermediate'});
   assert.equal(validated.language,language);
   assert.equal(validated.level,'intermediate');
-  assert.match(buildGeneralPrompt(validated),new RegExp('"language":"'+language.replace(/[.*+?^$\{\}()|[\]\\]/g,'\\$&')+'"'));
+  assert.ok(buildGeneralPrompt(validated).includes(JSON.stringify('language')+':'+JSON.stringify(language)));
  }
  for(const interfaceLanguage of ['en','da','es','fr','de','pt','ar','ur','hi','zh']){
   const validated=validateGeneralInput({...good,interfaceLanguage});
