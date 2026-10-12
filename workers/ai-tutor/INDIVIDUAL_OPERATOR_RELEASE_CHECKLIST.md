@@ -2,7 +2,7 @@
 
 **Status: review pending. No public activation has been performed.**
 
-LearnCodeVisually is operated personally by an individual under the public-facing name LearnCodeVisuallyTeam. The public project name does not itself establish the legal identity of a data controller, and this repository must not guess or expose personal identity/address details.
+LearnCodeVisually is operated personally by an individual under the public-facing name CodeVizAI. The public project name does not itself establish the legal identity of a data controller, and this repository must not guess or expose personal identity/address details.
 
 ## Verified in repository
 - Public frontend feature flag is disabled, and the default Worker config sets `AI_ENABLED=false`.
