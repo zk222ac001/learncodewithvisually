@@ -73,3 +73,17 @@ test('AI Tutor reports a clear message if Turnstile cannot load', async ({ page 
   await page.getByRole('button', {name:'Explain this step'}).click();
   await expect(page.locator('#ai-tutor-status')).toContainText(/verification|Cloudflare/i);
 });
+
+
+test('homepage heading, browser title and SEO metadata stay aligned after JavaScript renders', async ({page}) => {
+  const title="Learn Programming Visually — Free Interactive Coding Lessons";
+  await page.goto('/index.html?lang=en&code=python');
+  await expect(page).toHaveTitle(title);
+  await expect(page.locator('#content h1')).toHaveText(title);
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content',title);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content',/free interactive coding lessons/);
+  await expect(page.locator('.hero .lede')).toContainText('Learn to code step by step');
+  await page.locator('#program-language').selectOption('c');
+  await expect(page).toHaveTitle(title);
+  await expect(page.locator('#content h1')).toHaveText(title);
+});
