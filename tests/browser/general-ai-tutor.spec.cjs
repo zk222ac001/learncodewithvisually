@@ -11,6 +11,13 @@ test('general tutor supports six languages and safe disabled beta without extern
   const langs=await page.locator('#general-ai-language option').evaluateAll(nodes=>nodes.map(n=>n.value));
   expect(langs).toEqual(['c','cpp','python','java','javascript','csharp','other']);
   await expect(page.getByRole('button',{name:'Ask AI Tutor'})).toBeDisabled();
+  // Public AI is disabled, so the tutor form is intentionally read-only.
+  await expect(page.locator('#general-ai-language')).toBeDisabled();
+  await expect(page.locator('#general-ai-mode')).toBeDisabled();
+  // Preview mode enables selection without enabling public inference.
+  await page.route('https://challenges.cloudflare.com/**', route => route.abort());
+  await page.goto('/index.html?lang=en&code=python&ai-preview=1');
+  await expect(page.locator('#general-ai-language')).toBeEnabled();
   await page.locator('#program-language').selectOption('java');
   await expect(page.locator('#general-ai-tutor')).toBeVisible();
   await page.locator('#general-ai-language').selectOption('other');
