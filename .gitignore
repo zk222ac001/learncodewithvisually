@@ -1,3 +1,9 @@
 node_modules/
 test-results/
 playwright-report/
+
+# Local live-model results and credentials must never enter the public repository
+codevizai-local-model-qa.json
+.env
+.env.*
+!.env.example
