@@ -30,7 +30,7 @@ test('general tutor uses shared Turnstile, budget and language-aware prompt',asy
  let called=0,reserved=0;
  const env=base();
  env.AI_BUDGET={getByName:()=>({reserve:async()=>{reserved++;return {granted:true};}})};
- env.AI={run:async(_model,args)=>{called++;assert.match(args.messages[0].content,/Programming Tutor/);
+ env.AI={run:async(_model,args)=>{called++;assert.match(args.messages[0].content,/CodeVizAI Programming Tutor/);
    assert.match(args.messages[1].content,/"language":"Python"/);return {response:'Here is your explanation.'};}};
  const response=await handleRequest(request(),env,verify);
  assert.equal(response.status,200);assert.deepEqual(await response.json(),{answer:'Here is your explanation.',lessonId:'general-programming',language:'Python'});
