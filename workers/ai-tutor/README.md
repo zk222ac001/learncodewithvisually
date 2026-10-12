@@ -136,3 +136,9 @@ Before enabling the beta:
 7. If issues arise, disable AI immediately and investigate before re-enabling.
 
 The private smoke-test Wrangler config remains separate and unchanged.
+
+## General programming tutor release candidate
+
+The `/api/tutor` endpoint now also accepts `lessonId: "general-programming"` with a selected programming language (C, C++, Python, Java, JavaScript, C# or an explicit other name), interface language, `ask`/`explain`/`hint`/`debug`/`review` action, question up to 900 characters, optional code up to 2500 characters and at most 6 clipped prior messages. All request fields are bounded and validated on the Worker, and the same Turnstile, IP throttling and shared Durable Object daily budget apply. Conversation history exists only in the page session; no server-side user accounts or persistent transcripts are implemented. Student code is reviewed as untrusted text, not run by the Worker. Private preview continues to require `AI_TEST_MODE` and its separate secret.
+
+To test all-language AI safely, deploy the updated Worker with `AI_ENABLED=false`, use a private tester key and `?ai-preview=1` on the course homepage, and confirm that responses, Turnstile and shared quotas work. Test different programming languages and user-code errors, then review provider billing and privacy disclosures before independently deciding to turn on both public flags. Do not share test credentials or set the public flag without verification.
