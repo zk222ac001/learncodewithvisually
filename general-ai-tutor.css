@@ -19,3 +19,22 @@
 #general-ai-status{font-weight:600}
 @media(max-width:640px){.general-ai-tutor{margin:12px;padding:15px}.general-ai-row>*{flex-basis:100%}}
 [hidden]{display:none!important}
+
+/* AI answer typography and safely rendered code snippets. */
+.general-ai-message{white-space:normal!important;min-width:0}
+.general-ai-speaker{font-size:.85rem;font-weight:800;color:#255080;margin:0 0 6px!important}
+.general-ai-answer{line-height:1.7;overflow-wrap:anywhere}
+.general-ai-answer :is(p,ol,ul){margin:7px 0 10px!important}
+.general-ai-answer :is(ul,ol){padding-inline-start:24px}
+.general-ai-answer li+li{margin-top:4px}
+.general-ai-answer :is(h3,h4){font-size:1.02rem;line-height:1.4;margin:12px 0 5px}
+.general-ai-inline-code{background:#dde9f8;color:#17365e;font:0.92em ui-monospace,SFMono-Regular,Consolas,monospace;border-radius:4px;padding:1px 4px}
+.general-ai-codeblock{margin:12px 0;border:1px solid #b7c7d9;border-radius:10px;overflow:hidden;background:#102135;color:#f2f7ff}
+.general-ai-codebar{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:6px 10px;background:#20374f;color:#dceafb;font:12px ui-monospace,Consolas,monospace}
+.general-ai-codebar button.general-ai-copy{border:1px solid #7190af;background:#2b4b6c;color:#fff;font:600 12px system-ui,sans-serif;padding:5px 9px;border-radius:6px}
+.general-ai-codeblock pre{background:transparent;border:0;margin:0;padding:14px;overflow-x:auto;white-space:pre;text-align:start;tab-size:4;max-width:100%}
+.general-ai-codeblock code{font:13px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre;color:#e4edf9}
+.general-ai-token-keyword{color:#9dc1ff;font-weight:600}
+.general-ai-token-string{color:#acdca0}
+.general-ai-token-comment{color:#9ab0c4}
+.general-ai-token-number{color:#ffd399}
