@@ -1,8 +1,14 @@
 const {test,expect}=require('@playwright/test');
+const fs=require('node:fs');
+const path=require('node:path');
+const release=JSON.parse(fs.readFileSync(path.join(__dirname,'../../PUBLIC_AI_BETA_STATUS.json'),'utf8'));
+if(!['private','public'].includes(release.state))throw Error('Unexpected beta state');
+const publiclyEnabled=release.state==='public';
 // The full course regression runs concurrently and exercises thousands of views.
 // Allow these UI smoke checks time on resource-constrained CI runners.
 test.setTimeout(120000);
-test('general tutor supports six languages and safe disabled beta without external calls',async({page})=>{
+test('general tutor respects reviewed public/private release state without external calls',async({page})=>{
+  await page.route('https://challenges.cloudflare.com/**', route => route.abort());
   await page.goto('/index.html?lang=en&code=python');
   const tutor=page.locator('#general-ai-tutor');
   await expect(tutor).toBeVisible();
@@ -10,14 +16,20 @@ test('general tutor supports six languages and safe disabled beta without extern
   await expect(page.locator('#general-ai-language')).toHaveValue('python');
   const langs=await page.locator('#general-ai-language option').evaluateAll(nodes=>nodes.map(n=>n.value));
   expect(langs).toEqual(['c','cpp','python','java','javascript','csharp','other']);
-  await expect(page.getByRole('button',{name:'Ask AI Tutor'})).toBeDisabled();
-  // Public AI is disabled, so the tutor form is intentionally read-only.
-  await expect(page.locator('#general-ai-language')).toBeDisabled();
-  await expect(page.locator('#general-ai-mode')).toBeDisabled();
-  // Preview mode enables selection without enabling public inference.
-  await page.route('https://challenges.cloudflare.com/**', route => route.abort());
+  if(publiclyEnabled){
+    // Public launch must allow the form without requiring a private preview key.
+    await expect(page.locator('#general-ai-language')).toBeEnabled();
+    await expect(page.locator('#general-ai-mode')).toBeEnabled();
+    await expect(page.locator('#general-ai-test-key')).toHaveCount(0);
+  } else {
+    // The private state remains read-only unless the explicit preview parameter is present.
+    await expect(page.getByRole('button',{name:'Ask AI Tutor'})).toBeDisabled();
+    await expect(page.locator('#general-ai-language')).toBeDisabled();
+    await expect(page.locator('#general-ai-mode')).toBeDisabled();
+  }
   await page.goto('/index.html?lang=en&code=python&ai-preview=1');
   await expect(page.locator('#general-ai-language')).toBeEnabled();
+  await expect(page.locator('#general-ai-test-key')).toHaveCount(publiclyEnabled?0:1);
   await page.locator('#program-language').selectOption('java');
   await expect(page.locator('#general-ai-tutor')).toBeVisible();
   await page.locator('#general-ai-language').selectOption('other');
