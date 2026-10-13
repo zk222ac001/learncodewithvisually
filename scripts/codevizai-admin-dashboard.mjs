@@ -2,8 +2,9 @@
 import fs from 'node:fs/promises';
 const endpoint=process.env.CODEVIZAI_WORKER_URL || 'https://learncodevisually-ai-tutor.learncodevisually-zk222ac-2026.workers.dev';
 const token=process.env.CODEVIZAI_ADMIN_STATS_TOKEN;
-const watch=process.argv.includes('--watch');
-if(process.argv.some(arg=>arg!=='--watch')||!/^https:\/\//.test(endpoint)||!/^[a-f0-9]{64}$/i.test(token||'')){
+const args=process.argv.slice(2);
+const watch=args.includes('--watch');
+if(args.some(arg=>arg!=='--watch')||!/^https:\/\//.test(endpoint)||!/^[a-f0-9]{64}$/i.test(token||'')){
  console.error('Set CODEVIZAI_ADMIN_STATS_TOKEN (64 hex). Usage: node scripts/codevizai-admin-dashboard.mjs [--watch]');
  process.exit(2);
 }

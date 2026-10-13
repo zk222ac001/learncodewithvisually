@@ -41,3 +41,11 @@ To refresh the private dashboard automatically, use `node scripts/codevizai-admi
 Failure totals cover model exceptions and incomplete generated replies **after quota reservation**. They do not measure Turnstile, input-validation, rate-limit or quota denials; model inference exceptions are not personally attributable. This is operational telemetry, not billing data or a visitor counter.
 
 Run the automated tests and protected public Worker deployment only after review; **never** use the private workflow because it disables the public Tutor.
+
+## Confirm automatic refresh on your computer
+
+Run `node scripts/codevizai-admin-dashboard.mjs --watch` from the repository after pulling the argument-validation fix. The existing admin token stays in your local environment; do not paste it into chat. The terminal should print `Updated local dashboard` immediately and again after 60 seconds. Check that the HTML snapshot timestamp changes too. A browser reload alone only rereads the saved file and does not prove that new statistics were fetched.
+
+Keep the Node process running and the computer awake. A transient request failure is logged and the next refresh is retried; the displayed file remains the last successful snapshot, so check its timestamp. This local watch mode is not unattended cloud monitoring and sends no failure alerts.
+
+The CLI regression tests run the real command with synthetic responses. They verify initial snapshot creation, repeated refresh, recovery after HTTP 503, rejection of unknown options and absence of the token in output. These tests do not prove a process is running on your computer or validate live authenticated metrics.
