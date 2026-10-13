@@ -153,6 +153,7 @@ export async function handleRequest(request, env, requestFetch = fetch) {
          !Number.isSafeInteger(usage?.reserved)||usage.reserved<0||usage.reserved>limit)
         return reply({error:'Usage statistics unavailable.'},503);
       return reply({day,limit,reserved:usage.reserved,remaining:limit-usage.reserved,
+        history:Array.isArray(usage.history)?usage.history:null,
         enabled:env.AI_ENABLED==='true',metric:'inference reservations',
         note:'Reservations are not unique users or successful AI answers.'});
     } catch {return reply({error:'Usage statistics unavailable.'},503);}
@@ -217,6 +218,8 @@ export async function handleRequest(request, env, requestFetch = fetch) {
   } catch {
     return reply({error: 'AI Tutor usage protection is unavailable.'}, 503, expected);
   }
+  const reservationDay = new Date().toISOString().slice(0,10);
+  const record = async outcome => { try { await env.AI_BUDGET.getByName('global-tutor-budget-v1').recordOutcome(reservationDay,outcome); } catch { /* Telemetry must never break tutor responses. */ } };
   try {
     const result = await env.AI.run(env.MODEL_NAME || MODEL, {
       messages: general ? [
@@ -231,9 +234,11 @@ export async function handleRequest(request, env, requestFetch = fetch) {
       chat_template_kwargs: { enable_thinking: false },
     });
     const answer = extractCompleteAnswer(result,general);
-    if (!answer) return reply({ error: 'Tutor response unavailable.' }, 502, expected);
+    if (!answer) { await record('incomplete'); return reply({ error: 'Tutor response unavailable.' }, 502, expected); }
+    await record('success');
     return reply(general ? {answer, lessonId: GENERAL_LESSON_ID, language:input.language} : {answer, lessonId: LESSON_ID, step: input.step}, 200, expected);
   } catch {
+    await record('model_error');
     // Do not disclose model internals, request text, or third-party error payloads.
     return reply({ error: 'AI Tutor is temporarily unavailable.' }, 502, expected);
   }
