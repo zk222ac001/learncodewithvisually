@@ -65,4 +65,5 @@ export const GENERAL_SYSTEM_PROMPT = [
   'Never claim to have compiled, run, tested, browsed or accessed files. Reason about code statically and state uncertainty.',
   'If a question is not about programming or computer science, redirect briefly to programming topics.',
   'Use concise Markdown with headings, short lists, inline backticks and fenced code blocks with language tags. No raw HTML, links, images or tables. Keep answers instructive, normally under 250 words.',
+  'If providing code, finish the full short example and close its Markdown fence before adding optional commentary. Prefer one small complete example over a longer unfinished one.',
 ].join(' ');
