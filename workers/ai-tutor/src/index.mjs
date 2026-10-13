@@ -129,6 +129,34 @@ export async function handleRequest(request, env, requestFetch = fetch) {
   const url = new URL(request.url);
   const origin = request.headers.get('origin');
   const expected = env.ALLOWED_ORIGIN || DEFAULT_ORIGIN;
+  if (url.pathname === '/api/admin/usage') {
+    // Never expose usage to the public website or enable CORS for this endpoint.
+    if (request.method !== 'GET') return reply({error:'Method not allowed.'},405);
+    const expectedToken=env.ADMIN_STATS_TOKEN;
+    const actualToken=request.headers.get('Authorization') || '';
+    if(typeof expectedToken!=='string' || !/^[a-f0-9]{64}$/i.test(expectedToken) ||
+       !/^Bearer [a-f0-9]{64}$/i.test(actualToken)) return reply({error:'Unauthorized.'},401);
+    const encoder=new TextEncoder();
+    const [a,b]=await Promise.all([
+      crypto.subtle.digest('SHA-256',encoder.encode(expectedToken.toLowerCase())),
+      crypto.subtle.digest('SHA-256',encoder.encode(actualToken.slice(7).toLowerCase()))
+    ]);
+    const av=new Uint8Array(a),bv=new Uint8Array(b);let mismatch=0;
+    for(let i=0;i<av.length;i++)mismatch|=av[i]^bv[i];
+    if(mismatch!==0)return reply({error:'Unauthorized.'},401);
+    if(!env.AI_BUDGET)return reply({error:'Usage statistics unavailable.'},503);
+    try {
+      const day=new Date().toISOString().slice(0,10);
+      const limit=Number(env.DAILY_AI_REQUEST_LIMIT);
+      const usage=await env.AI_BUDGET.getByName('global-tutor-budget-v1').stats(day);
+      if(!Number.isInteger(limit)||limit<1||limit>100||
+         !Number.isSafeInteger(usage?.reserved)||usage.reserved<0||usage.reserved>limit)
+        return reply({error:'Usage statistics unavailable.'},503);
+      return reply({day,limit,reserved:usage.reserved,remaining:limit-usage.reserved,
+        enabled:env.AI_ENABLED==='true',metric:'inference reservations',
+        note:'Reservations are not unique users or successful AI answers.'});
+    } catch {return reply({error:'Usage statistics unavailable.'},503);}
+  }
   if (url.pathname === '/health' && request.method === 'GET') {
     return reply({ status: 'ok', enabled: env.AI_ENABLED === 'true', ready: Boolean(env.AI && env.AI_BUDGET && env.RATE_LIMITER && env.TURNSTILE_SECRET), capabilities: ['c-for-loop', GENERAL_LESSON_ID], release: 'general-programming-v1' });
   }
