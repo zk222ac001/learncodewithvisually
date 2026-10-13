@@ -58,12 +58,24 @@ test('visual topic pages fit mobile without viewport overflow', async ({ page })
   }
 });
 
-test('AI tutor preview appears only with explicit preview query parameter', async ({ page }) => {
+test('AI tutor panel follows reviewed private or public beta state', async ({ page }) => {
+  const fs = require('node:fs');
+  const status = JSON.parse(fs.readFileSync('PUBLIC_AI_BETA_STATUS.json', 'utf8'));
+  const publicBeta = status.state === 'public';
   await page.goto('/c-for-loop-visualization.html');
-  await expect(page.locator('#ai-tutor-panel')).toBeHidden();
+  if (publicBeta) {
+    await expect(page.locator('#ai-tutor-panel')).toBeVisible();
+    await expect(page.locator('#ai-tutor-preview-controls')).toBeHidden();
+  } else {
+    await expect(page.locator('#ai-tutor-panel')).toBeHidden();
+  }
   await page.goto('/c-for-loop-visualization.html?ai-preview=1');
   await expect(page.locator('#ai-tutor-panel')).toBeVisible();
-  await expect(page.locator('#ai-tutor-preview-controls')).toBeVisible();
+  if (publicBeta) {
+    await expect(page.locator('#ai-tutor-preview-controls')).toBeHidden();
+  } else {
+    await expect(page.locator('#ai-tutor-preview-controls')).toBeVisible();
+  }
   await expect(page.getByRole('button', { name: 'Explain this step' })).toBeVisible();
 });
 
