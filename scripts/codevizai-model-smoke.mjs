@@ -1,6 +1,6 @@
 // Optional manual evaluation only. Run from a private terminal, not public CI.
 import fs from 'node:fs/promises';
-import {GENERAL_MAX_TOKENS} from '../workers/ai-tutor/src/answer-quality.mjs';
+import {GENERAL_MAX_TOKENS,extractCompleteAnswer} from '../workers/ai-tutor/src/answer-quality.mjs';
 import {GENERAL_SYSTEM_PROMPT, buildGeneralPrompt, validateGeneralInput} from '../workers/ai-tutor/src/general.mjs';
 
 const cases=[
@@ -12,13 +12,16 @@ const cases=[
   {language:'C#',action:'debug',level:'intermediate',question:'Why does int[] a={1,2}; Console.WriteLine(a[2]); fail?',expect:'IndexOutOfRangeException'},
   {language:'Rust',action:'ask',level:'beginner',question:'How is let mut x=1; different from let x=1;?',expect:'mutable and immutable bindings'},
 ];
-const flags=new Set(process.argv.slice(2));
-if([...flags].some(x=>!['--dry-run','--live'].includes(x))||flags.size!==1){
-  console.error('Usage: node scripts/codevizai-model-smoke.mjs --dry-run OR --live');process.exit(2);
+const args=process.argv.slice(2);
+const onlyCpp=args.includes('--only=cpp');
+const modes=args.filter(x=>x==='--dry-run'||x==='--live');
+if(modes.length!==1||args.length!==new Set(args).size||args.some(x=>!['--dry-run','--live','--only=cpp'].includes(x))){
+  console.error('Usage: node scripts/codevizai-model-smoke.mjs (--dry-run | --live) [--only=cpp]');process.exit(2);
 }
-const live=flags.has('--live');
+const live=modes[0]==='--live';
+const selectedCases=onlyCpp?cases.filter(x=>x.language==='C++'):cases;
 if(live && process.env.CODEVIZAI_QA_APPROVED!=='YES'){
-  console.error('Set CODEVIZAI_QA_APPROVED=YES to explicitly authorize up to seven model calls.');process.exit(2);
+  console.error('Set CODEVIZAI_QA_APPROVED=YES to explicitly authorize up to '+selectedCases.length+' model call(s).');process.exit(2);
 }
 if(live && (!process.env.CLOUDFLARE_ACCOUNT_ID || !process.env.CLOUDFLARE_API_TOKEN)){
   console.error('Required local environment variables missing. Never commit keys.');process.exit(2);
@@ -26,7 +29,7 @@ if(live && (!process.env.CLOUDFLARE_ACCOUNT_ID || !process.env.CLOUDFLARE_API_TO
 const model='@cf/google/gemma-4-26b-a4b-it';
 const url=live?'https://api.cloudflare.com/client/v4/accounts/'+encodeURIComponent(process.env.CLOUDFLARE_ACCOUNT_ID)+'/ai/run/'+model:'';
 const report={type:live?'LIVE_NEEDS_HUMAN_REVIEW':'DRY_RUN_ONLY',model,results:[]};
-for(const item of cases){
+for(const item of selectedCases){
   const payload=validateGeneralInput({lessonId:'general-programming',language:item.language,interfaceLanguage:'en',action:item.action,level:item.level,question:item.question,code:'',history:[],turnstileToken:'manual-evaluation'});
   if(!payload)throw Error('Fixture validation failed: '+item.language);
   const messages=[{role:'system',content:GENERAL_SYSTEM_PROMPT},{role:'user',content:buildGeneralPrompt(payload)}];
@@ -37,15 +40,20 @@ for(const item of cases){
       const response=await fetch(url,{method:'POST',headers:{Authorization:'Bearer '+process.env.CLOUDFLARE_API_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({messages,max_tokens:GENERAL_MAX_TOKENS,temperature:0.2,chat_template_kwargs:{enable_thinking:false}}),signal:controller.signal});
       const json=await response.json();
       if(!response.ok||json.success===false){entry.error='Cloudflare model request failed ('+response.status+').';}
-      else{entry.answer=String(json.result?.response??json.result?.choices?.[0]?.message?.content??'').slice(0,3000);if(!entry.answer)entry.error='Model returned no answer';}
+      else{
+        // Preserve the actual response, without clipping code at a fixed character count.
+        entry.answer=String(json.result?.response??json.result?.choices?.[0]?.message?.content??'');
+        entry.completionCheck=extractCompleteAnswer(json.result,true)?'STRUCTURALLY_COMPLETE':'INCOMPLETE_OR_TOO_LONG';
+        if(!entry.answer)entry.error='Model returned no answer';
+      }
     }catch{entry.error='Model request or timeout failed';}finally{clearTimeout(timeout);}
   }
   report.results.push(entry);
 }
 if(live){
-  const filename='codevizai-local-model-qa.json';
+  const filename=onlyCpp?'codevizai-local-model-qa-cpp-retest.json':'codevizai-local-model-qa.json';
   await fs.writeFile(filename,JSON.stringify(report,null,2)+'\n',{flag:'wx',mode:0o600});
   console.log('Private QA report saved locally to '+filename+'. Review each response manually. Do NOT commit it.');
 }else{
-  console.log('DRY RUN: 7 sanitized fixtures validated; no Cloudflare API calls made.');
+  console.log('DRY RUN: '+selectedCases.length+' sanitized fixtures validated; no Cloudflare API calls made.');
 }
