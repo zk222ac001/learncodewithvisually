@@ -93,6 +93,7 @@ test('homepage SEO uses the exact publicly rendered title and truthful product d
   assert.match(js, /const SITE_TITLE='Learn Programming Visually/);
   assert.match(js, /module<0\?SITE_TITLE/);
   assert.match(data, /"intro": "Learn to code step by step with interactive visualizations/);
-  assert.match(read('ai-tutor-config.js'), /enabled:\s*false/);
+  const status=JSON.parse(read('PUBLIC_AI_BETA_STATUS.json'));
+  assert.match(read('ai-tutor-config.js'),new RegExp('enabled:\\s*'+(status.state==='public'?'true':'false')));
   assert.doesNotMatch(html, /AI Tutor/);
 });
