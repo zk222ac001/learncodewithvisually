@@ -2,6 +2,13 @@ import { DurableObject } from 'cloudflare:workers';
 import tutor from './index.mjs';
 export default tutor;
 export class AiDailyBudget extends DurableObject {
+  async stats(day) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error('Invalid day');
+    const state=await this.ctx.storage.get('day-count');
+    const count=state?.day===day?state.count:0;
+    if(!Number.isSafeInteger(count)||count<0)throw new Error('Corrupt budget');
+    return {reserved:count};
+  }
   async reserve(day, limit) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(day) || !Number.isInteger(limit) || limit < 1 || limit > 100)
       throw new Error('Invalid budget parameters');
