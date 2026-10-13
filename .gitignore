@@ -7,3 +7,5 @@ codevizai-local-model-qa.json
 .env
 .env.*
 !.env.example
+
+codevizai-local-model-qa-cpp-retest.json
