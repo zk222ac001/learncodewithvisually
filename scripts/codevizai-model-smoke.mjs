@@ -1,5 +1,6 @@
 // Optional manual evaluation only. Run from a private terminal, not public CI.
 import fs from 'node:fs/promises';
+import {GENERAL_MAX_TOKENS} from '../workers/ai-tutor/src/answer-quality.mjs';
 import {GENERAL_SYSTEM_PROMPT, buildGeneralPrompt, validateGeneralInput} from '../workers/ai-tutor/src/general.mjs';
 
 const cases=[
@@ -33,7 +34,7 @@ for(const item of cases){
   if(live){
     const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),30000);
     try{
-      const response=await fetch(url,{method:'POST',headers:{Authorization:'Bearer '+process.env.CLOUDFLARE_API_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({messages,max_tokens:480,temperature:0.2,chat_template_kwargs:{enable_thinking:false}}),signal:controller.signal});
+      const response=await fetch(url,{method:'POST',headers:{Authorization:'Bearer '+process.env.CLOUDFLARE_API_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({messages,max_tokens:GENERAL_MAX_TOKENS,temperature:0.2,chat_template_kwargs:{enable_thinking:false}}),signal:controller.signal});
       const json=await response.json();
       if(!response.ok||json.success===false){entry.error='Cloudflare model request failed ('+response.status+').';}
       else{entry.answer=String(json.result?.response??json.result?.choices?.[0]?.message?.content??'').slice(0,3000);if(!entry.answer)entry.error='Model returned no answer';}
