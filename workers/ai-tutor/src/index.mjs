@@ -1,3 +1,4 @@
+import {extractCompleteAnswer,GENERAL_MAX_TOKENS} from './answer-quality.mjs';
 import {GENERAL_LESSON_ID, validateGeneralInput, buildGeneralPrompt, GENERAL_SYSTEM_PROMPT} from './general.mjs';
 const DEFAULT_ORIGIN = 'https://learncodevisually.com';
 const MODEL = '@cf/google/gemma-4-26b-a4b-it';
@@ -113,10 +114,6 @@ async function verifyTurnstile(token, env, ip, requestFetch) {
     return false;
   }
 }
-function extractAnswer(output) {
-  const candidate = typeof output?.response === 'string' ? output.response : output?.choices?.[0]?.message?.content;
-  return typeof candidate === 'string' ? candidate.trim().slice(0, 2000) : '';
-}
 // Compare fixed-size digests without disclosing the preview key or passing it to AI.
 async function validPreviewToken(received, configured) {
   if (typeof configured !== 'string' || !/^[a-f0-9]{64}$/i.test(configured) ||
@@ -201,11 +198,11 @@ export async function handleRequest(request, env, requestFetch = fetch) {
         { role: 'system', content: 'You are a careful introductory C tutor. Follow the trusted lesson context in the user content.' },
         { role: 'user', content: buildPrompt(input.action, input.step, input.question) },
       ],
-      max_tokens: general ? 480 : 320,
+      max_tokens: general ? GENERAL_MAX_TOKENS : 320,
       temperature: 0.2,
       chat_template_kwargs: { enable_thinking: false },
     });
-    const answer = extractAnswer(result);
+    const answer = extractCompleteAnswer(result,general);
     if (!answer) return reply({ error: 'Tutor response unavailable.' }, 502, expected);
     return reply(general ? {answer, lessonId: GENERAL_LESSON_ID, language:input.language} : {answer, lessonId: LESSON_ID, step: input.step}, 200, expected);
   } catch {
