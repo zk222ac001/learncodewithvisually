@@ -14,7 +14,7 @@ Source: https://github.com/zk222ac001/learncodewithvisually
 - Visual traces are pedagogical simulations, not arbitrary-language interpreters.
 - Embedded editor availability and code execution depend on OneCompiler.
 - Exercise checking is self-guided, not automatic server-side grading.
-- AI Tutor is disabled for the public beta pending additional approval, verification and data handling review.
+- CodeVizAI Programming Tutor public beta has a shared daily usage cap of 25 AI requests and Turnstile verification. Answers may be wrong; submitted code is not executed.
 - AdSense ownership verification is present, but ad scripts are intentionally not loaded; advertising and consent setup remain separate.
 - Browser-local progress is not synced across devices and can be cleared in browser settings.
 - Website legal/privacy disclosures are still being reviewed for any future advertising, paid or AI service.
@@ -23,8 +23,8 @@ Source: https://github.com/zk222ac001/learncodewithvisually
 - Preserve the Google AdSense verification metadata and ads.txt.
 - Preserve CNAME and canonical sitemap/robots URLs.
 - Keep interactive lessons accessible to learners without creating an account.
-- Keep the AI Tutor publicly disabled; no secret keys in client-side files.
-- Before any public AI or ad activation, finish security, legal and consent validation.
+- Maintain the backend daily cap, Turnstile and emergency rollback; no secret keys in client-side files.
+- Complete individual-controller identity, provider retention and privacy disclosures; advertising remains separately gated.
 
 ## Checking the release
 The CI workflow `SEO and Course Regression Checks` runs `npm test`, Worker tests, and Chromium browser tests for pushes to main and pull requests. The GitHub Pages build/deployment workflow must also succeed after merging the beta.
