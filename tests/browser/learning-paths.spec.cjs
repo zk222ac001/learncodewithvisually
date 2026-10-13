@@ -1,0 +1,40 @@
+const { test } = require('@playwright/test');
+const assert = require('node:assert/strict');
+test('learning paths persist, resume and share existing lesson progress', async ({ page, browser }) => {
+await page.setViewportSize({width:1440,height:1000});
+const errors=[];page.on('pageerror', e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:4173/learning-paths.html#python');
+assert.equal(await page.locator('.path-card').count(),7);
+await page.locator('[data-milestone="intro"]').check();
+await page.reload();
+assert.equal(await page.locator('[data-milestone="intro"]').isChecked(),true);
+assert.match(await page.locator('#resume-link').getAttribute('href'), /code=python#data$/);
+await page.locator('#resume-link').click();
+assert.equal(await page.locator('#program-language').inputValue(),'python');
+await page.getByRole('link',{name:'Learning paths',exact:false}).first().click();
+assert.equal(await page.locator('[data-milestone="intro"]').isChecked(),true);
+await page.locator('[data-path="c"]').click();
+assert.equal(await page.locator('[data-milestone="intro"]').isChecked(),false);
+await page.evaluate(()=> { const store=CodeVizLearning.createProgressStore(); store.complete('functions-c-en-v1'); store.recordQuiz('functions-c-en-v1',{score:3,total:4,complete:true}); });
+await page.reload();
+assert.equal(await page.locator('[data-milestone="functions"]').isChecked(),true);
+assert.match(await page.locator('#path-detail').textContent(), /Best quiz: 3\/4/);
+await page.locator('[data-path="data-structures"]').click();
+await page.locator('#example-language').selectOption('cpp');
+await page.getByRole('link',{name:'Trees →',exact:true}).click();
+assert.match(await page.locator('#content h1').textContent(), /Tree/);
+await page.goto('http://127.0.0.1:4173/learning-paths.html#python');
+
+await page.setViewportSize({width:390,height:844});
+assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth),true);
+
+const blocked=await browser.newPage();
+await blocked.addInitScript(()=>Object.defineProperty(window,'localStorage',{get(){throw Error('blocked')}}));
+await blocked.goto('http://127.0.0.1:4173/learning-paths.html#python');
+await blocked.locator('[data-milestone="intro"]').check();
+assert.match(await blocked.locator('#save-status').textContent(), /unavailable/);
+assert.equal(await blocked.locator('[data-milestone="intro"]').isChecked(),true);
+assert.deepEqual(errors,[]);
+console.log('PASS: seven paths, persistence, resume, course return, isolation, existing quiz/completion, chapter deep link, mobile overflow and blocked storage.');
+await blocked.close();
+});

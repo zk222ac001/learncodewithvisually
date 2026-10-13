@@ -8,7 +8,7 @@ const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 test('homepage keeps AdSense verification and loads the interactive course', () => {
   const html = read('index.html');
   assert.match(html, /name="google-adsense-account" content="ca-pub-[0-9]+"/);
-  assert.match(html, /course\.js\?v=22/);
+  assert.match(html, /course\.js\?v=23/);
   assert.match(html, /id="content"/);
   assert.match(html, /rel="canonical" href="https:\/\/learncodevisually\.com\/"/);
   assert.match(html, /application\/ld\+json/);
@@ -31,7 +31,7 @@ test('guides provide unique titles, descriptive content and functioning local ro
 test('every sitemap URL resolves to an existing canonical HTML file', () => {
   const sitemap = read('sitemap.xml');
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(x => x[1]);
-  assert.equal(urls.length, 14);
+  assert.equal(urls.length, 15);
   assert.equal(new Set(urls).size, urls.length);
   for (const value of urls) {
     const url = new URL(value);
