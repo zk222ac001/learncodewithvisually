@@ -7,3 +7,6 @@ codevizai-local-model-qa.json
 .env
 .env.*
 !.env.example
+
+# Generated private admin snapshot
+codevizai-admin-dashboard-local.html
