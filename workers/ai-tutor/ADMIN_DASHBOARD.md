@@ -31,3 +31,13 @@ Open `codevizai-admin-dashboard-local.html` locally. It is excluded from Git. Re
 ## Planned future features
 
 Aggregated, privacy-respecting error counters, optional anonymized response feedback, and Cloudflare billing insights need separate implementation. They are not represented as live data here. Finalize the individual operator/privacy notice before further expanding tracking.
+
+## V2: bounded seven-day aggregate history and local refresh
+
+V2 is proposed code, not yet deployed. The Durable Object stores a rolling seven-day aggregate of reservation attempts, successful model responses, incomplete output and model exceptions. It retains no IP address, question, code, user identifier or individual event log. Earlier dates before v2 collection appear as **Not collected**; they cannot be reconstructed reliably. Today’s existing reservation counter is preserved when v2 starts.
+
+To refresh the private dashboard automatically, use `node scripts/codevizai-admin-dashboard.mjs --watch` in the terminal that holds `CODEVIZAI_ADMIN_STATS_TOKEN`. Keep that terminal running. The local HTML file reloads every 60 seconds; the token remains only in the Node process environment, never in HTML. Stop with Ctrl+C. This does not create a remotely accessible dashboard.
+
+Failure totals cover model exceptions and incomplete generated replies **after quota reservation**. They do not measure Turnstile, input-validation, rate-limit or quota denials; model inference exceptions are not personally attributable. This is operational telemetry, not billing data or a visitor counter.
+
+Run the automated tests and protected public Worker deployment only after review; **never** use the private workflow because it disables the public Tutor.
