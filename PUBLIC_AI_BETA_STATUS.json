@@ -1,5 +1,5 @@
 {
-  "state": "private",
+  "state": "public",
   "shared_ai_requests_per_utc_day": 25,
   "per_ip_requests_per_60_seconds": 5,
   "notes": "This status describes the website switch only. Cloudflare Worker state must be confirmed separately."
