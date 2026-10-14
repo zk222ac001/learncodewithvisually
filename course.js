@@ -8,7 +8,7 @@ let E=ALL_EXAMPLES[codeLanguage];
 const program=()=>D.programs[codeLanguage];
 const M=window.ModuleOne;
 const filename=id=>program().filename||id+"."+program().ext;
-const SITE_TITLE='Learn Programming Visually — Free Interactive Coding Lessons';
+const SITE_TITLE='Learn Programming Visually with AI Tutor — Free Interactive Coding Lessons';
 const topicCount=D.topics.length+(window.ARRAYS_DATA?1:0)+(window.SWITCH_DATA?1:0)+(window.FUNCTIONS_DATA?1:0)+(window.POINTERS_DATA?1:0)+(window.OOP_DATA?1:0)+(window.FILE_HANDLING_DATA?1:0)+(window.EXCEPTION_HANDLING_DATA?1:0)+(window.UNIT_TESTING_DATA?1:0);
 const switchTitle=()=>window.SWITCH_DATA?.locales[language][0]||'Switch statement';
 const functionsTitle=()=>window.FUNCTIONS_DATA?.locales[language][0]||'Functions';
