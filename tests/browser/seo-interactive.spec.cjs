@@ -88,7 +88,7 @@ test('AI Tutor reports a clear message if Turnstile cannot load', async ({ page 
 
 
 test('homepage heading, browser title and SEO metadata stay aligned after JavaScript renders', async ({page}) => {
-  const title="Learn Programming Visually — Free Interactive Coding Lessons";
+  const title="Learn Programming Visually with AI Tutor — Free Interactive Coding Lessons";
   await page.goto('/index.html?lang=en&code=python');
   await expect(page).toHaveTitle(title);
   await expect(page.locator('#content h1')).toHaveText(title);
