@@ -3,10 +3,6 @@
   const cfg=window.LEARNCODE_AI_TUTOR;
   const root=document.getElementById('general-ai-tutor');
   if(!root||!cfg)return;
-  const canonicalHome=!location.hash || location.hash==='#home';
-  // This reusable widget is mounted on the homepage without disrupting lesson routing.
-  root.hidden=!canonicalHome;
-  window.addEventListener('hashchange',()=>{root.hidden=!!location.hash && location.hash!=='#home';});
   const allowed=new Set(['c','cpp','python','java','javascript','csharp']);
   const params=new URLSearchParams(location.search);
   const preview=cfg.enabled!==true && params.get('ai-preview')==='1';
@@ -16,6 +12,11 @@
   const labels={c:'C',cpp:'C++',python:'Python',java:'Java',javascript:'JavaScript',csharp:'C#',other:'Other'};
   const state={history:[],widget:null,busy:false,ready:false};
   const el=(tag,attrs={},value='')=>{const n=document.createElement(tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);if(value)n.textContent=value;return n;};
+  const dialog=el('dialog',{id:'general-ai-dialog','aria-labelledby':'general-ai-tutor-title'});
+  root.before(dialog);dialog.append(root);root.hidden=false;
+  const launcher=el('button',{id:'general-ai-launcher',type:'button','aria-haspopup':'dialog','aria-controls':'general-ai-dialog','aria-expanded':'false',lang:'en'},'Ask AI Tutor');
+  document.body.append(launcher);document.body.classList.add('has-ai-tutor');
+  const close=el('button',{type:'button','class':'general-ai-close','aria-label':'Close AI tutor'},'Close ×');
   const heading=el('h2',{id:'general-ai-tutor-title'},'CodeVizAI Programming Tutor');
   const intro=el('p',{},'Ask about programming concepts, paste a code sample, or request a hint. Supports any programming language. AI answers may be wrong and are not executed.');
   const note=el('p',{'class':'general-ai-note'},active?'AI Tutor beta: questions are sent to Cloudflare Workers AI. Do not share passwords, personal information or private student work.':'AI Tutor preview — public AI chat is not enabled. Lessons and quizzes remain free.');
@@ -23,9 +24,10 @@
   const language=el('select',{id:'general-ai-language','aria-label':'Programming language'});
   for(const [value,label] of Object.entries(labels)){const option=el('option',{value},label);language.append(option);}
   language.value=lang();
+  let languageChosen=false;
   const other=el('input',{id:'general-ai-other','aria-label':'Other programming language',maxlength:'40',placeholder:'e.g. Rust, Go, Kotlin'});
   other.hidden=true;
-  language.addEventListener('change',()=>{other.hidden=language.value!=='other';});
+  language.addEventListener('change',()=>{languageChosen=true;other.hidden=language.value!=='other';});
   const level=el('select',{id:'general-ai-level','aria-label':'Explanation level'});
   for(const [v,t] of Object.entries({beginner:'Beginner',intermediate:'Intermediate',advanced:'Advanced'}))level.append(el('option',{value:v},t));
   const mode=el('select',{id:'general-ai-mode','aria-label':'Type of help'});
@@ -43,8 +45,27 @@
   if(preview){testBox.append(el('label',{for:'general-ai-test-key'},'Private tester key (64 characters)'));testBox.append(el('input',{id:'general-ai-test-key',type:'password',maxlength:'64',autocomplete:'off'}));}
   row.append(language,other,mode,level);controls.append(submit,clear);
   form.append(el('label',{for:'general-ai-question'},'Your programming question'),question,el('label',{for:'general-ai-code'},'Optional source code'),code,testBox,captcha,controls);
-  root.append(heading,intro,note,row,log,form,status,el('p',{},'Review the '+ 'Privacy Policy before asking AI; no answers are verified by a compiler.'));
+  const panelHeader=el('div',{'class':'general-ai-header'});panelHeader.append(heading,close);
+  root.append(panelHeader,intro,note,row,log,form,status,el('p',{},'Review the '+ 'Privacy Policy before asking AI; no answers are verified by a compiler.'));
   root.lastElementChild.append(' ',el('a',{href:'/privacy.html#ai-tutor'},'Privacy Policy'));
+  let opener=launcher;
+  let startVerification=()=>{};
+  const openTutor=trigger=>{
+    if(dialog.open)return;
+    if(!languageChosen)language.value=lang();
+    opener=trigger;dialog.showModal();launcher.setAttribute('aria-expanded','true');
+    startVerification();question.focus();
+  };
+  launcher.addEventListener('click',()=>openTutor(launcher));
+  document.addEventListener('click',event=>{
+    const trigger=event.target.closest('[data-open-ai-tutor]');
+    if(trigger){event.preventDefault();openTutor(trigger);}
+  });
+  close.addEventListener('click',()=>dialog.close());
+  dialog.addEventListener('close',()=>{
+    launcher.setAttribute('aria-expanded','false');
+    (opener?.isConnected?opener:launcher).focus();
+  });
   const append=(role,text,codeLanguage)=>{
     const message=el('article',{'class':'general-ai-message '+role});
     const title=el('p',{'class':'general-ai-speaker'},role==='assistant'?'CodeVizAI Tutor':'You');
@@ -67,7 +88,11 @@
   };
   const script=el('script',{src:'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onGeneralAiTurnstileLoad&render=explicit',async:'',defer:''});
   script.onerror=()=>{status.textContent='Verification service could not load.';};
-  document.head.append(script);
+  let verificationStarted=false;
+  startVerification=()=>{
+    if(verificationStarted)return;verificationStarted=true;
+    status.textContent='Loading human verification…';document.head.append(script);
+  };
   form.addEventListener('submit',async event=>{
     event.preventDefault();if(state.busy||!state.ready)return;
     const q=question.value.trim(),source=code.value,chosen=language.value==='other'?other.value.trim():labels[language.value];
@@ -92,3 +117,4 @@
     finally{window.turnstile?.reset(state.widget);state.busy=false;submit.disabled=false;}
   });
 })();
+

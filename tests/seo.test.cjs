@@ -8,7 +8,7 @@ const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 test('homepage keeps AdSense verification and loads the interactive course', () => {
   const html = read('index.html');
   assert.match(html, /name="google-adsense-account" content="ca-pub-[0-9]+"/);
-  assert.match(html, /course\.js\?v=24/);
+  assert.match(html, /course\.js\?v=25/);
   assert.match(html, /id="content"/);
   assert.match(html, /rel="canonical" href="https:\/\/learncodevisually\.com\/"/);
   assert.match(html, /application\/ld\+json/);
@@ -96,3 +96,4 @@ test('homepage SEO uses the exact publicly rendered title and truthful product d
   const status=JSON.parse(read('PUBLIC_AI_BETA_STATUS.json'));
   assert.match(read('ai-tutor-config.js'),new RegExp('enabled:\\s*'+(status.state==='public'?'true':'false')));
 });
+

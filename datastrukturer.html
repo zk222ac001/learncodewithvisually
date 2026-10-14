@@ -9,7 +9,8 @@
 .code-tabs{align-items:center}.code-tabs label{font-size:13px;font-weight:700}.code-tabs select{font:inherit;max-width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:white;color:var(--ink)}
 .stage,.code,.code code,.run-help pre{direction:ltr;unicode-bidi:isolate}.code,.run-help pre{text-align:left}.stage .muted,.stage .empty{unicode-bidi:plaintext}.brand{font-size:19px;letter-spacing:0}.top-actions{min-width:0}.language-picker select{max-width:200px}
 [dir=rtl] nav button{text-align:right}[dir=rtl] aside{border-right:0;border-left:1px solid var(--line)}[dir=rtl] td,[dir=rtl] th{text-align:right}[dir=rtl] h1{letter-spacing:0;line-height:1.45}[dir=rtl] .code-tabs #download-code{margin-left:0;margin-right:auto}[dir=rtl] .question input{margin-inline-end:4px}[dir=rtl] .message{unicode-bidi:plaintext}[lang=ur]{line-height:1.9}[lang=hi]{line-height:1.8}[lang=zh-Hans] h1{letter-spacing:0}
-</style></head><body><div class="shell">
+</style><link rel="stylesheet" href="general-ai-tutor.css?v=3"><script src="ai-tutor-config.js?v=public-beta-1" defer></script><script src="general-ai-markdown.js?v=1" defer></script><script src="general-ai-tutor.js?v=3" defer></script>
+</head><body><div class="shell">
 <aside><p style="margin:0 0 18px"><a id="course-home" href="index.html" style="color:var(--blue);font-size:14px;font-weight:700"></a></p><div class="brand" id="brand"></div><div class="eyebrow" id="strapline"></div><div class="nav-label eyebrow" id="nav-label"></div><nav id="nav" aria-label="Kapitler"></nav><p class="sidebar-note" id="sidebar-note"></p><p class="sidebar-note" id="sidebar-offline"></p><p><a id="course-reference" href="c-formatting.html" style="color:var(--blue);font-size:13px"></a></p></aside>
 <main><header class="topbar"><span class="offline" id="offline"></span><div class="top-actions"><div class="language-picker"><label for="language" id="lang-label">Sprog / Language</label><select id="language"><option value="da" lang="da" dir="ltr">Dansk</option><option value="en" lang="en" dir="ltr">English</option><option value="es" lang="es" dir="ltr">Español</option><option value="fr" lang="fr" dir="ltr">Français</option><option value="de" lang="de" dir="ltr">Deutsch</option><option value="pt" lang="pt" dir="ltr">Português</option><option value="ar" lang="ar" dir="rtl">العربية</option><option value="ur" lang="ur" dir="rtl">اردو</option><option value="hi" lang="hi" dir="ltr">हिन्दी</option><option value="zh" lang="zh" dir="ltr">简体中文</option></select></div><button id="present" aria-pressed="false"></button><button id="full"></button><button id="help"></button></div></header><div id="content"></div><footer class="bottom"><button id="previous"></button><span class="progress" id="progress"></span><button id="next"></button></footer></main>
 </div><dialog id="guide"></dialog><noscript><p>Denne side kræver JavaScript til animationer og sprogvalg. This page needs JavaScript for animations and language selection.</p></noscript>
@@ -209,4 +210,6 @@ document.addEventListener('fullscreenchange',()=>{$('full').textContent=document
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
 openChapter(0);
 
-</script></body></html>
+</script><section id="general-ai-tutor" class="general-ai-tutor" aria-labelledby="general-ai-tutor-title" lang="en" dir="ltr"></section>
+</body></html>
+
