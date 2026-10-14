@@ -1,4 +1,17 @@
 /* General programming AI Tutor; independently scoped to avoid course regressions. */
+.has-ai-tutor{padding-bottom:90px}
+#general-ai-launcher{position:fixed;inset-inline-end:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:1000;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border:0;border-radius:28px;background:#215ad7;color:#fff;font:700 16px/1.4 system-ui,sans-serif;box-shadow:0 6px 24px #10213540;cursor:pointer}
+#general-ai-launcher:hover{background:#1749a9}
+#general-ai-launcher:focus-visible{outline:3px solid #df7619;outline-offset:4px}
+#general-ai-dialog{position:fixed;inset:16px 16px 16px auto;margin:0;padding:0;width:min(480px,calc(100vw - 32px));max-width:none;height:calc(100dvh - 32px);max-height:none;border:1px solid #b8c9dc;border-radius:18px;background:#fff;box-shadow:0 12px 48px #10213540;overflow-y:auto;overscroll-behavior:contain;color:#152b40;text-align:start}
+#general-ai-dialog::backdrop{background:#10213530}
+#general-ai-dialog .general-ai-tutor{margin:0;max-width:none;padding:0 20px 20px;border:0;border-radius:0;box-shadow:none}
+.general-ai-header{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;padding:16px 0;border-bottom:1px solid #d9e0e7;margin-bottom:16px}
+.general-ai-header h2{font-size:1.2rem!important;margin:0!important}
+.general-ai-header .general-ai-close{flex:none;min-height:44px;background:#fff;color:#1749a9;padding:8px 10px}
+.general-ai-home-help{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:15px}
+.general-ai-home-help button{background:#215ad7;color:#fff;border-color:#215ad7;min-height:44px}
+@media(max-width:640px){#general-ai-dialog{inset:0;width:100%;height:100dvh;border-radius:0;border:0}#general-ai-launcher{inset-inline-end:14px;bottom:calc(14px + env(safe-area-inset-bottom))}#general-ai-dialog .general-ai-tutor{padding:0 16px calc(20px + env(safe-area-inset-bottom))}}
 .general-ai-tutor{max-width:1100px;margin:16px auto;padding:24px;border:1px solid #cbdcf0;border-radius:18px;background:#fff;color:#152b40;box-shadow:0 12px 28px #18314f09}
 .general-ai-tutor h2{margin:0 0 10px;font-size:1.5rem}
 .general-ai-tutor p{margin:8px 0 14px}
@@ -38,3 +51,4 @@
 .general-ai-token-string{color:#acdca0}
 .general-ai-token-comment{color:#9ab0c4}
 .general-ai-token-number{color:#ffd399}
+
