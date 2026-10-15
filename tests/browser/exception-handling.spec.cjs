@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 test('Exception Handling is entry 12 and teaches exception flow and recovery', async ({ page }) => {
   await page.goto('/index.html?lang=en&code=python');
+  await page.locator('.ux-resource-library > summary').click();
   const card = page.locator('.cards article').filter({ has: page.locator('h2', { hasText: /^Exception Handling$/ }) });
   await expect(card.locator('.number')).toHaveText('12');
   await card.locator('a').click();

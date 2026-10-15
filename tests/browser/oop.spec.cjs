@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 test('Object-oriented programming is entry 10 and explains each requested concept', async ({ page }) => {
   await page.goto('/index.html?lang=en&code=java');
+  await page.locator('.ux-resource-library > summary').click();
   const card = page.locator('.cards article').filter({ has: page.locator('h2', { hasText: /^Object-Oriented Programming$/ }) });
   await expect(card.locator('.number')).toHaveText('10');
   await card.locator('a').click();

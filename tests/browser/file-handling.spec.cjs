@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 test('File Handling is entry 11 and teaches writing, reading, and OOP file operations', async ({ page }) => {
   await page.goto('/index.html?lang=en&code=python');
+  await page.locator('.ux-resource-library > summary').click();
   const card = page.locator('.cards article').filter({ has: page.locator('h2', { hasText: /^File Handling$/ }) });
   await expect(card.locator('.number')).toHaveText('11');
   await card.locator('a').click();

@@ -1,0 +1,79 @@
+/* Reviewable first slice: homepage and standalone C for-loop lesson only. */
+body[data-ux-view="home"],body.ux-lesson{--ux-ink:#182b46;--ux-muted:#53647b;--ux-blue:#2459d3;--ux-line:#dce3ed;background:#f5f7fb;color:var(--ux-ink)}
+.ux-kicker{font:750 11px/1.5 system-ui,sans-serif;letter-spacing:1.5px;color:#53647b;margin:0 0 12px;text-transform:uppercase}
+body[data-ux-view="home"] .shell{max-width:1640px;grid-template-columns:230px minmax(0,1fr)}
+body[data-ux-view="home"] #sidebar{background:#fff;color:var(--ux-ink);border-inline-end:1px solid var(--ux-line);box-shadow:none;padding:28px 18px}
+body[data-ux-view="home"] .brand{color:var(--ux-ink);font-size:23px;letter-spacing:-.8px;margin-bottom:32px}
+body[data-ux-view="home"] .brand span{box-shadow:none;background:#2459d3;border-radius:10px}
+body[data-ux-view="home"] #sidebar nav{gap:5px}
+body[data-ux-view="home"] #sidebar nav a{color:#465973;border:0;border-radius:8px;font-size:13px;padding:12px 10px;transform:none}
+body[data-ux-view="home"] #sidebar nav a b{color:#7989a0;font-size:11px}
+body[data-ux-view="home"] #sidebar nav a[aria-current="page"]{color:#1949b3;background:#eaf0ff;font-weight:700}
+.ux-nav-more{margin-top:18px;border-top:1px solid #dce3ed;padding-top:18px}
+.ux-nav-more summary{font-size:12px;font-weight:700;color:#53647b;cursor:pointer;padding:10px 6px;list-style-position:inside}
+body[data-ux-view="home"] #main{padding:28px 40px 64px}
+body[data-ux-view="home"] #top{position:static;box-shadow:none;background:transparent;border:0;margin:0 0 24px;padding:0}
+body[data-ux-view="home"] #top .controls{gap:8px 12px}
+body[data-ux-view="home"] #top label{font-size:11px;color:#53647b}
+body[data-ux-view="home"] #top select{font-size:13px;min-height:40px;border-radius:8px;background:#fff;border:1px solid #cbd5e2;max-width:170px}
+body[data-ux-view="home"] .beta-banner{font-size:11px;background:transparent;border:0;border-bottom:1px solid var(--ux-line);border-radius:0;padding:0 0 16px;margin-bottom:26px;box-shadow:none;color:#53647b}
+body[data-ux-view="home"] .hero{padding:0;margin:0 0 36px;border:0;background:none;box-shadow:none;border-radius:0;overflow:visible}
+body[data-ux-view="home"] .hero:after{display:none}
+.ux-home-hero{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(240px,1fr);gap:36px;align-items:center}
+body[data-ux-view="home"] .hero h1{font-size:clamp(28px,3.1vw,44px);line-height:1.16;letter-spacing:-1.7px;max-width:760px;margin:12px 0 18px;font-weight:780}
+body[data-ux-view="home"] .hero .lede{font-size:16px;line-height:1.7;color:#53647b;max-width:620px;margin-bottom:24px}
+.ux-actions{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+body[data-ux-view="home"] .button{border-radius:8px;font-size:13px;min-height:44px;padding:10px 16px;box-shadow:none}
+body[data-ux-view="home"] .primary{background:#2459d3;border-color:#2459d3;color:#fff}
+body[data-ux-view="home"] .primary:hover{background:#1846b0}
+body[data-ux-view="home"] .general-ai-home-help{font-size:12px;gap:6px;color:#53647b}
+body[data-ux-view="home"] .general-ai-home-help button{border:0;padding:0 4px;background:transparent;color:#1749a9;font-size:12px;text-decoration:underline;min-height:36px}
+body[data-ux-view="home"] .tags{margin-top:18px;gap:16px}
+body[data-ux-view="home"] .tag{background:none;border:0;padding:0;color:#53647b;font-size:11px;border-radius:0}
+.ux-start-card{position:static!important;height:auto!important;width:auto;background:#eaf0fb!important;border:1px solid #dbe4f4!important;border-radius:16px;padding:28px!important;overflow:visible!important;box-shadow:none!important}
+.ux-start-card h2{font-size:25px;line-height:1.25;letter-spacing:-.7px;margin:14px 0 24px}
+.ux-learning-steps{list-style:none;padding:0;margin:0;display:grid;gap:21px}
+.ux-learning-steps li{display:flex;gap:12px;align-items:flex-start}
+.ux-learning-steps li>span{font:650 11px/30px ui-monospace,monospace;width:30px;height:30px;text-align:center;border:1px solid #c6d3eb;border-radius:50%;flex:none;color:#2459d3;background:#f7f9fe}
+.ux-learning-steps strong{font-size:13px}.ux-learning-steps p{font-size:12px;color:#53647b;line-height:1.5;margin:3px 0 0}
+.ux-current-language{border-top:1px solid #cdd9ed;padding-top:18px;margin:24px 0 0;font-size:11px;color:#53647b;display:flex;justify-content:space-between;gap:10px}.ux-current-language strong{color:#2459d3}
+.ux-resume{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 26px;background:#fff;border:1px solid var(--ux-line);border-radius:12px;margin:0 0 32px}.ux-resume h2{font-size:19px;margin:0 0 6px}.ux-resume p{font-size:13px;color:#53647b;margin:0}.ux-resume .ux-kicker{margin-bottom:5px}
+.ux-section-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin:36px 0 18px}.ux-section-heading h2{font-size:25px;margin:0}.ux-section-heading p:not(.ux-kicker){font-size:12px;color:#53647b;margin:0;max-width:260px}.ux-section-heading .ux-kicker{margin-bottom:6px}
+body[data-ux-view="home"] .ux-module-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+body[data-ux-view="home"] .card{background:#fff;border:1px solid #dce3ed;border-radius:12px;box-shadow:none;padding:24px;transform:none}
+body[data-ux-view="home"] .ux-module-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:12px;overflow:hidden}
+body[data-ux-view="home"] .ux-module-card .number{position:absolute;inset-inline-end:20px;top:16px;font:700 42px/1 system-ui;color:#e3eaf5;background:none;width:auto;height:auto;padding:0;border:0}
+.ux-module-meta{font:700 10px/1.5 system-ui;letter-spacing:1.2px;color:#53647b;margin:0;padding-inline-end:38px}
+body[data-ux-view="home"] .ux-module-card h2{font-size:20px;line-height:1.3;max-width:85%;margin:0}
+.ux-module-card details{font-size:13px;flex:1;width:100%;margin-bottom:4px}.ux-module-card summary{cursor:pointer;color:#53647b;padding:6px 0}.ux-module-card ol{margin:12px 0;padding-inline-start:20px}.ux-module-card li{margin-bottom:6px}
+.ux-resource-library{margin:26px 0}.ux-resource-library>summary{padding:20px 0;border-top:1px solid #dce3ed;border-bottom:1px solid #dce3ed;cursor:pointer;font-weight:700;font-size:16px}.ux-resource-library>summary span{display:block;font-weight:400;font-size:12px;color:#53647b;margin:4px 0 0 18px}.ux-resource-library>.cards{margin-top:20px}
+body[data-ux-view="home"] .seo-paths{background:transparent;border:0;box-shadow:none;padding:24px 0;margin:12px 0;border-top:1px solid #dce3ed;border-radius:0}
+body[data-ux-view="home"] .seo-paths h2{font-size:21px}body[data-ux-view="home"] .seo-paths>p{font-size:14px;color:#53647b}
+body[data-ux-view="home"] .foot{font-size:12px;color:#53647b;border:0}
+/* A focused lesson workspace, using the existing interactive controls. */
+.ux-lesson{font:15px/1.7 system-ui,sans-serif}.ux-lesson main{max-width:1180px;padding:32px 28px 70px;margin:auto}
+.ux-lesson>header{background:#fff;border-bottom:1px solid #dce3ed;box-shadow:none;padding:20px max(24px,calc((100vw - 1124px)/2));display:flex;align-items:center;justify-content:space-between;gap:24px}
+.ux-lesson .wordmark{font-size:22px;letter-spacing:-.7px;color:#182b46}.ux-wordmark-note{font-size:12px;font-weight:400;color:#53647b;letter-spacing:0;margin-left:8px}
+.ux-lesson>header nav{display:flex;gap:20px;flex-wrap:wrap}.ux-lesson>header nav a{font-size:12px;text-decoration:none;color:#53647b}
+.ux-lesson .guide-hero{background:none;border:0;padding:0;margin-bottom:28px;box-shadow:none}.ux-breadcrumb{font-size:12px;text-decoration:none;color:#53647b;display:inline-block;margin-bottom:28px}
+.ux-lesson h1{font-size:clamp(30px,4vw,46px);max-width:780px;line-height:1.14;letter-spacing:-1.6px;margin:12px 0 18px}.ux-lesson .lead{font-size:16px;max-width:780px;color:#53647b}
+.ux-lesson-steps{display:flex;gap:10px;margin:24px 0;flex-wrap:wrap}.ux-lesson-steps a{display:flex;align-items:center;gap:9px;padding:9px 16px;border:1px solid #dce3ed;border-radius:8px;background:#fff;text-decoration:none;font-size:12px;color:#182b46}.ux-lesson-steps span{font:700 10px ui-monospace;color:#2459d3}
+.ux-workbench{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:20px;align-items:stretch;margin-bottom:24px}.ux-lesson .panel{padding:26px;border:1px solid #dce3ed;border-radius:12px;background:#fff;box-shadow:none;margin-bottom:20px;min-width:0}.ux-workbench>.panel{margin:0}.ux-lesson h2{font-size:21px;line-height:1.3;letter-spacing:-.4px}.ux-lesson .panel>p{font-size:14px;color:#53647b}.ux-lesson pre{background:#12243c;color:#e8effa;border:0;border-radius:9px;font-size:13px;line-height:1.8;padding:20px;overflow-x:auto;max-width:100%}.ux-lesson pre code{color:inherit;background:none}.ux-lesson .demo-stage{border-radius:10px;background:#f5f7fb;padding:18px;overflow-x:auto;min-height:150px}
+.ux-lesson button,.ux-lesson .cta{border-radius:8px;font-size:13px;min-height:44px}.ux-lesson button[data-action="next"]{background:#2459d3;color:white;border-color:#2459d3}.ux-lesson .demo-status{padding:12px 14px;border-inline-start:3px solid #2459d3;background:#edf3ff;border-radius:4px}.ux-lesson .ai-tutor-panel{border-inline-start:4px solid #2459d3;background:#f7faff}.ux-lesson .ux-practice{border-top:3px solid #2459d3}.ux-lesson details{border-radius:8px}.ux-lesson :is(a,button,summary,select):focus-visible,body[data-ux-view="home"] :is(a,button,summary,select):focus-visible{outline:3px solid #c45a12;outline-offset:3px}
+@media(max-width:1100px){.ux-home-hero{grid-template-columns:1fr}.ux-start-card{display:none}body[data-ux-view="home"] #main{padding:22px 26px 60px}.ux-lesson>header{padding:18px 24px}.ux-wordmark-note{display:none}}
+@media(max-width:730px){body[data-ux-view="home"] .shell{display:block}body[data-ux-view="home"] #sidebar{position:static;height:auto;padding:16px;border-inline-end:0;border-bottom:1px solid #dce3ed}body[data-ux-view="home"] .brand{margin-bottom:14px;font-size:21px}body[data-ux-view="home"] #sidebar nav{display:flex;flex-wrap:wrap;overflow:visible;gap:4px}body[data-ux-view="home"] #sidebar nav a{flex:0 1 auto;padding:8px;font-size:11px;max-width:none}body[data-ux-view="home"] .ux-nav-more{width:100%;margin-top:6px;padding-top:4px}.ux-nav-more summary{padding:8px 6px}body[data-ux-view="home"] .ux-nav-more a{display:flex}body[data-ux-view="home"] #main{padding:20px 18px 60px}body[data-ux-view="home"] #top{margin:0 0 18px}body[data-ux-view="home"] #top .controls{display:grid;grid-template-columns:1fr 1fr;width:100%}body[data-ux-view="home"] #top label{grid-row:1}body[data-ux-view="home"] #top select{grid-row:2;max-width:100%;width:100%}body[data-ux-view="home"] #top button{grid-column:2;justify-self:end;font-size:11px;min-height:36px;padding:5px 10px}body[data-ux-view="home"] .hero h1{font-size:32px;letter-spacing:-1px}.ux-actions>*{flex:1;text-align:center}.ux-section-heading{display:block}.ux-section-heading p:not(.ux-kicker){margin-top:8px;max-width:none}body[data-ux-view="home"] .ux-module-grid{grid-template-columns:1fr}.ux-resume{align-items:flex-start;flex-direction:column}.ux-lesson>header{display:block}.ux-lesson>header nav{gap:14px;margin-top:12px}.ux-lesson main{padding:24px 16px 50px}.ux-workbench{grid-template-columns:1fr}.ux-lesson .panel{padding:20px}.ux-lesson-steps{gap:6px}.ux-lesson-steps a{padding:8px 10px}.ux-lesson h1{font-size:34px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Explicit card colors avoid the legacy dark-sidebar color inheritance. */
+body[data-ux-view="home"] .ux-start-card,body[data-ux-view="home"] .ux-start-card h2,body[data-ux-view="home"] .ux-start-card strong{color:#182b46}
+#ux-menu-toggle{display:none}
+@media(max-width:730px){
+ body[data-ux-view="home"] #sidebar{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:14px 18px}
+ body[data-ux-view="home"] .brand{margin:0}
+ #ux-menu-toggle{display:block;min-height:40px;font-size:12px;border:1px solid #cbd5e2;background:#fff;color:#182b46;border-radius:8px;padding:8px 12px}
+ body[data-ux-view="home"] #sidebar nav{display:none;grid-column:1/-1}
+ body[data-ux-view="home"] #sidebar[data-ux-menu-open="true"] nav{display:flex}
+ body[data-ux-view="home"] #top button{display:none}
+ body[data-ux-view="home"] .beta-banner span{display:none}
+ body[data-ux-view="home"] .beta-banner{margin-bottom:18px;padding-bottom:12px}
+}

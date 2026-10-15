@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 test('Pointers is entry 09 and covers all requested C topics', async ({ page }) => {
   await page.goto('/index.html?lang=en&code=c');
+  await page.locator('.ux-resource-library > summary').click();
   const card = page.locator('.cards article').filter({ has: page.locator('h2', { hasText: /^Pointers$/ }) });
   await expect(card.locator('.number')).toHaveText('09');
   await card.locator('a').click();
