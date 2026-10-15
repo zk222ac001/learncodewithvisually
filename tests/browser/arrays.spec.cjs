@@ -56,6 +56,7 @@ test('arrays appear on the homepage and preserve six programming languages in te
   for (const locale of ['da', 'en', 'es', 'fr', 'de', 'pt', 'ar', 'ur', 'hi', 'zh']) {
     for (const code of ['c', 'cpp', 'python', 'java', 'javascript', 'csharp']) {
       await page.goto(`/index.html?lang=${locale}&code=${code}`);
+      await page.locator('.ux-resource-library > summary').click();
       const link = page.locator('.cards a[href$="#arrays"]');
       await expect(link).toHaveCount(1); await expect(link.locator('xpath=ancestor::article')).toContainText('07'); await link.click();
       await expect(page.locator('#arrays')).toBeVisible();

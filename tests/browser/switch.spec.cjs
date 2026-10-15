@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 test('switch is listed under control and traces matching, breaks, defaults and fall-through', async ({ page }) => {
   await page.goto('/index.html?lang=en&code=c');
+  await page.locator('.ux-module-card').filter({ has: page.locator('a[href$="#switch"]') }).locator('summary').click();
   await page.locator('.cards a[href$="#switch"]').click();
   await expect(page.locator('#switch .topic-no')).toHaveText('3.8');
   await expect(page.locator('#assignment .topic-no')).toHaveText('3.9');

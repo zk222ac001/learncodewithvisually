@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 test('Functions is entry 08 and its stack supports stepping, unwinding and zero', async ({ page }) => {
   await page.goto('/index.html?lang=en&code=c');
+  await page.locator('.ux-resource-library > summary').click();
   const card = page.locator('.cards article').filter({ has: page.locator('h2', { hasText: /^Functions$/ }) });
   await expect(card.locator('.number')).toHaveText('08');
   await card.locator('a').click();

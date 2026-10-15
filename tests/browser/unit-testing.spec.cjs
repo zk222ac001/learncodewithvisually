@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 test('Unit Testing is entry 13 and explains core test concepts', async ({ page }) => {
   await page.goto('/index.html?lang=en&code=python');
+  await page.locator('.ux-resource-library > summary').click();
   const card = page.locator('.cards article').filter({ has: page.locator('h2', { hasText: /^Unit Testing$/ }) });
   await expect(card.locator('.number')).toHaveText('13');
   await card.locator('a').click();
