@@ -1,0 +1,65 @@
+const {test,expect}=require('@playwright/test');
+const fs=require('node:fs');
+test.beforeEach(async({page})=>{
+ await page.route('https://challenges.cloudflare.com/**',route=>route.abort());
+});
+test('homepage hierarchy, language selection, tutor and responsive layouts',async({page})=>{
+ await page.setViewportSize({width:1440,height:1000});
+ await page.goto('/index.html?lang=en&code=python');
+ await expect(page.locator('body')).toHaveAttribute('data-ux-view','home');
+ await expect(page.getByRole('link',{name:'Start learning',exact:false})).toBeVisible();
+ await expect(page.locator('.ux-module-card')).toHaveCount(4);
+ await expect(page.locator('#ux-resume')).toBeHidden();
+ await page.getByLabel('Website language',{exact:true}).selectOption('en');
+ await page.locator('#program-language').selectOption('java');
+ await expect(page.locator('.ux-current-language strong')).toHaveText('Java');
+ await page.locator('.ux-nav-more summary').click();
+ await expect(page.locator('.ux-nav-more a').first()).toBeVisible();
+ await page.locator('.ux-nav-more summary').click();
+ await page.getByRole('button',{name:'Ask CodeVizAI',exact:true}).click();
+ await expect(page.locator('#general-ai-dialog')).toBeVisible();
+ await page.keyboard.press('Escape');
+ fs.mkdirSync('ui-previews',{recursive:true});
+ await page.screenshot({path:'ui-previews/home-desktop.png'});
+ await page.setViewportSize({width:390,height:844});
+ await page.evaluate(()=>scrollTo(0,0));
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.screenshot({path:'ui-previews/home-mobile.png'});
+ await page.locator('#language').selectOption('ar');
+ await expect(page.locator('html')).toHaveAttribute('dir','rtl');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+test('resume appears only after a real lesson and navigates back with language',async({page})=>{
+ await page.goto('/index.html?lang=en&code=python');
+ await page.getByRole('link',{name:'Start learning',exact:false}).click();
+ await expect(page.locator('body')).toHaveAttribute('data-ux-view','lesson');
+ await page.locator('#sidebar nav a').first().click();
+ await expect(page.locator('#ux-resume')).toBeVisible();
+ await page.locator('#ux-resume-link').click();
+ await expect(page).toHaveURL(/code=python#intro$/);
+ await expect(page.locator('body')).toHaveAttribute('data-ux-view','lesson');
+});
+test('homepage stays usable when local storage is unavailable',async({page})=>{
+ await page.addInitScript(()=>Object.defineProperty(window,'localStorage',{get(){throw Error('blocked');}}));
+ await page.goto('/index.html?lang=en&code=python');
+ await expect(page.locator('#ux-resume')).toBeHidden();
+ await expect(page.getByRole('link',{name:'Start learning',exact:false})).toBeVisible();
+});
+test('lesson retains step controls and fits desktop and mobile',async({page})=>{
+ await page.setViewportSize({width:1440,height:1000});
+ await page.goto('/c-for-loop-visualization.html');
+ await expect(page.locator('.ux-lesson-steps a')).toHaveCount(3);
+ const demo=page.locator('[data-visualizer="loop"]');
+ for(let i=0;i<4;i++)await demo.getByRole('button',{name:'Next step'}).click();
+ await expect(demo.locator('[data-status]')).toContainText('terminates without printing 4');
+ await demo.getByRole('button',{name:'Reset',exact:true}).click();
+ fs.mkdirSync('ui-previews',{recursive:true});
+ await page.screenshot({path:'ui-previews/lesson-desktop.png'});
+ await page.setViewportSize({width:390,height:844});
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.screenshot({path:'ui-previews/lesson-mobile.png'});
+ await page.locator('.ux-lesson-steps a[href="#practice"]').click();
+ await expect(page.locator('#practice summary')).toBeVisible();
+ await page.locator('#practice summary').click();
+ await expect(page.locator('#practice details')).toHaveAttribute('open','');
+});
