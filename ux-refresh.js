@@ -15,6 +15,14 @@
     document.body.dataset.uxView=home?'home':'lesson';
     if(home){
       const nav=document.querySelector('#sidebar nav');
+      if(nav&&!document.getElementById('ux-menu-toggle')){
+        const toggle=document.createElement('button');toggle.type='button';toggle.id='ux-menu-toggle';toggle.lang='en';toggle.textContent='Course menu';
+        nav.id='ux-course-menu';toggle.setAttribute('aria-controls',nav.id);toggle.setAttribute('aria-expanded','false');
+        nav.parentElement.dataset.uxMenuOpen='false';
+        toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')!=='true';toggle.setAttribute('aria-expanded',String(open));nav.parentElement.dataset.uxMenuOpen=String(open);});
+        nav.before(toggle);
+      }
+
       if(nav&&!nav.querySelector('.ux-nav-more')){
         const links=[...nav.children].slice(5);
         const group=document.createElement('details');group.className='ux-nav-more';

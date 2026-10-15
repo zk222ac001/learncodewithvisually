@@ -20,9 +20,14 @@ test('homepage hierarchy, language selection, tutor and responsive layouts',asyn
  await expect(page.locator('#general-ai-dialog')).toBeVisible();
  await page.keyboard.press('Escape');
  fs.mkdirSync('ui-previews',{recursive:true});
+ await page.locator('.ux-home-hero h1').click();
  await page.screenshot({path:'ui-previews/home-desktop.png'});
  await page.setViewportSize({width:390,height:844});
  await page.evaluate(()=>scrollTo(0,0));
+ await expect(page.locator('#ux-course-menu')).toBeHidden();
+ await page.locator('#ux-menu-toggle').click();
+ await expect(page.locator('#ux-course-menu')).toBeVisible();
+ await page.locator('#ux-menu-toggle').click();
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.screenshot({path:'ui-previews/home-mobile.png'});
  await page.locator('#language').selectOption('ar');

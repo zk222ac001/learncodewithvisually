@@ -63,3 +63,17 @@ body[data-ux-view="home"] .foot{font-size:12px;color:#53647b;border:0}
 @media(max-width:1100px){.ux-home-hero{grid-template-columns:1fr}.ux-start-card{display:none}body[data-ux-view="home"] #main{padding:22px 26px 60px}.ux-lesson>header{padding:18px 24px}.ux-wordmark-note{display:none}}
 @media(max-width:730px){body[data-ux-view="home"] .shell{display:block}body[data-ux-view="home"] #sidebar{position:static;height:auto;padding:16px;border-inline-end:0;border-bottom:1px solid #dce3ed}body[data-ux-view="home"] .brand{margin-bottom:14px;font-size:21px}body[data-ux-view="home"] #sidebar nav{display:flex;flex-wrap:wrap;overflow:visible;gap:4px}body[data-ux-view="home"] #sidebar nav a{flex:0 1 auto;padding:8px;font-size:11px;max-width:none}body[data-ux-view="home"] .ux-nav-more{width:100%;margin-top:6px;padding-top:4px}.ux-nav-more summary{padding:8px 6px}body[data-ux-view="home"] .ux-nav-more a{display:flex}body[data-ux-view="home"] #main{padding:20px 18px 60px}body[data-ux-view="home"] #top{margin:0 0 18px}body[data-ux-view="home"] #top .controls{display:grid;grid-template-columns:1fr 1fr;width:100%}body[data-ux-view="home"] #top label{grid-row:1}body[data-ux-view="home"] #top select{grid-row:2;max-width:100%;width:100%}body[data-ux-view="home"] #top button{grid-column:2;justify-self:end;font-size:11px;min-height:36px;padding:5px 10px}body[data-ux-view="home"] .hero h1{font-size:32px;letter-spacing:-1px}.ux-actions>*{flex:1;text-align:center}.ux-section-heading{display:block}.ux-section-heading p:not(.ux-kicker){margin-top:8px;max-width:none}body[data-ux-view="home"] .ux-module-grid{grid-template-columns:1fr}.ux-resume{align-items:flex-start;flex-direction:column}.ux-lesson>header{display:block}.ux-lesson>header nav{gap:14px;margin-top:12px}.ux-lesson main{padding:24px 16px 50px}.ux-workbench{grid-template-columns:1fr}.ux-lesson .panel{padding:20px}.ux-lesson-steps{gap:6px}.ux-lesson-steps a{padding:8px 10px}.ux-lesson h1{font-size:34px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Explicit card colors avoid the legacy dark-sidebar color inheritance. */
+body[data-ux-view="home"] .ux-start-card,body[data-ux-view="home"] .ux-start-card h2,body[data-ux-view="home"] .ux-start-card strong{color:#182b46}
+#ux-menu-toggle{display:none}
+@media(max-width:730px){
+ body[data-ux-view="home"] #sidebar{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:14px 18px}
+ body[data-ux-view="home"] .brand{margin:0}
+ #ux-menu-toggle{display:block;min-height:40px;font-size:12px;border:1px solid #cbd5e2;background:#fff;color:#182b46;border-radius:8px;padding:8px 12px}
+ body[data-ux-view="home"] #sidebar nav{display:none;grid-column:1/-1}
+ body[data-ux-view="home"] #sidebar[data-ux-menu-open="true"] nav{display:flex}
+ body[data-ux-view="home"] #top button{display:none}
+ body[data-ux-view="home"] .beta-banner span{display:none}
+ body[data-ux-view="home"] .beta-banner{margin-bottom:18px;padding-bottom:12px}
+}
