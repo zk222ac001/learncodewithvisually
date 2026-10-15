@@ -68,3 +68,21 @@ test('lesson retains step controls and fits desktop and mobile',async({page})=>{
  await page.locator('#practice summary').click();
  await expect(page.locator('#practice details')).toHaveAttribute('open','');
 });
+
+test('standalone review file opens both screens without external requests',async({page})=>{
+ test.skip(!fs.existsSync('ui-previews/CodeVizAI-UI-Preview.html'),'Built by the UI preview workflow');
+ const external=[];
+ page.on('request',request=>{if(!request.url().startsWith('http://127.0.0.1:4173')&&!request.url().startsWith('data:'))external.push(request.url());});
+ await page.goto('/ui-previews/CodeVizAI-UI-Preview.html');
+ const preview=page.frameLocator('#preview');
+ await expect(preview.locator('.ux-home-hero h1')).toBeVisible();
+ await preview.getByRole('link',{name:'Start learning',exact:false}).click();
+ await expect(preview.locator('body')).toHaveAttribute('data-ux-view','lesson');
+ await page.getByRole('button',{name:'C loop lesson',exact:true}).click();
+ await expect(preview.locator('.ux-lesson-steps')).toBeVisible();
+ await preview.getByRole('button',{name:'Next step'}).click();
+ await expect(preview.locator('[data-status]')).toContainText('Iteration 1');
+ await page.getByRole('button',{name:'Mobile width'}).click();
+ expect(await page.locator('#preview').evaluate(el=>el.getBoundingClientRect().width)).toBeLessThanOrEqual(390);
+ expect(external).toEqual([]);
+});
