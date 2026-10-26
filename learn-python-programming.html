@@ -38,6 +38,32 @@ for number in range(1, 5):
 <article class="panel"><h2>4. Functions and reusable code</h2><p>Functions name a set of operations and can return a result. A Python definition starts with <code>def</code>. Trace the values of arguments, local names and the returned value to understand a function call.</p><p>Open the <a href="/index.html?lang=en&amp;code=python#functions">functions lesson</a> to compare examples.</p></article>
 </div>
 <section class="panel"><h2>Practice learning Python</h2><ol><li>Predict the output of a short program.</li><li>Change a variable and trace what happens.</li><li>Test a loop with zero, one and multiple iterations.</li><li>Complete a quiz or assignment after reading a topic.</li></ol><p>The site also includes <a href="/learn-data-structures.html">interactive data structure visualizations</a>. Some advanced lesson demonstrations are initially presented with C code or English explanations; use the language selector to find the available examples.</p></section>
+<section class="panel" id="counting-workshop"><h2>Worked workshop: count scores without losing your total</h2>
+<p>Suppose you have a list of quiz scores and want to count the scores at or above a pass mark. The input is a list of numbers and a numeric threshold; the output is a count. This exercise assumes the inputs are already numbers. It does not validate text entered by a user.</p>
+<p>Separate the calculation from printing so you can reuse it and check it with tests. Each iteration either adds one or leaves the count unchanged. After processing any prefix of the list, the counter equals the number of qualifying scores in that prefix.</p>
+<pre><code>def count_passes(scores, pass_mark=50):
+    passed = 0
+    for score in scores:
+        if score &gt;= pass_mark:
+            passed += 1
+    return passed
+
+print(count_passes([42, 50, 73, 49]))  # 2
+print(count_passes([42, 50, 73, 49], 70))  # 1
+
+assert count_passes([]) == 0
+assert count_passes([49]) == 0
+assert count_passes([50]) == 1
+assert count_passes([51]) == 1
+assert count_passes([50, 50]) == 2</code></pre>
+<p>Save the code as <code>count_passes.py</code> and run <code>python3 count_passes.py</code> (or <code>python count_passes.py</code> if that is your Python 3 command). It prints 2 and 1 on separate lines. With a normal Python run, a failing assertion raises <code>AssertionError</code>; passing assertions print nothing. Do not use Python's optimization option when running these assertion checks.</p>
+<h3>Find the mistake before looking at the answer</h3>
+<p>A learner puts <code>passed = 0</code> inside the loop. For the input <code>[80, 90, 40]</code>, their version returns 0. Explain why, then repair the indentation.</p>
+<details><summary>Explanation and repair</summary><p>The counter resets for each score. The first two iterations each reach 1, but the last iteration resets it to 0 and does not increment it. Initialize the counter once before the loop, as in the working function above. Putting initialization inside the loop also leaves the counter undefined for an empty list.</p></details>
+<h3>Three changes to try</h3><ol><li>Use a pass mark of 60 with <code>[59, 60, 61]</code>. Predict the result.</li><li>Change <code>&gt;=</code> to <code>&gt;</code>. Which existing test fails?</li><li>Return the qualifying scores instead of their count. Which variable should become a list?</li></ol>
+<details><summary>Worked answers</summary><p>The first result is 2. Using <code>&gt;</code> makes the tests containing 50 fail because equality no longer qualifies. To return scores, initialize <code>passed = []</code>, replace the increment with <code>passed.append(score)</code>, and return that list. The original input then returns <code>[50, 73]</code>. The return type has changed, so the assertions must check lists, including <code>[]</code> for empty input.</p></details>
+<p>When using an AI tutor, ask it to explain a failed prediction, then verify the explanation by tracing the values yourself. A plausible explanation is not a substitute for running boundary and empty-input tests.</p>
+<p>Continue with the <a href="/index.html?lang=en&amp;code=python#unit-testing">interactive unit testing lesson</a>. Language reference: <a href="https://docs.python.org/3/tutorial/controlflow.html">Python's official tutorial on control flow</a>.</p></section>
 </main>
 <footer><strong>LearnCodeVisually · Free programming education</strong><nav aria-label="Website information"><a href="/">Home</a><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav></footer>
 </body></html>
