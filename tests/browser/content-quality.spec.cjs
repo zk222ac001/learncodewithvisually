@@ -30,3 +30,33 @@ test('course rendering keeps the worked lesson and paths still track progress',a
  await page.reload();
  await expect(page.locator('#progress-label')).toHaveText('1 of 5 milestones marked complete');
 });
+
+test('Python counting workshop traces boundaries and rejects invalid scores',async({page})=>{
+ await page.goto('/learn-python-programming.html');
+ await expect(page.locator('#score-counter-form')).toBeVisible();
+ await page.setViewportSize({width:375,height:812});
+ for(const field of ['#score-list','#pass-mark','#score-counter-form button']){
+  const bounds=await page.locator(field).boundingBox();
+  expect(bounds.x+bounds.width).toBeLessThanOrEqual(375);
+ }
+ await page.locator('#score-counter-form').getByRole('button',{name:'Trace scores'}).click();
+ await expect(page.locator('#score-counter-result')).toHaveText('4 scores processed; 2 meet the pass mark of 50.');
+ await expect(page.locator('#score-counter-trace tbody tr')).toHaveCount(4);
+ await expect(page.locator('#score-counter-trace tbody tr').nth(1)).toContainText('50');
+ await expect(page.locator('#score-counter-trace tbody tr').nth(1)).toContainText('Yes');
+ await expect(page.locator('#score-counter-trace tbody tr').nth(1).locator('td').nth(2)).toHaveText('1');
+
+ await page.locator('#pass-mark').fill('70');
+ await page.locator('#score-counter-form').getByRole('button',{name:'Trace scores'}).click();
+ await expect(page.locator('#score-counter-result')).toHaveText('4 scores processed; 1 meet the pass mark of 70.');
+
+ await page.locator('#score-list').fill('');
+ await page.locator('#score-counter-form').getByRole('button',{name:'Trace scores'}).click();
+ await expect(page.locator('#score-counter-result')).toHaveText('No scores to process. The count remains 0.');
+ await expect(page.locator('#score-counter-trace table')).toHaveCount(0);
+
+ await page.locator('#score-list').fill('42, not-a-number');
+ await page.locator('#score-counter-form').getByRole('button',{name:'Trace scores'}).click();
+ await expect(page.locator('#score-counter-error')).toHaveText('Enter only finite numbers, separated by commas.');
+ await expect(page.locator('#score-counter-trace table')).toHaveCount(0);
+});

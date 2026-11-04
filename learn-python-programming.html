@@ -12,6 +12,7 @@
 <meta property="og:description" content="Learn Python visually with free interactive lessons for beginners. Explore variables, conditions, for loops, lists, code examples, quizzes and practice exercises.">
 <meta property="og:url" content="https://learncodevisually.com/learn-python-programming.html">
 <link rel="stylesheet" href="/seo-learning.css">
+<script src="/counting-workshop.js?v=1" defer></script>
 </head>
 <body class="learning-page">
 <header><a class="wordmark" href="/">LearnCodeVisually</a><nav aria-label="Learning guides"><a href="/">Interactive course</a><a href="/learn-c-programming.html">C</a><a href="/learn-python-programming.html">Python</a><a href="/learn-data-structures.html">Data structures</a></nav></header>
@@ -57,6 +58,23 @@ assert count_passes([50]) == 1
 assert count_passes([51]) == 1
 assert count_passes([50, 50]) == 2</code></pre>
 <p>Save the code as <code>count_passes.py</code> and run <code>python3 count_passes.py</code> (or <code>python count_passes.py</code> if that is your Python 3 command). It prints 2 and 1 on separate lines. With a normal Python run, a failing assertion raises <code>AssertionError</code>; passing assertions print nothing. Do not use Python's optimization option when running these assertion checks.</p>
+<div class="counter-lab">
+<h3>Trace your own scores</h3>
+<p>Change the inputs to see how each score affects the counter. This browser demonstration models the Python loop; it does not execute Python or send your inputs to a server.</p>
+<form id="score-counter-form" class="counter-form" hidden>
+<label for="score-list">Scores, separated by commas
+<input id="score-list" name="scores" type="text" value="42, 50, 73, 49" autocomplete="off">
+</label>
+<label for="pass-mark">Pass mark
+<input id="pass-mark" name="pass-mark" type="number" step="any" value="50" required>
+</label>
+<button type="submit">Trace scores</button>
+</form>
+<p id="score-counter-error" class="counter-error" role="alert" hidden></p>
+<p id="score-counter-result" class="counter-result" role="status" aria-live="polite" hidden></p>
+<div id="score-counter-trace"></div>
+<noscript><p>JavaScript is needed for this trace. The worked Python example and answers above remain available without it.</p></noscript>
+</div>
 <h3>Find the mistake before looking at the answer</h3>
 <p>A learner puts <code>passed = 0</code> inside the loop. For the input <code>[80, 90, 40]</code>, their version returns 0. Explain why, then repair the indentation.</p>
 <details><summary>Explanation and repair</summary><p>The counter resets for each score. The first two iterations each reach 1, but the last iteration resets it to 0 and does not increment it. Initialize the counter once before the loop, as in the working function above. Putting initialization inside the loop also leaves the counter undefined for an empty list.</p></details>

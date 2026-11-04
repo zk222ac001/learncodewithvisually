@@ -72,6 +72,20 @@
 .learning-page .topic-nav{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
 .learning-page .topic-nav a{padding:8px 12px;border:1px solid #cad7e9;border-radius:9px;background:#f2f6fd}
 .learning-page details>summary{cursor:pointer;font-weight:700;color:#215ad7}
+.learning-page .counter-lab{margin:20px 0;padding:18px;border:1px solid #d5e0ee;border-radius:12px;background:#f7faff}
+.learning-page .counter-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,180px) auto;align-items:end;gap:12px;margin:16px 0}
+.learning-page .counter-form[hidden]{display:none}
+.learning-page .counter-form label{display:grid;gap:5px;font-weight:650}
+.learning-page .counter-form input,.learning-page .counter-form button{min-width:0;padding:9px 11px;border:1px solid #9eb1c9;border-radius:8px;background:#fff;color:#152b40;font:inherit}
+.learning-page .counter-form button{background:#215ad7;color:#fff;font-weight:700;cursor:pointer}
+.learning-page .counter-form :is(input,button):focus-visible{outline:3px solid #df7619;outline-offset:3px}
+.learning-page .counter-form button:hover{background:#1949b3}
+.learning-page .counter-result,.learning-page .counter-error{padding:10px 12px;border-left:3px solid #215ad7;background:#f1f5fc}
+.learning-page .counter-error{border-color:#b42318;background:#fff1f0;color:#7a1b13}
+.learning-page .counter-trace{width:100%;border-collapse:collapse;margin:12px 0;text-align:left}
+.learning-page .counter-trace :is(th,td){padding:8px 10px;border-bottom:1px solid #d9e0e7}
+.learning-page .counter-trace th{background:#edf2fb}
+@media(max-width:650px){.learning-page .counter-form{grid-template-columns:1fr}.learning-page .counter-form input{width:100%}}
 @media(max-width:650px){.learning-page .demo-stage{padding:12px}.learning-page .array-cell{min-width:53px;padding:8px}.learning-page .array-cell strong{font-size:18px}.learning-page .trace-values{gap:5px}.learning-page .memory-box{min-width:130px}.learning-page .pointer-diagram{gap:6px}.learning-page .pointer-diagram .memory-arrow{font-size:22px}}
 
 /* AI Tutor: hidden until a real, secured Cloudflare endpoint is configured. */
