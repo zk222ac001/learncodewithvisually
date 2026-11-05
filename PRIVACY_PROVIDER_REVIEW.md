@@ -1,6 +1,8 @@
 # Privacy and provider review — 5 November 2026
 
-Status: **draft changes; owner confirmations and deployed-browser verification outstanding**.
+Status: **PR #48 merged; controller name/email confirmed; provider and legal-basis review remains open**.
+
+Owner update, 5 November 2026: Zuhair Khan confirmed his legal name and authorized keeping zk222ac@gmail.com as the public contact address. The owner reports all tests passed. GitHub confirms PR #48 was merged as `12b28b367be10700d2421b622dbbd7fc51f5bcfd`. The owner report does not independently establish deployed cookie/network behavior or private provider settings.
 Reviewed main commit: `17c7102dc14edb9411a81bd04e3918b40663795c`.
 This is a technical and documentation review, not a compliance certification.
 
@@ -26,7 +28,7 @@ This is a technical and documentation review, not a compliance certification.
 
 ## Live observations and limits
 
-- `curl` GET retrieved homepage and privacy page successfully on 5 November 2026. The live privacy notice still contains the incomplete-operator disclosures. These draft changes are not deployed.
+- `curl` GET retrieved homepage and privacy page successfully on 5 November 2026. The live privacy notice still contains the incomplete-operator disclosures. This observation predates the merge of PR #48; deployment of subsequent changes must be checked separately.
 - Read-only Worker `/health` returned `enabled:true`, `ready:true`, and the general-programming capability. No real question, private data or paid inference request was submitted during this review.
 - A Python HTTP client received 403 on eight attempted URLs; those responses are not evidence that the pages are broken for users. The successful curl fetches demonstrate the difference.
 - Chromium could not start in this environment because socket creation was denied. No claim is made about live browser cookies, consent dialogs, third-party redirects or network behavior across regions.
@@ -34,14 +36,14 @@ This is a technical and documentation review, not a compliance certification.
 
 ## Required owner information before finalizing the notice
 
-1. **Full legal name of the individual controller**, or registered entity identity if applicable; approved public privacy contact details. The project name CodeVizAI alone is insufficient. Do not post identity documents, private home-address evidence, account tokens or contracts containing secrets in this public repository.
+1. **Confirmed:** individual controller **Zuhair Khan**, public email **zk222ac@gmail.com** (owner confirmation, 5 November 2026). Do not post identity documents, private home-address evidence, account tokens or contracts containing secrets in this public repository.
 2. Confirm the service/accounts in use: GitHub Pages, Cloudflare proxy/Workers/Workers AI/Turnstile, email, any analytics, AI Gateway, request logging, log export or other integrations. Record only non-sensitive configuration conclusions here.
 3. Confirm actual retention/access/deletion settings for hosting/security logs and contact email, applicable provider roles/agreements, processing locations and transfer safeguards. Public policy links do not prove an account's contractual position.
 4. Select and document a supported legal basis for each processing purpose. For example, service security may be assessed under legitimate interests, but that requires the operator's necessity/balancing assessment; do not automatically claim that basis. Assess browser storage separately, including which functions are strictly necessary for a requested service and which require consent.
 5. Confirm intended audience and safeguards for younger learners, school use and submissions. If relying on consent for a child-facing service, assess applicable age/parental requirements. A warning not to enter personal information does not remove processing responsibilities.
 6. Establish a usable privacy-request procedure and correspondence retention policy; complete the public notice with the verified conclusions, not merely a statement that review will happen later.
 
-The updated public page deliberately preserves explicit missing-information statements. Do not represent it as a finalized GDPR notice or merge this draft as completion of the owner review.
+The updated public page deliberately preserves explicit missing-information statements. Do not represent it as a finalized GDPR notice or treat the merge as completion of the remaining owner review.
 
 ## Sources reviewed
 

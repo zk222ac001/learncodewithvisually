@@ -11,9 +11,13 @@ The owner's screenshot identifies **Low value content**. It does not identify a 
 | Python guide | Worked accumulator and score-counting examples, boundary/empty-input assertions, debugging explanation, exercises and solutions | Substantive learning material. Verify learner experience in deployed desktop/mobile browsers and have the operator review accuracy/editorial ownership. |
 | Four standalone C visualizations | Independent titles, explanations, interactive state, exercises and answers | Useful focused tutorials. Keep explanatory text visible without JavaScript. Verify actual interactions and mobile layout before resubmitting. |
 | Learning paths | Static lesson links plus browser-local milestones | Missing from sitemap; added. This primarily aids navigation/discovery and is not itself a fix for low-value-content rejection. |
-| About / Contact / Privacy / Terms | Contact route exists; several statements still describe unfinished legal review | Owner identity, provider settings and legal-basis details are unresolved. Complete them consistently before claiming the site is finished. |
+| About / Contact / Privacy / Terms | Contact route exists; several statements still describe unfinished legal review | Owner identity and public email are confirmed as Zuhair Khan / zk222ac@gmail.com. Provider settings and legal-basis details remain unresolved. Complete them consistently before claiming the site is finished. |
 | AI output | Live optional beta, answers may be inaccurate | Keep unreviewed AI answers out of ad inventory. Do not use generated chat output as a substitute for edited lessons. |
 | Multilingual course | Shared dynamic interface and comparative-language examples; some advanced content is C/English-specific | Review representative lessons in each advertised language. Avoid implying complete translated coverage where only some material exists. This review did not manually verify every translation. |
+
+## Owner update after merge
+
+On 5 November 2026, the owner reported all tests passed and confirmed his legal name and public email. GitHub confirms PR #48 merged. The test report is owner-provided; private provider settings, legal bases and deployed cookie/network behavior are not established by that report.
 
 ## Checks performed
 
