@@ -31,7 +31,7 @@ test('guides provide unique titles, descriptive content and functioning local ro
 test('every sitemap URL resolves to an existing canonical HTML file', () => {
   const sitemap = read('sitemap.xml');
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(x => x[1]);
-  assert.equal(urls.length, 14);
+  assert.equal(urls.length, 15);
   assert.equal(new Set(urls).size, urls.length);
   for (const value of urls) {
     const url = new URL(value);
@@ -96,4 +96,5 @@ test('homepage SEO uses the exact publicly rendered title and truthful product d
   const status=JSON.parse(read('PUBLIC_AI_BETA_STATUS.json'));
   assert.match(read('ai-tutor-config.js'),new RegExp('enabled:\\s*'+(status.state==='public'?'true':'false')));
 });
+
 
