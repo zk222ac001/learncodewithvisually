@@ -131,7 +131,10 @@ test('legacy URL, original simulations, downloads and OneCompiler lazy loading',
   await page.route('https://onecompiler.com/**', route => route.fulfill({ contentType: 'text/html', body: '<html><body>Editor test</body></html>' }));
   await page.locator('[data-run=current]').click();
   await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.locator('iframe')).toHaveAttribute('src', /onecompiler.com\/embed\/c\?/);
+  await expect(page.locator('iframe')).toHaveCount(0);
+  await expect(page.locator('[data-runner-external]')).toHaveAttribute('href', 'https://onecompiler.com/c');
+  await expect(page.getByRole('dialog')).toContainText('This preview stays in your browser.');
   await page.locator('[data-runner-close]').click();
   await expect(page.locator('iframe')).toHaveCount(0);
 });
+

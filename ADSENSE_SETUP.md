@@ -76,3 +76,11 @@ Official references:
 - https://support.google.com/adsense/answer/7299563
 - https://support.google.com/publisherpolicies/answer/11112688
 - https://support.google.com/adsense/answer/12176698
+
+
+## November 2026 review status
+
+See [AdSense readiness review](ADSENSE_READINESS_REVIEW.md) and
+[privacy/provider review](PRIVACY_PROVIDER_REVIEW.md). Owner disclosures,
+account-specific provider checks and deployed-browser validation are still open.
+Do not treat passing source tests as confirmation that the AdSense issues are fixed.

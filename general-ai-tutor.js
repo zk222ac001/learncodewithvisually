@@ -74,7 +74,7 @@
     else content.textContent=text;
     message.append(title,content);log.append(message);log.scrollTop=log.scrollHeight;
   };
-  clear.addEventListener('click',()=>{state.history=[];log.replaceChildren();status.textContent='Conversation cleared from this browser session.';});
+  clear.addEventListener('click',()=>{if(state.busy)return;state.history=[];log.replaceChildren();question.value='';code.value='';status.textContent='Conversation and drafts cleared from this browser session.';});
   if(!active){submit.disabled=true;question.disabled=true;code.disabled=true;mode.disabled=true;language.disabled=true;other.disabled=true;return;}
   let endpoint;
   try{endpoint=new URL(cfg.apiUrl);if(endpoint.protocol!=='https:'||endpoint.pathname!=='/api/tutor'||endpoint.username||endpoint.password||endpoint.search||endpoint.hash)throw Error('Unsafe backend URL');}
@@ -101,7 +101,7 @@
     if(!token){status.textContent='Please complete human verification first.';return;}
     const testKey=preview?document.getElementById('general-ai-test-key')?.value.trim():'';
     if(preview&&!/^[a-f0-9]{64}$/i.test(testKey)){status.textContent='Enter the private 64-character tester key.';return;}
-    state.busy=true;submit.disabled=true;status.textContent='Preparing an answer…';
+    state.busy=true;submit.disabled=true;clear.disabled=true;status.textContent='Preparing an answer…';
     const prior=state.history.slice(-6);
     try{
       const headers={'Content-Type':'application/json'};
@@ -114,7 +114,8 @@
       state.history=[...prior,{role:'user',content:q.slice(0,400)},{role:'assistant',content:answer.slice(0,400)}].slice(-6);
       question.value='';status.textContent='AI answer received. Verify code and explanations before use.';
     }catch(e){status.textContent=e.message||'AI Tutor request failed.';}
-    finally{window.turnstile?.reset(state.widget);state.busy=false;submit.disabled=false;}
+    finally{window.turnstile?.reset(state.widget);state.busy=false;submit.disabled=false;clear.disabled=false;}
   });
 })();
+
 

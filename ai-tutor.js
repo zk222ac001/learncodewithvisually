@@ -122,7 +122,17 @@
   script.async = true;
   script.defer = true;
   script.onerror = () => { status.textContent = 'Cloudflare verification script could not load. Check extensions or network filtering, then refresh.'; };
-  status.textContent = 'Loading Cloudflare human verification…';
+  const start = document.createElement('button');
+  start.type = 'button';
+  start.id = 'ai-tutor-start-verification';
+  start.textContent = 'Start Cloudflare verification';
+  start.addEventListener('click', () => {
+    start.disabled = true;
+    status.textContent = 'Loading Cloudflare human verification…';
+    document.head.append(script);
+  }, { once: true });
+  status.textContent = 'AI is optional. Read the privacy information, then start Cloudflare verification to use this tutor.';
   panel.hidden = false;
-  document.head.append(script);
+  panel.append(start);
 })();
+

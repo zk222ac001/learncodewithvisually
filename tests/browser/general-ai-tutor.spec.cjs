@@ -145,6 +145,11 @@ test('opening sends no AI request and answers survive closing the panel',async({
  await page.locator('#general-ai-form').getByRole('button',{name:'Ask AI Tutor',exact:true}).click();
  await expect(page.locator('.general-ai-message.assistant')).toHaveCount(2);
  expect(requests[1].history).toHaveLength(2);
+ await page.locator('#general-ai-question').fill('Unsent draft');
+ await page.locator('#general-ai-code').fill('private draft code');
  await page.getByRole('button',{name:'Clear conversation',exact:true}).click();
  await expect(page.locator('.general-ai-message')).toHaveCount(0);
+ await expect(page.locator('#general-ai-question')).toHaveValue('');
+ await expect(page.locator('#general-ai-code')).toHaveValue('');
 });
+
