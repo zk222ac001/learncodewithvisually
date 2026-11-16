@@ -15,6 +15,7 @@
   const compare=(expr,result,anchor='if')=>{set(expr,result);step('compare',`${expr} → ${result}`,anchor,[expr]);};
   const call=(name,anchor=name)=>{set(name,'…');layout='stack';step('call',name,anchor,[name]);};
   const ret=(name,value,anchor='return')=>{set(name,value);step('return',`${name} → ${value}`,anchor,[name]);nodes=nodes.filter(n=>n.id!==name);};
+  const leave=(name,anchor=name)=>{step('returnControl',name,anchor,[name]);nodes=nodes.filter(n=>n.id!==name);};
   step('ready');
   switch(id){
    case 'computers':put('number',6,'input');put('number * number',36,'calculate','number * number');break;
@@ -52,12 +53,12 @@
    case 'arrays-simulation':case 'arrays-tutorial':arr('readings',[4,8,12,16,20]);step('create','readings = [4,8,12,16,20]','readings');if(id.endsWith('simulation'))put('readings[2]',99,'assign','[2]');let tally=0;for(let i=0;i<5;i++){tally+=Number(nodes.find(n=>n.id===`readings[${i}]`).value);if(id.endsWith('tutorial'))set('total',tally);step('visit',`index = ${i}`,'for',[`readings[${i}]`]);}break;
    case 'arrays-practice':for(const requested of [12,7]){arr('values',[4,8,12,16,20]);set('requested',requested);step('input',`requested=${requested}`,'requested');for(let i=0;i<5;i++){step('visit',`values[${i}] == ${requested}`,'for',[`values[${i}]`]);if([4,8,12,16,20][i]===requested){put('index',i,'return','return');break;}}if(requested===7)put('index',-1,'return','return');}break;
    case 'functions':call('average(8,12)','average');put('a',8);put('b',12);ret('average(8,12)',10);break;
-   case 'functions-1':call('greet(Ada)','greet');put('name','Ada');ret('greet(Ada)','Hello, Ada!','Hello');break;
+   case 'functions-1':call('greet(Ada)','greet');put('name','Ada');put('output','Hello, Ada!','emit','Hello');leave('greet(Ada)','greet');break;
    case 'functions-2':step('define','add(a,b)','add');call('add(3,4)','add');put('a + b',7,'calculate','a + b');ret('add(3,4)',7);break;
-   case 'functions-3':call('first()','first');call('second()','second');ret('second()','Second returns','Second returns');ret('first()','First returns','First returns');break;
-   case 'functions-4':put('score',20);call('update(score)','update');put('score',100,'mutate','100');ret('update(score)',100);break;
+   case 'functions-3':call('first()','first');call('second()','second');put('output','Second returns','emit','Second returns');leave('second()','second');put('output','First returns','emit','First returns');leave('first()','first');break;
+   case 'functions-4':put('score',20);call('update(score)','update');put('score',100,'mutate','100');leave('update(score)','update');break;
    case 'functions-5':nodes=Array.from({length:6},(_,i)=>node(String(i+1),'?'));step('random','1 ≤ roll ≤ 6','roll');break;
-   case 'functions-6':case 'functions-7':put(id.endsWith('6')?'long_lived':'outer.value',10);call('show()','show');put('local.value',5,'assign','5');ret('show()',5);nodes=nodes.filter(n=>n.id!=='local.value');step('scope','local.value → ∅','show');break;
+   case 'functions-6':case 'functions-7':put(id.endsWith('6')?'long_lived':'outer.value',10);call('show()','show');put('local.value',5,'assign','5');put('output',5,'emit','Local');leave('show()','show');nodes=nodes.filter(n=>n.id!=='local.value');step('scope','local.value → ∅','show');break;
    case 'functions-8':for(let n=5;n>=1;n--)call(`factorial(${n})`,'factorial');step('base','n <= 1 → 1','return 1',['factorial(1)']);let factorial=1;for(let n=1;n<=5;n++){factorial*=n;ret(`factorial(${n})`,factorial);}put('result',120);break;
    default:detailModel();
   }
@@ -66,13 +67,13 @@
     const raw=['c','cpp'].includes(language);
     if(['pointers','pointers-practice'].includes(id)){put('a',3);put('b',8);call('swap(a,b)','swap');set('a',8);set('b',3);step('mutate','a=8; b=3','swap',['a','b']);ret('swap(a,b)',true);if(id==='pointers-practice'){nodes=[node('x',5),node('y',5)];step('test','5 ↔ 5','5');step('guard',raw?'NULL':'null / None','swap');}return;}
     if(id==='pointers-simulation'){put('first',10);put('second',20);set('reference','first');edges=[['reference','first']];step('connect','reference → first','first',['reference','first']);set('reference','second');edges=[['reference','second']];step('connect','reference → second','second',['reference','second']);put('second',99,'mutate','99');return;}
-    if(id==='pointers-4'||id==='pointers-5'){arr('values',id==='pointers-4'?[10,20,30]:language==='c'?['?','?','?']:[0,0,0]);step('create','values[0..2]','values');for(let i=0;i<3;i++){if(id==='pointers-5')put(`values[${i}]`,(i+1)*10,'assign','values');else step('visit',`values[${i}]`,'for',[`values[${i}]`]);}if(id==='pointers-5'){put('sum',60,'calculate','Sum');if(language==='c'){nodes=nodes.map(n=>n.id.startsWith('values')?{...n,status:'ended'}:n);step('release','values','free');}}return;}
-    put('value',10);set('reference','value');edges=[['reference','value']];step('connect','reference → value','reference',['reference','value']);if(id==='pointers-2'){put('empty','∅');step('guard','empty → ∅','empty');}else{if(id==='pointers-3')call('update(value)','update');put('value',id==='pointers-3'?30:25,'mutate',id==='pointers-3'?'30':'25');}return;
+    if(id==='pointers-4'||id==='pointers-5'){arr('values',id==='pointers-4'?[10,20,30]:language==='c'?['?','?','?']:[0,0,0]);step('create','values[0..2]','values');for(let i=0;i<3;i++){if(id==='pointers-5')put(`values[${i}]`,(i+1)*10,'assign','values');else step('visit',`values[${i}]`,'for',[`values[${i}]`]);}if(id==='pointers-5'){put('sum',60,'calculate','Sum');if(['c','cpp'].includes(language)){nodes=nodes.map(n=>n.id.startsWith('values')?{...n,status:'ended'}:n);step(language==='c'?'release':'cleanup','values',language==='c'?'free':'make_unique');}}return;}
+    put('value',10);set('reference','value');edges=[['reference','value']];step('connect','reference → value','reference',['reference','value']);if(id==='pointers-2'){put('empty','∅');step('guard','empty → ∅','empty');}else{if(id==='pointers-3')call('update(value)','update');put('value',id==='pointers-3'?30:25,'mutate',id==='pointers-3'?'30':'25');if(id==='pointers-3')leave('update(value)','update');}return;
    }
    if(id.startsWith('oop')){
     layout='objects';
     if(id==='oop-1'){put('first.title','Dune','construct','Dune');put('second.title','Solaris','construct','Solaris');return;}
-    if(id==='oop-2'){call('start()','start');call('_prepare()','prepare');ret('_prepare()','');ret('start()','Started','Started');return;}
+    if(id==='oop-2'){call('start()','start');call('_prepare()','prepare');leave('_prepare()','prepare');put('output','Started','emit','Started');leave('start()','start');return;}
     if(id==='oop-4'){call('Person(Ada)','Person');put('person.name','Ada','construct','Ada');return;}
     if(id==='oop-5'){nodes=[node('Animal','name'),node('Dog','Milo')];edges=[['Animal','Dog']];step(language==='c'?'compose':'inherit','Animal → Dog','Dog',['Dog']);return;}
     if(id==='oop-6'){nodes=[node('Dog','speak()'),node('Cat','speak()')];step('dispatch','Dog.speak() → Woof','speak',['Dog']);put('Dog','Woof','dispatch','Woof');step('dispatch','Cat.speak() → Meow','speak',['Cat']);put('Cat','Meow','dispatch','Meow');return;}

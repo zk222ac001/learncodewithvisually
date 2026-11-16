@@ -98,7 +98,11 @@ const locales={
     "value": "Value",
     "connection": "Connection",
     "defineNote": "Define the operation before calling it. A definition alone does not run its body.",
-    "collisionNote": "Two keys select the same bucket. Keep both entries in a chain so neither value is lost."
+    "collisionNote": "Two keys select the same bucket. Keep both entries in a chain so neither value is lost.",
+    "returnControl": "The function finishes and control returns to its caller. The displayed text is output, not a return value.",
+    "cppNote": "C++ pointers can select a different target; references cannot be reseated. The allocation example uses unique_ptr for automatic cleanup.",
+    "pythonReference": "Python names refer to objects. Mutation changes a shared object; rebinding one name does not rebind another. These examples use mutable containers.",
+    "privacy": "Privacy"
   },
   "da": {
     "title": "Visuelle programmeringslaboratorier",
@@ -197,7 +201,11 @@ const locales={
     "value": "Værdi",
     "connection": "Forbindelse",
     "defineNote": "Definér handlingen, før du kalder den. Definitionen alene udfører ikke kroppen.",
-    "collisionNote": "To nøgler vælger samme spand. Bevar begge poster i en kæde, så ingen værdi går tabt."
+    "collisionNote": "To nøgler vælger samme spand. Bevar begge poster i en kæde, så ingen værdi går tabt.",
+    "returnControl": "Funktionen afsluttes, og kontrollen går tilbage til den, der kaldte den. Den viste tekst er output, ikke en returværdi.",
+    "cppNote": "C++-pointere kan vælge et nyt mål; referencer kan ikke bindes om. Allokeringseksemplet bruger unique_ptr til automatisk oprydning.",
+    "pythonReference": "Python-navne refererer til objekter. Mutation ændrer et delt objekt; ombinding af ét navn binder ikke andre navne om. Eksemplerne bruger mutable beholdere.",
+    "privacy": "Privatliv"
   },
   "es": {
     "title": "Laboratorios visuales de programación",
@@ -296,7 +304,11 @@ const locales={
     "value": "Valor",
     "connection": "Conexión",
     "defineNote": "Define la operación antes de llamarla. La definición no ejecuta su cuerpo.",
-    "collisionNote": "Dos claves eligen el mismo contenedor. Conserva ambas entradas en una cadena para no perder valores."
+    "collisionNote": "Dos claves eligen el mismo contenedor. Conserva ambas entradas en una cadena para no perder valores.",
+    "returnControl": "La función termina y el control vuelve a quien la llamó. El texto mostrado es salida, no un valor de retorno.",
+    "cppNote": "Los punteros C++ pueden cambiar de destino; las referencias no. El ejemplo de asignación usa unique_ptr para la limpieza automática.",
+    "pythonReference": "Los nombres de Python hacen referencia a objetos. La mutación cambia un objeto compartido; reasignar un nombre no reasigna otro. Estos ejemplos usan contenedores mutables.",
+    "privacy": "Privacidad"
   },
   "fr": {
     "title": "Laboratoires visuels de programmation",
@@ -395,7 +407,11 @@ const locales={
     "value": "Valeur",
     "connection": "Lien",
     "defineNote": "Définis l’opération avant de l’appeler. La définition seule n’exécute pas son corps.",
-    "collisionNote": "Deux clés choisissent le même compartiment. Conserve les deux entrées dans une chaîne pour ne perdre aucune valeur."
+    "collisionNote": "Deux clés choisissent le même compartiment. Conserve les deux entrées dans une chaîne pour ne perdre aucune valeur.",
+    "returnControl": "La fonction se termine et rend le contrôle à son appelant. Le texte affiché est une sortie, pas une valeur de retour.",
+    "cppNote": "Les pointeurs C++ peuvent changer de cible, pas les références. L’exemple d’allocation utilise unique_ptr pour la libération automatique.",
+    "pythonReference": "Les noms Python désignent des objets. Une mutation modifie un objet partagé ; réaffecter un nom ne réaffecte pas les autres. Ces exemples utilisent des conteneurs modifiables.",
+    "privacy": "Confidentialité"
   },
   "de": {
     "title": "Visuelle Programmierlabore",
@@ -494,7 +510,11 @@ const locales={
     "value": "Wert",
     "connection": "Verbindung",
     "defineNote": "Definiere die Operation vor dem Aufruf. Die Definition allein führt ihren Körper nicht aus.",
-    "collisionNote": "Zwei Schlüssel wählen denselben Behälter. Behalte beide Einträge in einer Kette, damit kein Wert verloren geht."
+    "collisionNote": "Zwei Schlüssel wählen denselben Behälter. Behalte beide Einträge in einer Kette, damit kein Wert verloren geht.",
+    "returnControl": "Die Funktion endet und gibt die Kontrolle an den Aufrufer zurück. Der angezeigte Text ist eine Ausgabe, kein Rückgabewert.",
+    "cppNote": "C++-Zeiger können ihr Ziel ändern, Referenzen nicht. Das Allokierungsbeispiel verwendet unique_ptr zum automatischen Freigeben.",
+    "pythonReference": "Python-Namen verweisen auf Objekte. Mutation ändert ein gemeinsames Objekt; die Neuzuweisung eines Namens ändert andere Namen nicht. Diese Beispiele nutzen veränderliche Container.",
+    "privacy": "Datenschutz"
   },
   "pt": {
     "title": "Laboratórios visuais de programação",
@@ -593,7 +613,11 @@ const locales={
     "value": "Valor",
     "connection": "Ligação",
     "defineNote": "Defina a operação antes de a chamar. A definição não executa o seu corpo.",
-    "collisionNote": "Duas chaves escolhem o mesmo recipiente. Mantenha ambas as entradas numa cadeia para não perder valores."
+    "collisionNote": "Duas chaves escolhem o mesmo recipiente. Mantenha ambas as entradas numa cadeia para não perder valores.",
+    "returnControl": "A função termina e devolve o controlo a quem a chamou. O texto apresentado é saída, não um valor devolvido.",
+    "cppNote": "Ponteiros C++ podem mudar de destino; referências não. O exemplo de alocação usa unique_ptr para libertação automática.",
+    "pythonReference": "Os nomes Python referem-se a objetos. A mutação altera um objeto partilhado; reatribuir um nome não reatribui outro. Os exemplos usam recipientes mutáveis.",
+    "privacy": "Privacidade"
   },
   "ar": {
     "title": "مختبرات البرمجة المرئية",
@@ -692,7 +716,11 @@ const locales={
     "value": "قيمة",
     "connection": "رابط",
     "defineNote": "عرّف العملية قبل استدعائها. التعريف وحده لا ينفذ جسمها.",
-    "collisionNote": "يختار مفتاحان الحاوية نفسها. احتفظ بالمدخلين في سلسلة حتى لا تضيع أي قيمة."
+    "collisionNote": "يختار مفتاحان الحاوية نفسها. احتفظ بالمدخلين في سلسلة حتى لا تضيع أي قيمة.",
+    "returnControl": "تنتهي الدالة ويعود التحكم إلى مستدعيها. النص المعروض مخرجات وليس قيمة إرجاع.",
+    "cppNote": "يمكن لمؤشرات C++ تغيير الهدف؛ أما المراجع فلا. يستخدم مثال الحجز unique_ptr للتنظيف التلقائي.",
+    "pythonReference": "تشير أسماء Python إلى كائنات. يغير التعديل الكائن المشترك؛ إعادة ربط اسم لا تعيد ربط الأسماء الأخرى. تستخدم الأمثلة حاويات قابلة للتعديل.",
+    "privacy": "الخصوصية"
   },
   "ur": {
     "title": "بصری پروگرامنگ لیبز",
@@ -791,7 +819,11 @@ const locales={
     "value": "قدر",
     "connection": "تعلق",
     "defineNote": "عمل بلانے سے پہلے اس کی تعریف کریں۔ صرف تعریف اس کے اندر کا کوڈ نہیں چلاتی۔",
-    "collisionNote": "دو کلیدیں ایک ہی خانے کو چنتی ہیں۔ دونوں اندراج سلسلے میں رکھیں تاکہ کوئی قدر ضائع نہ ہو۔"
+    "collisionNote": "دو کلیدیں ایک ہی خانے کو چنتی ہیں۔ دونوں اندراج سلسلے میں رکھیں تاکہ کوئی قدر ضائع نہ ہو۔",
+    "returnControl": "فنکشن ختم ہوتا ہے اور کنٹرول بلانے والے کو واپس جاتا ہے۔ دکھایا گیا متن آؤٹ پٹ ہے، واپس آنے والی قدر نہیں۔",
+    "cppNote": "C++ پوائنٹرز کا ہدف بدل سکتا ہے؛ ریفرنس کا نہیں۔ میموری کی مثال خودکار صفائی کے لیے unique_ptr استعمال کرتی ہے۔",
+    "pythonReference": "Python کے نام آبجیکٹس کی طرف اشارہ کرتے ہیں۔ تبدیلی مشترک آبجیکٹ کو بدلتی ہے؛ ایک نام دوبارہ جوڑنے سے دوسرا نام نہیں بدلتا۔ مثالیں قابل تبدیلی کنٹینر استعمال کرتی ہیں۔",
+    "privacy": "رازداری"
   },
   "hi": {
     "title": "विज़ुअल प्रोग्रामिंग लैब",
@@ -890,7 +922,11 @@ const locales={
     "value": "वैल्यू",
     "connection": "संबंध",
     "defineNote": "क्रिया को कॉल करने से पहले परिभाषित करें। केवल परिभाषा उसका कोड नहीं चलाती।",
-    "collisionNote": "दो कुंजियाँ एक ही बकेट चुनती हैं। दोनों प्रविष्टियाँ श्रृंखला में रखें ताकि कोई वैल्यू न खोए।"
+    "collisionNote": "दो कुंजियाँ एक ही बकेट चुनती हैं। दोनों प्रविष्टियाँ श्रृंखला में रखें ताकि कोई वैल्यू न खोए।",
+    "returnControl": "फ़ंक्शन समाप्त होता है और नियंत्रण कॉल करने वाले को लौटता है। दिखाया गया पाठ आउटपुट है, लौटाई गई वैल्यू नहीं।",
+    "cppNote": "C++ पॉइंटर का लक्ष्य बदल सकता है; रेफ़रेंस का नहीं। आवंटन उदाहरण स्वचालित सफ़ाई के लिए unique_ptr उपयोग करता है।",
+    "pythonReference": "Python के नाम ऑब्जेक्ट को संदर्भित करते हैं। म्यूटेशन साझा ऑब्जेक्ट बदलता है; एक नाम को फिर बाँधने से दूसरा नाम नहीं बदलता। उदाहरण बदल सकने वाले कंटेनर उपयोग करते हैं।",
+    "privacy": "गोपनीयता"
   },
   "zh": {
     "title": "可视化编程实验室",
@@ -989,7 +1025,11 @@ const locales={
     "value": "值",
     "connection": "连接",
     "defineNote": "调用操作前先定义它。仅定义并不会执行函数体。",
-    "collisionNote": "两个键选择了同一个桶。将两个条目保留在链中，以免丢失任何值。"
+    "collisionNote": "两个键选择了同一个桶。将两个条目保留在链中，以免丢失任何值。",
+    "returnControl": "函数结束，控制权返回调用者。显示的文本是输出，而不是返回值。",
+    "cppNote": "C++ 指针可以改变目标；引用不能重新绑定。分配示例使用 unique_ptr 自动释放资源。",
+    "pythonReference": "Python 名称引用对象。修改会改变共享对象；重新绑定一个名称不会重新绑定其他名称。这些示例使用可变容器。",
+    "privacy": "隐私"
   }
 };
 const aliases={"input": "assign", "create": "assign", "mutate": "assign", "format": "emit", "types": "assign", "stop": "branch", "skip": "branch", "define": "defineNote", "base": "compare", "guard": "compare", "compose": "connect", "inherit": "connect", "dispatch": "call", "open": "assign", "writeFile": "assign", "close": "release", "readFile": "visit", "resume": "handle", "stub": "assign", "arrange": "assign", "act": "calculate", "assert": "test", "insert": "assign", "push": "assign", "pop": "assign", "after": "visit", "enqueue": "assign", "dequeue": "assign", "bfs": "visit", "lookup": "visit", "collision": "collisionNote"};
