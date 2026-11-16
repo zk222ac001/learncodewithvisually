@@ -4,10 +4,13 @@
   else root.CodeVizPointers = factory();
 })(typeof window === 'undefined' ? globalThis : window, () => {
   // Addresses are symbolic labels for this lesson, never real machine addresses.
-  function buildTrace({ scenario = 'alias', failAllocation = false } = {}) {
+  function buildTrace({ scenario = 'alias', failAllocation = false, initialValue = 10, writeValue = 20, callValue = 30 } = {}) {
     if (!['alias', 'allocation'].includes(scenario)) throw new RangeError('Choose the alias or allocation scenario.');
     if (typeof failAllocation !== 'boolean') throw new TypeError('failAllocation must be a boolean.');
     if (scenario === 'alias' && failAllocation) throw new RangeError('Allocation failure only applies to the allocation scenario.');
+    for (const value of [initialValue, writeValue, callValue]) {
+      if (!Number.isInteger(value) || value < -999 || value > 999) throw new RangeError('Use whole-number values from -999 to 999.');
+    }
     const lines = [], locations = {}, states = [];
     let pointer = null, helperPointer = null, cells = [], output = '', sum = null;
     const add = (line, key) => { if (key) locations[key] = lines.length; lines.push(line); };
@@ -20,34 +23,36 @@
     add('');
     if (scenario === 'alias') {
       add('static void setValue(int *target) {');
-      add('    *target = 30;', 'functionWrite');
+      add(`    *target = ${callValue};`, 'functionWrite');
       add('    return;', 'return');
       add('}');
       add('');
       add('int main(void) {');
-      add('    int value = 10;', 'initialize');
+      add(`    int value = ${initialValue};`, 'initialize');
       add('    int *p = &value;', 'address');
-      add('    *p = 20;', 'write');
+      add(`    *p = ${writeValue};`, 'write');
       add('    setValue(p);', 'call');
       add('    printf("value = %d\\n", value);', 'output');
       add('    return 0;', 'done');
       add('}');
       snapshot('ready', 'Ready to create a value and a pointer to it.');
-      cells = [{ label: 'value', value: 10, live: true }];
-      snapshot('initialize', 'Create the local integer value and store 10.', 'initialize');
+      cells = [{ label: 'value', value: initialValue, live: true }];
+      snapshot('initialize', `Create the local integer value and store ${initialValue}.`, 'initialize');
       pointer = '&value';
       snapshot('address', 'The address-of operator & gives p the address of value. The displayed address is symbolic.', 'address');
-      cells[0].value = 20;
-      snapshot('write', 'Dereferencing p with *p writes 20 into the same value cell.', 'write');
+      cells[0].value = writeValue;
+      snapshot('write', `Dereferencing p with *p writes ${writeValue} into the same value cell.`, 'write');
       helperPointer = '&value';
       snapshot('call', 'C passes the pointer value by value. The copied parameter target points to the same integer.', 'call');
-      cells[0].value = 30;
-      snapshot('function-write', 'The function writes 30 through its copied pointer target; value in main changes.', 'functionWrite');
+      cells[0].value = callValue;
+      snapshot('function-write', `The function writes ${callValue} through its copied pointer target; value in main changes.`, 'functionWrite');
       helperPointer = null;
       snapshot('return', 'Return to main. The function parameter ends its lifetime; value and p remain live.', 'return');
-      output = 'value = 30\n';
+      output = `value = ${callValue}\n`;
       snapshot('output', 'Read value and print the result of the function mutation.', 'output');
-      snapshot('done', 'The program exits. The local variable lifetime ends when main returns.', 'done');
+      cells = cells.map(cell => ({ ...cell, value: null, live: false }));
+      pointer = null;
+      snapshot('done', 'The program exits. The local variable and pointer lifetimes end when main returns.', 'done');
     } else {
       add('int main(void) {');
       if (failAllocation) {

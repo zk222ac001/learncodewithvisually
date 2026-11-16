@@ -79,3 +79,18 @@ test('C pointer sources compile strictly and match all simulation outputs', { ti
     assert.equal(native.execute('c', model.code, available), model.output);
   }
 });
+
+test('custom pointer values match compiled C and reject invalid inputs', t => {
+  const model = buildTrace({ initialValue: -7, writeValue: 0, callValue: 999 });
+  assert.equal(model.states[1].cells[0].value, -7);
+  assert.equal(readCell(model.states[3]), 0);
+  assert.equal(readCell(model.states[5]), 999);
+  assert.equal(model.output, 'value = 999\n');
+  assert.ok(model.states.at(-1).cells.every(cell => !cell.live));
+  for (const value of [NaN, Infinity, 1.5, -1000, 1000, '12']) {
+    for (const key of ['initialValue', 'writeValue', 'callValue']) assert.throws(() => buildTrace({ [key]: value }), RangeError);
+  }
+  const available = native.available('c');
+  if (available) assert.equal(native.execute('c', model.code, available), model.output);
+  else t.diagnostic('C compiler unavailable; execution check skipped');
+});
