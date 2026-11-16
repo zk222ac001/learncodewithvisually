@@ -1,0 +1,48 @@
+name: Course visual labs
+on:
+  pull_request:
+    paths:
+      - 'course-labs*'
+      - 'visual-labs.html'
+      - 'course.js'
+      - 'datastrukturer.html'
+      - 'assignment-solutions.js'
+      - 'scripts/build-course-lab-content.cjs'
+      - 'tests/course-labs*'
+      - 'tests/browser/course-labs.spec.cjs'
+      - 'tests/fixtures/course-lab-extra-outputs.json'
+      - '.github/workflows/course-labs.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: npm ci
+      - name: Validate every topic, translation and executable example
+        run: node --test tests/course-labs.test.cjs tests/course-labs-native.test.cjs tests/assignment-solutions.test.cjs
+        env:
+          REQUIRE_COURSE_TOOLCHAINS: '1'
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test tests/browser/course-labs.spec.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: course-visual-lab-previews
+          path: |
+            course-lab-previews/
+            test-results/
+          if-no-files-found: ignore

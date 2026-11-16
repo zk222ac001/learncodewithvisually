@@ -1,0 +1,58 @@
+{
+  "ds-array": {
+    "c": "30\n5 10 20 30 40\n",
+    "cpp": "30\n5 10 20 30 40 \n",
+    "python": "30\n[5, 10, 20, 30, 40]\n",
+    "javascript": "30\n5 10 20 30 40\n",
+    "java": "30\n5 10 20 30 40 \n",
+    "csharp": "30\n5 10 20 30 40\n"
+  },
+  "ds-linked-list": {
+    "c": "10\n20\n30\n40\n",
+    "cpp": "10\n20\n30\n",
+    "python": "10\n20\n30\n",
+    "javascript": "10\n20\n30\n",
+    "java": "10\n20\n30\n",
+    "csharp": "10\n20\n30\n"
+  },
+  "ds-stack": {
+    "c": "50\n40\n",
+    "cpp": "50\n40\n",
+    "python": "50\n40\n",
+    "javascript": "50\n40\n",
+    "java": "50\n40\n",
+    "csharp": "50\n40\n"
+  },
+  "ds-queue": {
+    "c": "10\n20\n30\n40\n",
+    "cpp": "10\n20\n30\n40\n",
+    "python": "10\n[20, 30, 40]\n",
+    "javascript": "10\n20\n30\n40\n",
+    "java": "10\n20\n30\n40\n",
+    "csharp": "10\n20\n30\n40\n"
+  },
+  "ds-tree": {
+    "c": "Kursus\nPython\nintro.py\nagent.py\nRobot\nsensor.py\n",
+    "cpp": "Kursus\nPython\nintro.py\nagent.py\nRobot\nsensor.py\n",
+    "python": "Kursus\nPython\nintro.py\nagent.py\nRobot\nsensor.py\n",
+    "javascript": "Kursus\nPython\nintro.py\nagent.py\nRobot\nsensor.py\n",
+    "java": "Kursus\nPython\nintro.py\nagent.py\nRobot\nsensor.py\n",
+    "csharp": "Kursus\nPython\nintro.py\nagent.py\nRobot\nsensor.py\n"
+  },
+  "ds-graph": {
+    "c": "A\nB\nC\nD\nE\n",
+    "cpp": "A\nB\nC\nD\nE\n",
+    "python": "A\nB\nC\nD\nE\n",
+    "javascript": "A\nB\nC\nD\nE\n",
+    "java": "A\nB\nC\nD\nE\n",
+    "csharp": "A\nB\nC\nD\nE\n"
+  },
+  "ds-hash": {
+    "c": "Bo: 2, Ada: 2\nAda: 25\nBo: 24\n",
+    "cpp": "Bo: 26\nAda: 25\n",
+    "python": "Ali\n",
+    "javascript": "Bo: 26\nAda: 25\n",
+    "java": "Bo: 26\nAda: 25\n",
+    "csharp": "Bo: 26\nAda: 25\n"
+  }
+}

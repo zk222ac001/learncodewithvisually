@@ -1,0 +1,23 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),{execFileSync}=require('node:child_process');
+const C=require('../course-labs-content.js'),Core=require('../course-labs-core.js'),I=require('../course-labs-i18n.js');
+const context={window:{}};vm.createContext(context);for(const f of ['assignments-data.js','assignment-solutions.js'])vm.runInContext(fs.readFileSync(f,'utf8'),context);
+const sources=context.window.LESSON_ASSIGNMENT_SOLUTIONS,build=(id,lang='python')=>Core.build(id,lang,sources),last=(id,lang)=>build(id,lang).states.at(-1),value=(state,id)=>state.nodes.find(n=>n.id===id)?.value;
+test('catalogue covers every canonical assignment, seven structures and both references',()=>{assert.equal(C.ids.length,93);assert.equal(new Set(C.ids).size,93);for(const id of Object.keys(context.window.LESSON_ASSIGNMENTS))assert.ok(C.ids.includes(id));assert.deepEqual(Object.keys(C.extra).sort(),['ds-array','ds-linked-list','ds-stack','ds-queue','ds-tree','ds-graph','ds-hash','escapes','formats'].sort());});
+test('generated content stays synchronized with the canonical lessons',()=>{const before=fs.readFileSync('course-labs-content.js','utf8');execFileSync(process.execPath,['scripts/build-course-lab-content.cjs']);assert.equal(fs.readFileSync('course-labs-content.js','utf8'),before);});
+test('558 models and 5,580 localized combinations have complete, valid content',()=>{
+ for(const id of C.ids)for(const lang of Core.languages){const model=build(id,lang);assert.ok(model.states.length>=3,id);assert.ok(model.code.trim());assert.ok(model.expected!==null,id);assert.equal(model.states[0].action,'ready');assert.equal(model.states.at(-1).action,'done');for(const state of model.states){assert.ok(state.line===null||(state.line>=0&&state.line<model.code.split('\n').length),id);const names=state.nodes.map(n=>n.id);assert.equal(new Set(names).size,names.length,id);for(const name of state.focus)assert.ok(names.includes(name),id+': '+name);for(const edge of state.edges)for(const name of edge)assert.ok(names.includes(name),id+': '+name);for(const locale of Object.keys(I.locales)){const key=I.aliases[state.action]||state.action;assert.ok(I.locales[locale][key],locale+'/'+id+'/'+key);assert.notEqual(I.title(locale,id,C),id,locale+'/'+id);assert.ok(!/undefined|\{[a-z]+\}/.test(I.t(locale,state.action)));}}
+  const snapshot=JSON.stringify(model.states[1]);model.states.at(-1).nodes.push({id:'test',value:'test'});assert.equal(JSON.stringify(model.states[1]),snapshot);
+ }
+ for(const [locale,strings] of Object.entries(I.locales))for(const key of Object.keys(I.locales.en))assert.ok(strings[key],locale+'/'+key);
+});
+test('semantic checkpoints match the teaching examples',()=>{
+ const swap=build('variables').states;assert.ok(swap.some(s=>value(s,'temporary')==='3'&&value(s,'first')==='8'&&value(s,'second')==='8'));assert.equal(value(swap.at(-1),'second'),'3');
+ assert.equal(value(last('arrays-simulation'),'readings[2]'),'99');assert.equal(value(last('arrays-tutorial'),'total'),'60');assert.equal(value(last('arrays-practice'),'index'),'-1');
+ const factorial=build('functions-8');assert.ok(factorial.states.some(s=>s.nodes.filter(n=>n.id.startsWith('factorial')).length===5));assert.equal(value(factorial.states.at(-1),'result'),'120');
+ assert.equal(value(last('pointers-simulation'),'second'),'99');assert.equal(value(last('pointers-simulation'),'first'),'10');assert.equal(last('pointers-5','c').nodes.filter(n=>n.status==='ended').length,3);assert.equal(last('pointers-5','python').nodes.filter(n=>n.status==='ended').length,0);
+ assert.equal(last('ds-linked-list','c').nodes.length,4);assert.equal(last('ds-linked-list','java').nodes.length,3);assert.equal(last('ds-queue','python').nodes.length,3);assert.equal(last('ds-queue','c').nodes.length,0);
+ assert.ok(build('ds-hash','c').states.some(s=>s.action==='collision'));assert.equal(value(last('ds-hash','javascript'),'Bo'),'26');assert.equal(value(last('ds-hash','python'),'age'),'23');
+ assert.equal(value(last('oop-practice'),'first.balance'),'125');assert.equal(value(last('oop-practice'),'second.balance'),'100');assert.equal(value(last('oop-public'),'first.balance'),'100');
+ assert.ok(build('unit-testing-practice').states.some(s=>value(s,'result')==='FAIL'));assert.equal(value(last('unit-testing-practice'),'result'),'PASS');assert.deepEqual(build('ds-graph').states.filter(s=>s.action==='bfs').map(s=>s.focus[0]),['A','B','C','D','E']);
+});
+test('untrusted topic and language values are rejected',()=>{assert.throws(()=>build('__proto__'));assert.throws(()=>build('arrays','constructor'));});
