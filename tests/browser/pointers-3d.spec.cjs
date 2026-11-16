@@ -69,7 +69,9 @@ test('mobile and reduced motion offer flat accessible view and local-only loadin
 
 test('pilot is linked from the existing C lesson', async ({ page }) => {
   await page.goto('/index.html?lang=en&code=c#pointers');
-  await page.locator('a[href="pointers-3d.html"]').click();
+  await expect(page.locator('a.pointer-lab-cta')).toHaveCount(2);
+  await expect(page.locator('.pointer-lab-banner a')).toHaveCSS('background-color', 'rgb(33, 90, 215)');
+  await page.locator('.pointer-lab-banner a').click();
   await expect(page).toHaveTitle(/3D Lab/);
   await page.locator('#next').click(); await page.locator('#next').click(); await page.locator('#next').click();
   await page.screenshot({ path: 'test-results/pointers-3d-desktop.png', fullPage: true });
