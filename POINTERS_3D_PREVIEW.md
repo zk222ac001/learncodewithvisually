@@ -1,47 +1,51 @@
-# Test the Pointers & Memory 3D pilot
+# Test the 3D Memory & References Lab
 
-This pilot lives on `feature/pointers-3d-pilot`. It must be reviewed and tested before merging into `main`. GitHub Pages currently serves `main`, so the production URL will not show this branch yet.
+The multilingual update is on `feature/multilingual-memory-lab`. Review it before merging into `main`; the production site serves `main`.
 
 ## Run locally
 
-With Git and Python installed:
-
 ```sh
-git clone --branch feature/pointers-3d-pilot https://github.com/zk222ac001/learncodewithvisually.git
+git clone --branch feature/multilingual-memory-lab https://github.com/zk222ac001/learncodewithvisually.git
 cd learncodewithvisually
 python -m http.server 8000 --bind 127.0.0.1
 ```
 
-On Windows, `py -m http.server 8000 --bind 127.0.0.1` also works. On Linux/macOS use `python3` if needed.
+On Windows, `py -m http.server 8000 --bind 127.0.0.1` also works. On Linux/macOS use `python3` if needed. Alternatively download this branch as a ZIP, extract it and run the server in that folder. No npm installation is needed to preview the site.
 
-Visit http://localhost:8000/pointers-3d.html . Alternatively, select this branch on GitHub, use **Code → Download ZIP**, extract it, and run the server command inside the extracted folder. No npm installation is needed just to preview the site.
+Open http://localhost:8000/pointers-3d.html?lang=da&code=python . The existing `pointers-3d.html` URL remains compatible; without parameters it starts in English/C.
 
-## What to check
+## Language support
 
-1. Set values to 5, 12 and 42, then Apply & restart. Next should update the memory value and highlighted line together. The final output should be `value = 42`.
-2. At the function call, both pointer labels should designate the same integer. Previous must restore the earlier state. At program exit the object should show ended lifetime.
-3. Select allocation and apply. Newly allocated integers are uninitialized, then become 10, 20 and 30. Output is 60. After free, storage is ended and the pointer is marked dangling; after clearing, there is no active target.
-4. Enable forced allocation failure and apply. No memory objects should appear, and output should be `Allocation failed`.
-5. Try Play/Pause, speed, Restart, rotation, tilt, zoom and Flat view. Reduced-motion mode starts flat. Playback pauses when the page is hidden.
-6. Test keyboard controls and a narrow/mobile window. The expandable text memory state provides the same information without depending on the 3D scene.
-7. Copy/download the source and compile it as C. The modelled successful-path output should match actual execution.
-8. Open the full C pointer lesson and follow its new 3D lab link. Existing examples and quizzes should still work.
+Programming languages: C, C++, Python, Java, JavaScript and C#.
 
-## Scope and implementation
+Website languages: English, Danish, Spanish, French, German, Portuguese, Arabic, Urdu, Hindi and Simplified Chinese. Translations cover the lab's headings, controls, step explanations, model notes, validation and accessibility labels. Arabic and Urdu use RTL prose; code, identifiers and program output remain LTR. These additions translate the lab and its course banner, not the entire existing detailed pointer tutorial.
 
-The lab is English/C only, with guided examples rather than an arbitrary-code debugger. It reuses `pointers-core.js` as the single source for code, memory state, explanation and output. Bounded integer inputs (-999 to 999) keep code generation simple and safe. Allocation failure is deliberately modelled by substituting NULL.
+The translated blue course banner appears for every programming language and carries both selections to the lab. The return link preserves them. Changing website language pauses playback and retains the current step. Changing programming language starts its first supported scenario.
 
-The scene uses browser-native CSS 3D transforms, with rotation, tilt and zoom controls. No Three.js, GPU/WebGL requirement, external runtime scripts, AI service, accounts or backend are added. No data leaves the page automatically. The explicit OneCompiler link opens the provider separately; code must be pasted manually. This is an intentional lightweight pilot; more complex graphs or robotics scenes may warrant Three.js later.
+## Examples to review
 
-The existing pointer trace now ends local-object lifetimes on program exit instead of leaving those objects marked live.
+- **C:** pointer aliasing/function arguments, plus allocation success/failure. Try 5, 12, 42; the final output is `value = 42`. Allocation outputs 60 or `Allocation failed` on the forced-failure path. Uninitialized storage, dangling pointers and ended lifetimes are distinguished.
+- **C++:** reference aliases/function arguments, plus `unique_ptr` ownership with explicit `reset()`. A reference cannot be reseated; resetting unique_ptr destroys its owned integer immediately.
+- **Python, Java and JavaScript:** two names initially share mutable object A. Mutation changes A; reassignment makes alias refer to a distinct B. With defaults, output is `20 30`.
+- **C#:** shared class objects plus replacement of a caller's alias variable through a `ref` parameter. The other variable retains its reference to A.
+
+Managed-language diagrams retain the final reference snapshot; they make no claim about garbage-collection timing. C/C++ lifetime endings are shown where defined by the examples. Program output stays literal so it can be compared with a compiler/runtime.
+
+Try Previous/Next, Play/Pause, speed, Restart, rotation, tilt, zoom and Flat view. Test keyboard controls and narrow screens, especially Arabic and Urdu. Reduced-motion mode starts flat; playback pauses when the page is hidden. The text memory state describes the same relationships without relying on the visual scene.
+
+## Implementation and limitations
+
+`memory-lab-core.js` produces language-specific source and immutable trace snapshots. It reuses the existing C pointer model. `memory-lab-i18n.js` contains the locale dictionaries. Values are bounded integers from -999 to 999. These are guided models, not an interpreter/debugger for arbitrary edited code. Allocation failure is demonstrated by deliberately substituting NULL.
+
+The scene uses browser-native CSS 3D transforms with no external runtime dependencies, AI service, accounts or backend. No data leaves the page automatically. The explicit OneCompiler link opens the provider separately and requires manual pasting. Downloads use the appropriate filenames, including `Main.java` and `Program.cs`.
 
 ## Automated verification
 
 ```sh
 npm ci
-npm test
+node --test tests/memory-lab.test.cjs tests/pointers.test.cjs
 npx playwright install chromium
-npx playwright test tests/browser/pointers-3d.spec.cjs tests/browser/pointers.spec.cjs
+npx playwright test tests/browser/pointers-3d.spec.cjs tests/browser/memory-lab-locales.spec.cjs
 ```
 
-The focused checks cover custom values against compiled C when GCC is available, lifetime, allocation failure, playback, mobile overflow, reduced motion, no automatic external requests, and discovery from the existing lesson. The PR also triggers the repository's normal regression workflow.
+The `Multilingual memory lab` PR workflow requires all six runtimes, compares generated program output with the model, tests all 60 locale/language combinations and every supported scenario, checks selection-preserving course navigation, and uploads English, Danish, Arabic and Urdu screenshots. The normal repository regression workflow also runs.

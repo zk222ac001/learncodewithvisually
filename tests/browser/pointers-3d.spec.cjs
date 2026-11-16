@@ -7,7 +7,7 @@ test('custom values keep source, memory, output and lifetime in sync', async ({ 
   await page.getByRole('button', { name: 'Apply & restart' }).click();
   await expect(page.locator('#source')).toContainText('int value = 5;');
   for (let i = 0; i < 4; i++) await page.locator('#next').click();
-  await expect(page.locator('#memory-text')).toContainText('copied address');
+  await expect(page.locator('#memory-text')).toContainText('target → value');
   await expect(page.locator('#memory-text')).toContainText('value: 12');
   await page.locator('#next').click();
   await expect(page.locator('#source .executing')).toHaveText('    *target = 42;');
@@ -19,7 +19,7 @@ test('custom values keep source, memory, output and lifetime in sync', async ({ 
   await expect(page.locator('#world .memory-block')).toHaveClass(/ended/);
   await expect(page.locator('#next')).toBeDisabled();
   await page.locator('#reset').click();
-  await expect(page.locator('#output')).toContainText('no output');
+  await expect(page.locator('#output')).toContainText('No output');
   expect(errors).toEqual([]);
 });
 
@@ -43,14 +43,14 @@ test('allocation release and failure are represented without unsafe reads', asyn
 test('playback pauses, restarts and stops at the end', async ({ page }) => {
   await page.clock.install(); await page.goto('/pointers-3d.html');
   await page.locator('#play').click(); await page.clock.fastForward(1500);
-  await expect(page.locator('#step-count')).toContainText('STEP 1 /');
+  await expect(page.locator('#step-count')).toContainText('Step 1 /');
   await page.locator('#play').click(); await page.clock.fastForward(5000);
-  await expect(page.locator('#step-count')).toContainText('STEP 1 /');
+  await expect(page.locator('#step-count')).toContainText('Step 1 /');
   await page.locator('#play').click();
   for (let i = 0; i < 7; i++) await page.clock.fastForward(1500);
   await expect(page.locator('#play')).toBeDisabled();
   await page.locator('#reset').click(); await page.clock.fastForward(5000);
-  await expect(page.locator('#step-count')).toContainText('STEP 0 /');
+  await expect(page.locator('#step-count')).toContainText('Step 0 /');
 });
 
 test('mobile and reduced motion offer flat accessible view and local-only loading', async ({ page }) => {
@@ -72,7 +72,7 @@ test('pilot is linked from the existing C lesson', async ({ page }) => {
   await expect(page.locator('a.pointer-lab-cta')).toHaveCount(2);
   await expect(page.locator('.pointer-lab-banner a')).toHaveCSS('background-color', 'rgb(33, 90, 215)');
   await page.locator('.pointer-lab-banner a').click();
-  await expect(page).toHaveTitle(/3D Lab/);
+  await expect(page).toHaveTitle(/3D Memory & References Lab/);
   await page.locator('#next').click(); await page.locator('#next').click(); await page.locator('#next').click();
   await page.screenshot({ path: 'test-results/pointers-3d-desktop.png', fullPage: true });
 });
