@@ -14,7 +14,7 @@
       const m = P.buildTrace({ scenario, initialValue, writeValue, callValue, failAllocation });
       return { ...m, states: m.states.map(s => ({ ...s, key: scenario === 'alias' ? 'c_' + s.phase : 'alloc_' + s.phase,
         args: { n: s.phase === 'initialize' ? (scenario === 'alias' ? initialValue : s.cells.filter(c => c.value !== null).at(-1)?.value) : s.phase === 'write' ? writeValue : callValue },
-        refs: s.phase === 'ready' || s.phase === 'done' ? [] : [{ name: scenario === 'alias' ? 'p' : 'values', target: s.pointer === 'dangling' ? 'dangling' : s.pointer ? s.cells[0]?.label : null }, ...(s.helperPointer ? [{ name: 'target', target: 'value' }] : [])],
+        refs: s.phase === 'ready' || s.phase === 'done' || (scenario === 'alias' && s.phase === 'initialize') ? [] : [{ name: scenario === 'alias' ? 'p' : 'values', target: s.pointer === 'dangling' ? 'dangling' : s.pointer ? s.cells[0]?.label : null }, ...(s.helperPointer ? [{ name: 'target', target: 'value' }] : [])],
         cells: s.cells.map(c => ({ ...c, id: c.label })) })) };
     }
     const lines = [], states = [];

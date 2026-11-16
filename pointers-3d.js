@@ -3,8 +3,9 @@
   const $ = id => document.getElementById(id), M = window.MemoryLab, I = window.MemoryLabI18n;
   const escape = text => String(text).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const url = new URL(location.href);
-  let language = Object.hasOwn(M.languages, url.searchParams.get('code')) ? url.searchParams.get('code') : 'c';
-  let locale = Object.hasOwn(I.locales, url.searchParams.get('lang')) ? url.searchParams.get('lang') : 'en';
+  const selectKey = (catalog, value, fallback) => Object.keys(catalog).find(key => key === value) || fallback;
+  let language = selectKey(M.languages, url.searchParams.get('code'), 'c');
+  let locale = selectKey(I.locales, url.searchParams.get('lang'), 'en');
   let config = { language, scenario: M.languages[language].scenarios[0] }, trace = M.build(config), position = 0, timer = null;
   let flat = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const t = (key, args) => I.t(locale, key, args);
@@ -19,6 +20,7 @@
     $('world').style.transform = `rotateX(${$('tilt').value}deg) rotateY(${$('rotate').value}deg) scale(${$('zoom').value / 100})`;
   }
   function translate() {
+    pause();
     document.documentElement.lang = locale; document.documentElement.dir = ['ar', 'ur'].includes(locale) ? 'rtl' : 'ltr';
     document.title = t('title') + ' | LearnCodeVisually';
     document.querySelectorAll('[data-i18n]').forEach(node => { node.textContent = t(node.dataset.i18n); });
@@ -27,9 +29,9 @@
     $('code-language').value = language; $('website-language').value = locale;
     options('scenario', M.languages[language].scenarios.map(key => [key, t(key)])); $('scenario').value = config.scenario;
     $('source-language').textContent = M.languages[language].label;
-    $('back').href = `index.html?lang=${locale}&code=${language}#pointers`;
-    $('home').href = `index.html?lang=${locale}&code=${language}`; $('home').setAttribute('aria-label', t('home'));
-    $('provider').href = 'https://onecompiler.com/' + language;
+    $('back').href = `index.html?lang=${encodeURIComponent(locale)}&code=${encodeURIComponent(language)}#pointers`;
+    $('home').href = `index.html?lang=${encodeURIComponent(locale)}&code=${encodeURIComponent(language)}`; $('home').setAttribute('aria-label', t('home'));
+    $('provider').href = 'https://onecompiler.com/' + encodeURIComponent(language);
     url.searchParams.set('lang', locale); url.searchParams.set('code', language); history.replaceState(null, '', url);
     $('settings-status').textContent = ''; $('copy-status').textContent = '';
     camera(); fields(); draw();
@@ -63,9 +65,9 @@
   $('previous').addEventListener('click', () => { pause(); position = Math.max(position - 1, 0); draw(); });
   $('reset').addEventListener('click', () => { pause(); position = 0; draw(); });
   $('speed').addEventListener('change', () => { if (timer !== null) { pause(); $('play').textContent = t('pause'); schedule(); } });
-  $('website-language').addEventListener('change', () => { pause(); locale = $('website-language').value; translate(); });
+  $('website-language').addEventListener('change', () => { pause(); locale = selectKey(I.locales, $('website-language').value, 'en'); translate(); });
   $('code-language').addEventListener('change', () => {
-    pause(); language = $('code-language').value; config = { ...config, language, scenario: M.languages[language].scenarios[0], failAllocation: false };
+    pause(); language = selectKey(M.languages, $('code-language').value, 'c'); config = { ...config, language, scenario: M.languages[language].scenarios[0], failAllocation: false };
     trace = M.build(config); position = 0; translate();
   });
   $('scenario').addEventListener('change', () => { pause(); config = { ...config, scenario: $('scenario').value, failAllocation: false }; trace = M.build(config); position = 0; fields(); draw(); $('settings-status').textContent = ''; });
