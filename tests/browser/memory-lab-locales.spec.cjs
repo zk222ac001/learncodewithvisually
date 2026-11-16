@@ -13,6 +13,8 @@ for (const locale of Object.keys(I.locales)) {
       await expect(page.locator('html')).toHaveAttribute('dir', ['ar', 'ur'].includes(locale) ? 'rtl' : 'ltr');
       await expect(page.locator('#language-note')).toHaveText(I.t(locale, 'note_' + language));
       await expect(page.locator('#play')).toHaveText(I.t(locale, 'play'));
+      await expect(page.locator('#code-language')).toHaveAttribute('dir', 'ltr');
+      await expect(page.locator('#step-count bdi')).toHaveAttribute('dir', 'ltr');
       await expect(page.locator('#back')).toHaveAttribute('href', `index.html?lang=${locale}&code=${language}#pointers`);
       await expect(page.locator('#source').locator('..')).toHaveAttribute('dir', 'ltr');
       for (const scenario of meta.scenarios) {

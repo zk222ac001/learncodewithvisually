@@ -12,6 +12,12 @@
   const options = (select, values) => { $(select).replaceChildren(...values.map(([value, label]) => { const o = document.createElement('option'); o.value = value; o.textContent = label; return o; })); };
   options('code-language', Object.entries(M.languages).map(([key, meta]) => [key, meta.label]));
   options('website-language', Object.entries(I.names));
+  function translatedText(node, text) {
+    node.replaceChildren(...text.split(/(C\+\+|C#)/g).map(part => {
+      if (!['C++', 'C#'].includes(part)) return document.createTextNode(part);
+      const isolated = document.createElement('bdi'); isolated.dir = 'ltr'; isolated.textContent = part; return isolated;
+    }));
+  }
   function pause() { clearTimeout(timer); timer = null; $('play').textContent = t('play'); }
   function camera() {
     $('viewport').classList.toggle('flat', flat);
@@ -23,9 +29,9 @@
     pause();
     document.documentElement.lang = locale; document.documentElement.dir = ['ar', 'ur'].includes(locale) ? 'rtl' : 'ltr';
     document.title = t('title') + ' | LearnCodeVisually';
-    document.querySelectorAll('[data-i18n]').forEach(node => { node.textContent = t(node.dataset.i18n); });
+    document.querySelectorAll('[data-i18n]').forEach(node => { translatedText(node, t(node.dataset.i18n)); });
     document.querySelectorAll('[data-label]').forEach(node => { node.setAttribute('aria-label', t(node.dataset.label)); });
-    $('language-note').textContent = t('note_' + language);
+    translatedText($('language-note'), t('note_' + language));
     $('code-language').value = language; $('website-language').value = locale;
     options('scenario', M.languages[language].scenarios.map(key => [key, t(key)])); $('scenario').value = config.scenario;
     $('source-language').textContent = M.languages[language].label;
@@ -46,9 +52,10 @@
   function draw() {
     const state = trace.states[position];
     $('source').innerHTML = trace.code.trimEnd().split('\n').map((line, i) => `<span class="code-line${i === state.line ? ' executing' : ''}"${i === state.line ? ' aria-current="step"' : ''}>${escape(line) || ' '}</span>`).join('');
-    $('step-count').textContent = `${t('step')} ${position} / ${trace.states.length - 1}`;
+    $('step-count').textContent = t('step') + ' ';
+    const count = document.createElement('bdi'); count.dir = 'ltr'; count.textContent = `${position} / ${trace.states.length - 1}`; $('step-count').append(count);
     $('phase').textContent = `${t('step')} ${position}`;
-    $('explanation').textContent = t(config.failAllocation && state.key === 'alloc_allocate' ? 'disclaimer' : state.key, state.args);
+    translatedText($('explanation'), t(config.failAllocation && state.key === 'alloc_allocate' ? 'disclaimer' : state.key, state.args));
     $('output').textContent = state.output || t('noOutput');
     $('progress').max = trace.states.length - 1; $('progress').value = position;
     $('previous').disabled = position === 0; $('next').disabled = position === trace.states.length - 1; $('play').disabled = position === trace.states.length - 1;
