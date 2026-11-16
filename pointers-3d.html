@@ -3,39 +3,39 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Pointers &amp; Memory · 3D Lab | LearnCodeVisually</title>
-<link rel="stylesheet" href="pointers-3d.css">
-<script src="pointers-core.js" defer></script><script src="pointers-3d.js" defer></script>
+<title>3D Memory &amp; References Lab | LearnCodeVisually</title>
+<link rel="stylesheet" href="pointers-3d.css?v=2">
+<script src="pointers-core.js?v=2" defer></script><script src="memory-lab-core.js?v=1" defer></script><script src="memory-lab-i18n.js?v=1" defer></script><script src="pointers-3d.js?v=2" defer></script>
 </head>
 <body>
-<a class="skip" href="#lab">Skip to interactive lab</a>
-<header><a href="index.html">LearnCode<span>Visually</span></a><a href="index.html?lang=en&amp;code=c#pointers">← Full pointer lesson</a></header>
+<a class="skip" href="#lab" data-i18n="skip">Skip to lab</a>
+<header><a id="home" href="index.html">LearnCode<span>Visually</span></a><a id="back" href="index.html?lang=en&amp;code=c#pointers" data-i18n="back">Back to lesson</a></header>
 <main>
-<div class="eyebrow">EXPERIMENTAL LAB / 01 &nbsp; • &nbsp; C · ENGLISH</div>
-<h1>A pointer is a connection.<br><span>Watch what it changes.</span></h1>
-<p class="intro">Explore how an address connects a pointer to an object. Follow each C instruction, inspect the memory model, then change the values and try again.</p>
-<div class="concepts"><p><b>01 / Address</b><code>&amp;value</code> finds the object.</p><p><b>02 / Pointer</b><code>p</code> stores its address.</p><p><b>03 / Dereference</b><code>*p</code> accesses that object.</p></div>
-<section id="lab" aria-label="Interactive pointer lab">
-<form id="settings" class="panel settings">
-<label>Explore<select id="scenario"><option value="alias">A pointer, an object &amp; a function</option><option value="allocation">Allocate → initialize → release</option></select></label>
-<div id="values"><label>Initial value<input id="initial" type="number" min="-999" max="999" step="1" value="10" required></label><label>Write through *p<input id="write" type="number" min="-999" max="999" step="1" value="20" required></label><label>Function writes<input id="call" type="number" min="-999" max="999" step="1" value="30" required></label></div>
-<label id="failure-label" hidden><input id="failure" type="checkbox"> Force allocation failure</label>
-<button type="submit">Apply &amp; restart</button><p id="settings-status" role="status"></p>
+<div class="language-controls panel"><label><span data-i18n="program">Programming language</span><select id="code-language" dir="ltr"></select></label><label><span data-i18n="website">Website language</span><select id="website-language"></select></label></div>
+<div class="eyebrow" data-i18n="badge">NEW · INTERACTIVE 3D LAB</div>
+<h1 data-i18n="title">3D Memory &amp; References Lab</h1>
+<p class="intro" data-i18n="intro">See how variables connect to objects. Change the values and follow the code one step at a time.</p>
+<p id="language-note" class="panel"></p>
+<section id="lab" data-label="title">
+<form id="settings" class="panel settings" novalidate>
+<label><span data-i18n="explore">Example</span><select id="scenario"></select></label>
+<div id="values"><label><span data-i18n="initial">Initial value</span><input id="initial" type="number" min="-999" max="999" step="1" value="10" required dir="ltr"></label><label><span data-i18n="write">Mutation value</span><input id="write" type="number" min="-999" max="999" step="1" value="20" required dir="ltr"></label><label id="call-label"><span data-i18n="call">Replacement / function value</span><input id="call" type="number" min="-999" max="999" step="1" value="30" required dir="ltr"></label></div>
+<label id="failure-label" hidden><input id="failure" type="checkbox"><span data-i18n="failure">Force allocation failure</span></label>
+<button type="submit" data-i18n="apply">Apply &amp; restart</button><p id="settings-status" role="status"></p>
 </form>
 <div class="lab-grid">
-<section class="panel memory"><div class="panel-heading"><h2>Memory explorer</h2><button id="view" type="button" aria-pressed="false">Flat view</button></div>
-<p class="small">Symbolic objects and addresses, not a physical memory layout.</p>
-<div id="viewport"><div id="world" aria-hidden="true"></div></div>
-<div class="camera"><label>Rotate<input id="rotate" type="range" min="-30" max="30" value="-12"></label><label>Tilt<input id="tilt" type="range" min="0" max="30" value="18"></label><label>Zoom<input id="zoom" type="range" min="70" max="110" value="90"></label><button id="camera-reset" type="button">Reset view</button></div>
-<div class="legend"><span>● Live object</span><span>◇ Pointer / address</span><span>▧ Ended lifetime</span></div>
-<details><summary>Read the memory state as text</summary><div id="memory-text"></div></details>
+<section class="panel memory"><div class="panel-heading"><h2 data-i18n="memory">Memory explorer</h2><button id="view" type="button" aria-pressed="false">Flat view</button></div>
+<p class="small" data-i18n="symbolic">Symbolic objects and connections, not physical addresses or a memory layout.</p>
+<div id="viewport"><div id="world" aria-hidden="true" dir="ltr"></div></div>
+<div class="camera"><label><span data-i18n="rotate">Rotate</span><input id="rotate" type="range" min="-30" max="30" value="-12"></label><label><span data-i18n="tilt">Tilt</span><input id="tilt" type="range" min="0" max="30" value="18"></label><label><span data-i18n="zoom">Zoom</span><input id="zoom" type="range" min="70" max="110" value="90"></label><button id="camera-reset" type="button" data-i18n="resetView">Reset view</button></div>
+<div class="legend"><span data-i18n="live">Live object</span><span data-i18n="ended">Lifetime ended</span></div>
+<details><summary data-i18n="textState">Read memory state as text</summary><div id="memory-text"></div></details>
 </section>
-<section class="panel source"><div class="panel-heading"><h2>C source</h2><span class="pill">GUIDED TRACE</span></div><p class="small">The highlighted line corresponds to the current step.</p><pre tabindex="0" aria-label="C source code"><code id="source"></code></pre><div class="actions"><button id="copy" type="button">Copy C code</button><button id="download" type="button">Download .c</button></div><p id="copy-status" role="status"></p></section>
+<section class="panel source"><div class="panel-heading"><h2><span data-i18n="source">Source code</span> · <bdi id="source-language"></bdi></h2><span class="pill" data-i18n="guided">GUIDED TRACE</span></div><p class="small" data-i18n="highlight">The highlighted instruction matches the current step.</p><pre tabindex="0" data-label="source" dir="ltr"><code id="source"></code></pre><div class="actions"><button id="copy" type="button" data-i18n="copy">Copy code</button><button id="download" type="button" data-i18n="download">Download code</button></div><p id="copy-status" role="status"></p></section>
 </div>
-<section class="panel timeline"><div class="panel-heading"><span id="step-count" class="eyebrow"></span><label>Step duration<select id="speed"><option value="2500">Slow · 2.5 sec</option><option value="1500" selected>Normal · 1.5 sec</option><option value="700">Fast · 0.7 sec</option></select></label></div><progress id="progress" value="0" max="8" aria-label="Lesson progress"></progress><h2 id="phase"></h2><p id="explanation" role="status" aria-live="polite"></p><div class="actions"><button id="previous" type="button">← Previous</button><button id="play" type="button">Play</button><button id="next" type="button">Next →</button><button id="reset" type="button">Restart</button></div><h3>Program output</h3><pre id="output" aria-label="Program output"></pre></section>
+<section class="panel timeline"><div class="panel-heading"><span id="step-count" class="eyebrow"></span><label><span data-i18n="duration">Step duration</span><select id="speed"><option value="2500" data-i18n="slow">Slow</option><option value="1500" selected data-i18n="normal">Normal</option><option value="700" data-i18n="fast">Fast</option></select></label></div><progress id="progress" value="0" max="8" data-label="progress"></progress><h2 id="phase"></h2><p id="explanation" role="status" aria-live="polite"></p><div class="actions"><button id="previous" type="button" data-i18n="previous">Previous</button><button id="play" type="button">Play</button><button id="next" type="button" data-i18n="next">Next</button><button id="reset" type="button" data-i18n="restart">Restart</button></div><h3 data-i18n="output">Program output</h3><pre id="output" data-label="output" dir="ltr"></pre></section>
 </section>
-<section class="notes"><article><h2>Why use a pointer?</h2><p>A function can modify a caller’s object through its address. C still passes the pointer <strong>by value</strong>: the parameter gets a copy of the address, while both pointers refer to the same integer.</p></article><article><h2>Try a prediction</h2><p>Set the three values to 5, 12 and 42. Before playing, predict the printed result. Does writing through the function parameter change the original object?</p><details><summary>Explain the answer</summary><p>The output is <code>value = 42</code>. The function writes through its copied pointer to the same original integer. It does not create a second integer.</p></details></article><article><h2>Run the actual program</h2><p>Copy or download the C source and run it in your C compiler. Or open <a href="https://onecompiler.com/c" target="_blank" rel="noopener noreferrer">OneCompiler ↗</a> and paste it yourself. Opening that external site shares connection information with its provider.</p><p>This lab simulates supported examples; it does not execute or trace arbitrary edited code. Its output is modelled. The allocation-failure option substitutes NULL deliberately.</p></article></section>
-<p class="small">3D is a teaching view. Use Flat view or the text memory state at any time. Reduced-motion preferences disable transitions and start in Flat view.</p>
-<noscript><p>This interactive lab needs JavaScript. <a href="pointers-in-c-visualization.html">Read the pointer guide and C example instead.</a></p></noscript>
-</main><footer>LearnCodeVisually / Experimental learning lab</footer>
+<section class="notes"><article><h2 data-i18n="runTitle">Run the actual program</h2><p data-i18n="runText"></p><a id="provider" href="https://onecompiler.com/c" target="_blank" rel="noopener noreferrer">OneCompiler ↗</a></article><article><h2 data-i18n="guided">GUIDED TRACE</h2><p data-i18n="disclaimer"></p><p data-i18n="sourceNote"></p></article><article><h2 data-i18n="flat">Flat view</h2><p data-i18n="motion"></p></article></section>
+<noscript><p>Enable JavaScript to use this lab. <a href="index.html">LearnCodeVisually</a></p></noscript>
+</main><footer>LearnCodeVisually</footer>
 </body></html>

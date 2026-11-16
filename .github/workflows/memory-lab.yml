@@ -1,0 +1,47 @@
+name: Multilingual memory lab
+on:
+  pull_request:
+    paths:
+      - 'memory-lab-*.js'
+      - 'pointers-3d.*'
+      - 'pointers-core.js'
+      - 'pointers-lesson.js'
+      - 'index.html'
+      - 'tests/memory-lab.test.cjs'
+      - 'tests/browser/memory-lab-locales.spec.cjs'
+      - 'tests/browser/pointers-3d.spec.cjs'
+      - '.github/workflows/memory-lab.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: npm ci
+      - name: Run generated examples in all six languages
+        run: node --test tests/memory-lab.test.cjs
+        env:
+          REQUIRE_MEMORY_TOOLCHAINS: '1'
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test tests/browser/pointers-3d.spec.cjs tests/browser/memory-lab-locales.spec.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: multilingual-memory-lab-previews
+          path: |
+            memory-lab-previews/
+            test-results/
+          if-no-files-found: ignore
