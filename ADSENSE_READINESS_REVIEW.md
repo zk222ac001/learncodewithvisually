@@ -1,3 +1,20 @@
+# Content and discovery follow-up — 17 November 2026
+
+This follow-up implements the public-site content audit. It is not an AdSense approval certification and does not identify Google's undisclosed page-level reasons for rejection.
+
+- Added permanent English introductory readings and worked Python/C examples to both lab pages, available without JavaScript. Existing interactive translations remain intact; introductory readings are explicitly marked English.
+- Added direct HTML links from the homepage and C/Python/data-structure guides, and added both lab URLs to the sitemap.
+- Removed the memory lab's earlier preview `noindex` and supplied a canonical URL and description now that it has independent explanatory content.
+- Added an explicit resource-by-resource language coverage section to About. The remaining English-only detailed tutorials were not falsely described as translated.
+- Added an original stack/queue workshop with executable Python, output, a trace, common mistakes and an exercise with its answer.
+- Local SEO checks passed (6/6). All three new worked programs were executed and matched the displayed results, including C11 compilation with warnings treated as errors. Browser checks cover JavaScript-disabled reading, links and desktop/mobile layout; see the PR checks for their current status.
+
+Before requesting review: merge and verify deployment, inspect key URLs in Search Console, and resolve the outstanding factual operator/provider review documented below. No private Search Console, AdSense or provider settings were changed. No request for review was submitted. Genuine user-interest evidence cannot be established from repository tests.
+
+---
+
+## Historical review (retained for context)
+
 # AdSense readiness review — 5 November 2026
 
 **Decision: not ready to declare all issues fixed or request re-review yet.**

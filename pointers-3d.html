@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
+<meta name="description" content="Learn pointer and reference behaviour with a worked C example, editable values and guided memory diagrams.">
+<link rel="canonical" href="https://learncodevisually.com/pointers-3d.html">
 <title>3D Memory &amp; References Lab | LearnCodeVisually</title>
-<link rel="stylesheet" href="pointers-3d.css?v=2">
+<link rel="stylesheet" href="pointers-3d.css?v=3">
 <script src="pointers-core.js?v=2" defer></script><script src="memory-lab-core.js?v=1" defer></script><script src="memory-lab-i18n.js?v=1" defer></script><script src="pointers-3d.js?v=2" defer></script>
 </head>
 <body>
@@ -16,6 +17,21 @@
 <h1 data-i18n="title">3D Memory &amp; References Lab</h1>
 <p class="intro" data-i18n="intro">See how variables connect to objects. Change the values and follow the code one step at a time.</p>
 <p id="language-note" class="panel"></p>
+<section class="panel lab-reading" lang="en" dir="ltr" aria-labelledby="memory-reading-title"><h2 id="memory-reading-title">Understand the connection before moving the diagram</h2>
+<p>A C pointer can store the address of an object. The pointer and the object are different things: changing the pointed-to object does not change the address stored in the pointer. This lab uses symbolic cells, not actual machine addresses. Choose C to explore this example; other language modes explain their own reference rules.</p>
+<details><summary>Worked C example: update an integer through a pointer</summary>
+<pre dir="ltr"><code>#include &lt;stdio.h&gt;
+int main(void) {
+    int score = 10;
+    int *p = &amp;score;
+    *p = 20;
+    printf("%d %d\n", score, *p);
+    return 0;
+}</code></pre>
+<ol><li><code>score</code> starts at 10.</li><li><code>&amp;score</code> supplies its address, stored in <code>p</code>.</li><li><code>*p = 20</code> writes to the existing integer.</li><li>Both reads produce 20, so the output is <code>20 20</code>.</li></ol>
+<p>Save as <code>pointer.c</code>, compile with <code>gcc -std=c11 pointer.c -o pointer</code>, then run <code>./pointer</code>. The local integer remains alive throughout this example. A null pointer or a pointer to an object whose lifetime has ended must not be dereferenced.</p>
+<p><strong>Try it:</strong> insert <code>int other = 30; p = &amp;other;</code> before printing. Predict the result.</p><details><summary>Show the answer</summary><p>It prints <code>20 30</code>. Reassigning <code>p</code> changes which object it points to; it does not undo the earlier update to <code>score</code>. Both local objects are still alive.</p></details></details>
+<p>In the interactive lab below, change the initial and mutation values, press Apply, and follow the corresponding source. The program is modeled rather than executed in the browser. <a href="pointers-in-c-visualization.html">Read the complete C pointer lesson</a> or <a href="visual-labs.html">browse all visual labs</a>. This reading is in English; the lab controls and explanations offer ten languages.</p></section>
 <section id="lab" data-label="title">
 <form id="settings" class="panel settings" novalidate>
 <label><span data-i18n="explore">Example</span><select id="scenario"></select></label>
