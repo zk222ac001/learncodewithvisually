@@ -77,3 +77,9 @@ Validate with `node --test tests/oop-guide.test.cjs` and
 `npx playwright test tests/browser/oop-guide.spec.cjs`.
 The OOP workflow compiles every C++ example and verifies stdout, tests all ten
 locales and six main-lab languages, and uploads desktop/mobile/RTL screenshots.
+
+### Dynamic OOP workshop pilot
+
+The OOP workshop adds explicit Play/Pause controls and 0.5×/1×/2× playback speeds. Playback stops when a workshop closes, the topic/language/scenario changes, the page becomes hidden, or a student opens a prediction challenge. Manual step/reset controls also pause playback. No animation starts automatically. System reduced-motion preferences disable decorative animation.
+
+Blue identifies active classes, purple the related source line, and green output, with text labels and active-state text alternatives. The single-inheritance example accepts an integer object ID from 0 through 999. Applying it resets the trace and updates the displayed and downloaded C++ source plus expected output. This remains a guided model of the shown example, not an arbitrary C++ interpreter. Prediction challenges accept any class participating in the next modeled step; they give feedback without advancing.
