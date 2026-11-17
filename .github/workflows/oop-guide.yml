@@ -1,0 +1,37 @@
+name: OOP explanation checks
+on:
+  pull_request:
+    paths:
+      - 'oop-guide*'
+      - 'oop-workshop.js'
+      - 'visual-labs.html'
+      - 'course-labs-ui.js'
+      - 'tests/oop-guide.test.cjs'
+      - 'tests/browser/oop-guide.spec.cjs'
+      - '.github/workflows/oop-guide.yml'
+permissions:
+  contents: read
+jobs:
+  validate-oop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node --test tests/oop-guide.test.cjs tests/course-labs.test.cjs
+        env:
+          REQUIRE_OOP_TOOLCHAIN: '1'
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test tests/browser/oop-guide.spec.cjs tests/browser/course-labs.spec.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oop-guide-previews
+          path: |
+            oop-guide-previews/
+            test-results/
+          if-no-files-found: ignore

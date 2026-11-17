@@ -46,3 +46,34 @@ checks every source against its expected output, validates all 5,580 localized
 model combinations, completes all 558 models in a browser, and uploads desktop
 and RTL/mobile screenshots. Random-number output is validated as a range rather
 than a fabricated deterministic result.
+
+## OOP explanations and C++ workshop
+
+The OOP lab pages now add original teaching content before the existing model:
+class/object/constructor foundations, the four pillars, purpose, connections to
+the existing examples, common mistakes, and four question/answer checks. Pillar
+navigation opens the matching lab while retaining both language choices.
+
+`oop-guide-data.js` contains all explanations in ten locales. `oop-guide.js` and
+`oop-guide.css` render the content and accessible relationship diagrams.
+`oop-workshop.js` contains eight independent C++17 examples: single, multiple,
+multilevel and hierarchical inheritance; hybrid/diamond with a virtual base;
+access control; overloading; and overriding through a base reference. The
+workshop is explicitly labelled C++; it does not replace the main lab’s selected
+programming language. Its selected concept and step survive locale changes.
+
+The workshop presents guided expressions and modelled output, not arbitrary
+code execution. Download each example to compile and run it. Diagram arrows
+point from derived to base; the overloading example has no inheritance arrows.
+The diamond example has one virtual base subobject, and the polymorphic base
+has a virtual destructor. All examples initialize their data.
+
+The requested Medium article is linked as further reading; its text and code
+are not reproduced. Explanations and examples were written for this course.
+The C++ working draft is linked for virtual functions, multiple inheritance
+and access control.
+
+Validate with `node --test tests/oop-guide.test.cjs` and
+`npx playwright test tests/browser/oop-guide.spec.cjs`.
+The OOP workflow compiles every C++ example and verifies stdout, tests all ten
+locales and six main-lab languages, and uploads desktop/mobile/RTL screenshots.
