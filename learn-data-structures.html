@@ -27,6 +27,21 @@
 <article class="panel"><h2>Hash tables and lookup</h2><p>A hash table computes a bucket from a key. Different keys can map to the same bucket, causing a collision. Lookup is often fast on average, but its performance depends on the hashing strategy, table size and collision handling.</p><p>Explore the bucket display to see keys placed into a hash structure.</p></article>
 </div>
 <section class="panel"><h2>A simple way to compare structures</h2><p>Take three values — 10, 20 and 30 — and ask: How does each structure insert 40? How does it remove 10? How can it find 30? Write down the changed positions, links or indexes after each operation. This approach turns abstract terminology into visible steps.</p><h3>Suggested learning order</h3><ol><li>Begin with arrays and indexing.</li><li>Compare linked lists and pointer/reference traversal.</li><li>Use stacks and queues to understand different removal orders.</li><li>Move to trees and hash tables for more advanced lookup patterns.</li><li>Finish with the interactive quizzes and exercises.</li></ol><p>For code foundations, try <a href="/learn-c-programming.html">C programming visually</a> or <a href="/learn-python-programming.html">Python programming visually</a>.</p><a class="cta" href="/datastrukturer.html?lang=en&amp;code=python">Practice data structures in the visual classroom →</a></section>
+<section class="panel" id="stack-queue-workshop"><h2>Worked example: the same tasks, different removal order</h2><p>Suppose three tasks arrive in order A, B, C. A stack handles the most recently added task first; a queue handles the earliest waiting task first. Before running this Python 3 example, predict which task each structure removes.</p><pre><code>from collections import deque
+
+stack = []
+queue = deque()
+for task in [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;]:
+    stack.append(task)
+    queue.append(task)
+
+print(stack.pop())
+print(queue.popleft())
+print(stack)
+print(list(queue))</code></pre><p>Save as <code>task_order.py</code> and run <code>python3 task_order.py</code>. The four output lines are:</p><pre><code>C
+A
+['A', 'B']
+['B', 'C']</code></pre><ol><li>Both structures receive A, then B, then C.</li><li><code>stack.pop()</code> removes C from the end.</li><li><code>queue.popleft()</code> removes A from the front.</li><li>The remaining items stay in their original relative order.</li></ol><p>Use a stack for last-in-first-out work such as an undo history. Use a queue for first-in-first-out work such as a simple waiting-task list. This example has no priorities or concurrent workers. Python's <code>deque</code> supports efficient removal from the left; repeatedly removing index zero from a list shifts the remaining elements.</p><p><strong>Common mistake:</strong> using <code>queue.pop()</code> removes from the right and gives stack-like behaviour. Calling either removal method on an empty structure raises <code>IndexError</code>; check for an empty structure when an empty workload is expected.</p><h3>Exercise: add one more task</h3><p>After the two removals, append D to both structures. Remove one more item from each. What is removed, and what remains?</p><details><summary>Worked answer</summary><p>The stack becomes A, B, D and removes D, leaving A, B. The queue becomes B, C, D and removes B, leaving C, D. Appending a new item does not move the queue's existing front item.</p></details><p><a href="visual-labs.html?lang=en&amp;code=python&amp;topic=ds-stack">Step through the stack model</a> · <a href="visual-labs.html?lang=en&amp;code=python&amp;topic=ds-queue">Compare the queue model</a>. These labs use their own displayed examples; compare the removal rules, not just the values.</p></section>
 </main>
 <footer><strong>LearnCodeVisually · Free programming education</strong><nav aria-label="Website information"><a href="/">Home</a><a href="/about.html">About</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav></footer>
 </body></html>
