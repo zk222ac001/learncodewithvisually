@@ -9,6 +9,8 @@
   const host=document.getElementById('oop-guide');if(!host)return;host.hidden=!/^oop(?:-|$)/.test(topic);if(host.hidden){host.replaceChildren();previousTopic='';return;}
   const locale=Object.keys(data).find(key=>key===language)||'en',strings=data[locale];
   const m=key=>window.MemoryLabI18n.t(locale,key), t=key=>window.CourseLabI18n.t(locale,key);
+  const names={c:['prepare()','start()','getBalance(&first)','deposit(&first, 25)','deposit(&first, -10)'],cpp:['prepare()','start()','getBalance()','deposit(25)','deposit(-10)'],python:['_prepare()','start()','get_balance()','deposit(25)','deposit(-10)'],java:['prepare()','start()','getBalance()','deposit(25)','deposit(-10)'],javascript:['#prepare()','start()','getBalance()','deposit(25)','deposit(-10)'],csharp:['Prepare()','Start()','GetBalance()','Deposit(25)','Deposit(-10)']}[codeLanguage]||[];
+  const lessonText=text=>['_prepare()','start()','get_balance()','deposit(25)','deposit(-10)'].reduce((result,name,i)=>result.replaceAll(name,names[i]||name),text);
   const oldOpen=host.querySelector('#oop-workshop')?.open;
   if(previousTopic!==topic){selected=topic==='oop-6'?'overriding':topic==='oop-protected'?'protected':'single';position=-1;}
   previousTopic=topic;
@@ -20,8 +22,8 @@
    link.append(el('span',String(i+1).padStart(2,'0')),el('strong',strings[key]));if(key===active)link.setAttribute('aria-current','true');link.addEventListener('click',event=>{if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;event.preventDefault();onTopic(id);document.querySelector(`[data-pillar="${key}"]`)?.focus({preventScroll:true});});nav.append(link);
   }host.append(nav);
   const article=el('article',undefined,'oop-article');article.dataset.pillarContent=active;article.append(el('h4',strings[active]));const content=strings.pillars[active];
-  for(const key of ['meaning','why','example','mistake']){const section=el('div',undefined,'oop-'+key);section.append(el('h5',strings[key]),el('p',content[key]));article.append(section);}
-  const check=el('section',undefined,'oop-check');check.append(el('h5',strings.question),el('p',content.question));const answer=el('details');answer.append(el('summary',strings.answer),el('p',content.answer));check.append(answer);article.append(check);host.append(article);
+  for(const key of ['meaning','why','example','mistake']){const section=el('div',undefined,'oop-'+key);section.append(el('h5',strings[key]),el('p',lessonText(content[key])));article.append(section);}
+  const check=el('section',undefined,'oop-check');check.append(el('h5',strings.question),el('p',lessonText(content.question)));const answer=el('details');answer.append(el('summary',strings.answer),el('p',lessonText(content.answer)));check.append(answer);article.append(check);host.append(article);
   const workshop=el('details',undefined,'oop-workshop');workshop.id='oop-workshop';workshop.open=oldOpen??false;workshop.append(el('summary',strings.workshop),el('p',strings.workshopNote));
   const label=el('label',strings.choose);label.htmlFor='oop-scenario';const select=el('select');select.id='oop-scenario';for(const id of Object.keys(examples)){const option=el('option',strings.workshops[id].title);option.value=id;select.append(option);}select.value=selected;workshop.append(label,select);
   const stage=el('div',undefined,'oop-workshop-stage');workshop.append(stage);host.append(workshop);
